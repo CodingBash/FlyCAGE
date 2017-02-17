@@ -1,4 +1,4 @@
-package edu.ilstu.biology;
+package edu.ilstu.biology.flytranscriptionwebapp;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
