@@ -1,0 +1,3 @@
+server:
+  context-path: /flytran
+  port: 8081

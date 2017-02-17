@@ -14,16 +14,14 @@ public class InputController {
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public ModelAndView showInputPage(){
 		ModelAndView mav = new ModelAndView();
-		
-		// TODO: Logic
-		
+		mav.addObject("geneForm", new GeneForm());
 		mav.setViewName("input");
 		return mav;
 		
 	}
 	@RequestMapping(value="/", method=RequestMethod.POST)
-	public String processInput(GeneForm form, RedirectAttributes model){
-		// TODO: Logic
+	public String processInput(GeneForm form, RedirectAttributes redirectAttributes){
+		redirectAttributes.addAttribute("gene", form.getGeneName());
 		return "redirect:/output?gene={gene}";
 	}
 }
