@@ -45,82 +45,46 @@
 			type="submit" value="FLY"></input>
 	</form>
 
-	<form>
-		<div class="form-group">
-			<label for="exampleInputEmail1">Email address</label> <input
-				type="email" class="form-control" id="exampleInputEmail1"
-				aria-describedby="emailHelp" placeholder="Enter email"> <small
-				id="emailHelp" class="form-text text-muted">We'll never
-				share your email with anyone else.</small>
+	<div class="panel">
+		<div class="panel panel-body">
+			<form action="#" th:action="@{/}" th:object="${geneForm}" method="POST">
+				<div class="form-group">
+					<label for="exampleSelect1">Select Species</label> <select
+						class="form-control" id="select-species">
+						<option>D. melanogaster</option>
+					</select> <small id="species-help" class="form-text text-muted">All
+						genetic information will be searched within this species</small>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Gene Name</label> <input
+						type="text" th:field="*{geneName}" class="form-control" id="insert-gene"
+						aria-describedby="emailHelp"
+						placeholder="Enter Gene Name i.e. eve" /> <small id="gene-help"
+						class="form-text text-muted">We will compare the data from
+						this gene to every other gene in the database</small>
+				</div>
+				<div class="form-group">
+					<label for="exampleSelect2">Choose correlation analysis</label> <select
+						multiple="multiple" class="form-control" id="exampleSelect2">
+						<option>Expression by Stage (modENCODE)</option>
+						<option>Fly Atlas Expression by Tissue</option>
+						<option>Gene Ontology</option>
+						<option>TranscriptionFactor --> Genes that have binding
+							sites for this factor</option>
+					</select> <small id="gene-help" class="form-text text-muted">Choose
+						all properties to conduct correlation analysis on. Hold shift to
+						select multiple.</small>
+				</div>
+				<div class="form-group">
+					<label for="text-query-comment">Query Comments</label>
+					<textarea class="form-control" id="text-query-comment" rows="3"></textarea>
+					<small id="gene-help" class="form-text text-muted">These
+						comments will be attached to your saved query</small>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
 		</div>
-		<div class="form-group">
-			<label for="exampleInputPassword1">Password</label> <input
-				type="password" class="form-control" id="exampleInputPassword1"
-				placeholder="Password">
-		</div>
-		<div class="form-group">
-			<label for="exampleSelect1">Example select</label> <select
-				class="form-control" id="exampleSelect1">
-				<option>1</option>
-				<option>2</option>
-				<option>3</option>
-				<option>4</option>
-				<option>5</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<label for="exampleSelect2">Example multiple select</label> <select
-				multiple class="form-control" id="exampleSelect2">
-				<option>1</option>
-				<option>2</option>
-				<option>3</option>
-				<option>4</option>
-				<option>5</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<label for="exampleTextarea">Example textarea</label>
-			<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-		</div>
-		<div class="form-group">
-			<label for="exampleInputFile">File input</label> <input type="file"
-				class="form-control-file" id="exampleInputFile"
-				aria-describedby="fileHelp"> <small id="fileHelp"
-				class="form-text text-muted">This is some placeholder
-				block-level help text for the above input. It's a bit lighter and
-				easily wraps to a new line.</small>
-		</div>
-		<fieldset class="form-group">
-			<legend>Radio buttons</legend>
-			<div class="form-check">
-				<label class="form-check-label"> <input type="radio"
-					class="form-check-input" name="optionsRadios" id="optionsRadios1"
-					value="option1" checked> Option one is this and
-					that&mdash;be sure to include why it's great
-				</label>
-			</div>
-			<div class="form-check">
-				<label class="form-check-label"> <input type="radio"
-					class="form-check-input" name="optionsRadios" id="optionsRadios2"
-					value="option2"> Option two can be something else and
-					selecting it will deselect option one
-				</label>
-			</div>
-			<div class="form-check disabled">
-				<label class="form-check-label"> <input type="radio"
-					class="form-check-input" name="optionsRadios" id="optionsRadios3"
-					value="option3" disabled> Option three is disabled
-				</label>
-			</div>
-		</fieldset>
-		<div class="form-check">
-			<label class="form-check-label"> <input type="checkbox"
-				class="form-check-input"> Check me out
-			</label>
-		</div>
-		<button type="submit" class="btn btn-primary">Submit</button>
-	</form>
-
+	</div>
 
 
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
