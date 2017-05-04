@@ -6,13 +6,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.ilstu.biology.flytranscriptionwebapp.model.GeneXml;
+
 @Controller
 public class OutputController {
 
 	@RequestMapping(value="/output", method=RequestMethod.GET)
 	public ModelAndView processOutput(@RequestParam("gene") String gene){
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("geneName", gene);
+		GeneXml geneObject = new GeneXml();
+		geneObject.setGeneName(gene);
+		mav.addObject("gene", geneObject);
 		mav.setViewName("output");
 		return mav;
 	}
