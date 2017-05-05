@@ -27,6 +27,11 @@
 <title>Fly Transcription</title>
 </head>
 <body>
-	<p th:text="${gene.geneName}"></p>
+	<p th:text="${geneForm.geneSpecies}"></p>
+	<p th:text="${geneForm.geneName}"></p>
+	<div th:each="correlation : ${geneForm.correlationOptions}">
+		<p th:text="${correlation}"></p>
+	</div>
+	<p th:text="${geneForm.queryComment}"></p>
 </body>
 </html>

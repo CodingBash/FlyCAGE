@@ -47,38 +47,44 @@
 
 	<div class="panel">
 		<div class="panel panel-body">
-			<form action="#" th:action="@{/}" th:object="${geneForm}" method="POST">
+			<form action="#" th:action="@{/}" th:object="${geneForm}"
+				method="POST">
 				<div class="form-group">
-					<label for="exampleSelect1">Select Species</label> <select
-						class="form-control" id="select-species">
-						<option>D. melanogaster</option>
+					<label for="select-species">Select Species</label> <select
+						class="form-control" id="select-species" th:field="*{geneSpecies}">
+						<option value="D. melanogaster">D. melanogaster</option>
 					</select> <small id="species-help" class="form-text text-muted">All
 						genetic information will be searched within this species</small>
 				</div>
 				<div class="form-group">
-					<label for="exampleInputEmail1">Gene Name</label> <input
-						type="text" th:field="*{geneName}" class="form-control" id="insert-gene"
-						aria-describedby="emailHelp"
+					<label for="insert-gene">Gene Name</label> <input type="text"
+						th:field="*{geneName}" class="form-control" id="insert-gene"
+						aria-describedby="gene-help"
 						placeholder="Enter Gene Name i.e. eve" /> <small id="gene-help"
 						class="form-text text-muted">We will compare the data from
 						this gene to every other gene in the database</small>
 				</div>
 				<div class="form-group">
-					<label for="exampleSelect2">Choose correlation analysis</label> <select
-						multiple="multiple" class="form-control" id="exampleSelect2">
-						<option>Expression by Stage (modENCODE)</option>
-						<option>Fly Atlas Expression by Tissue</option>
-						<option>Gene Ontology</option>
-						<option>TranscriptionFactor --> Genes that have binding
-							sites for this factor</option>
-					</select> <small id="gene-help" class="form-text text-muted">Choose
+					<label for="correlation-options">Choose correlation
+						analysis</label> <select multiple="multiple"
+						th:field="*{correlationOptions}" class="form-control"
+						id="correlation-options">
+						<option value="exp-by-stage">Expression by Stage
+							(modENCODE)</option>
+						<option value="exp-by-tissue">Fly Atlas Expression by
+							Tissue</option>
+						<option value="go">Gene Ontology</option>
+						<option value="tf-to-genes">TranscriptionFactor --> Genes
+							that have binding sites for this factor</option>
+					</select> <small id="correlation-help" class="form-text text-muted">Choose
 						all properties to conduct correlation analysis on. Hold shift to
 						select multiple.</small>
 				</div>
 				<div class="form-group">
 					<label for="text-query-comment">Query Comments</label>
-					<textarea class="form-control" id="text-query-comment" rows="3"></textarea>
-					<small id="gene-help" class="form-text text-muted">These
+					<textarea class="form-control" th:field="*{queryComment}"
+						id="text-query-comment" rows="3"></textarea>
+					<small id="comment-help" class="form-text text-muted">These
 						comments will be attached to your saved query</small>
 				</div>
 				<button type="submit" class="btn btn-primary">Submit</button>

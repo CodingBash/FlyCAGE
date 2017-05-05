@@ -20,8 +20,8 @@ public class InputController {
 		
 	}
 	@RequestMapping(value="/", method=RequestMethod.POST)
-	public String processInput(GeneForm form, RedirectAttributes redirectAttributes){
-		redirectAttributes.addAttribute("gene", form.getGeneName());
-		return "redirect:/output?gene={gene}";
+	public String processInput(GeneForm geneForm, RedirectAttributes redirectAttributes){
+		redirectAttributes.addFlashAttribute("geneForm", geneForm);
+		return "redirect:/output";
 	}
 }
