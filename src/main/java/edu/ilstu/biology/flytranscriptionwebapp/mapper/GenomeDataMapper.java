@@ -3,13 +3,12 @@ package edu.ilstu.biology.flytranscriptionwebapp.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneXml;
-import edu.ilstu.biology.flytranscriptionwebapp.model.GenomeDataXml;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.GenomeXmlUnmarshaller;
 
 @Component
@@ -31,6 +30,7 @@ public class GenomeDataMapper {
 				rnaExp[i] = Integer.valueOf(rnaDataXml[i]);
 			}
 			gene.setRnaExpData(rnaExp);
+			geneList.add(gene);
 		}
 		return geneList;
 	}

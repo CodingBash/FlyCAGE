@@ -11,9 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GenomeDataXml {
 
-	@XmlElement(name = "gene")
+	@XmlElement(name = "gene", type = GeneXml.class)
 	private List<GeneXml> geneList;
-	
+
 	public List<GeneXml> getGeneList() {
 		return geneList;
 	}
@@ -21,6 +21,5 @@ public class GenomeDataXml {
 	public void setGeneList(List<GeneXml> geneList) {
 		this.geneList = geneList;
 	}
-	
-	
+
 }
