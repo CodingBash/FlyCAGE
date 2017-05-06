@@ -2,6 +2,7 @@ package edu.ilstu.biology.flytranscriptionwebapp;
 
 import java.util.List;
 
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,5 +23,10 @@ public class FlyTranscriptionWebappApplication {
 		List<Gene> genomeList = genomeDataMapper.mapGenomicData();
 		System.out.println("breaker");
 		return genomeList;
+	}
+	
+	@Bean
+	public PearsonsCorrelation getPearsonsCorrelation(){
+		return new PearsonsCorrelation();
 	}
 }
