@@ -47,7 +47,10 @@ public class GenomicCorrelationAnalysis {
 		 * If we found the gene, let's continue the process flow...
 		 */
 		if (foundGene != null) {
-			// TODO: Maybe this will get the top 100 results as expected?
+			/* TODO: Maybe this will get the top 100 results as expected?
+			 * No this does not - in the future, change to a SortedSet like in this post: http://stackoverflow.com/questions/1846225/java-priorityqueue-with-fixed-size
+			 * For now, just get a sublist
+			 */
 			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(100);
 
 			/*
@@ -73,7 +76,7 @@ public class GenomicCorrelationAnalysis {
 				}
 			}
 
-			return new LinkedList<GeneCorrelatedResult>(queue);
+			return new LinkedList<GeneCorrelatedResult>(queue).subList(0, 100);
 		}
 		/*
 		 * The user entered a false gene, return null

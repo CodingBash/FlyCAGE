@@ -25,6 +25,21 @@
 <meta name="twitter:url" content="" />
 <meta name="twitter:card" content="" />
 <title>Fly Transcription</title>
+
+<!-- Google Fonts -->
+<link
+	href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700'
+	rel='stylesheet' type='text/css'></link>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
 </head>
 <body>
 	<p th:text="${geneForm.geneSpecies}"></p>
@@ -33,5 +48,46 @@
 		<p th:text="${correlation}"></p>
 	</div>
 	<p th:text="${geneForm.queryComment}"></p>
+
+	<div class="row table-row">
+		<table id="correlation-results">
+			<thead>
+				<tr>
+					<th>GENE-NAME</th>
+					<th>R_VAL</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+	<script>
+		var t = $('#correlation-results').DataTable({
+			aaSorting : [ [ 1, 'des' ] ]
+		})
+	</script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	
+	    var correlationResults = [[${correlationResults}]];
+	
+	/*]]>*/
+	</script>
+	<script>
+		correlationResults.forEach(function(correlationResult){
+			t.row.add([correlationResult.gene.geneName, correlationResult.rVal]).draw(false);
+		});
+	</script>
 </body>
 </html>
