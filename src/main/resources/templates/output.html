@@ -42,8 +42,60 @@
 	href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
 </head>
 <style>
-#correlation-results > tbody {
-    cursor:pointer;
+#correlation-results>tbody {
+	cursor: pointer;
+}
+
+.table-wrapper {
+	width: 95% !important;
+	margin: auto;
+}
+</style>
+<style>
+.panel {
+	border: 1px solid #f4511e;
+	border-radius: 0;
+	transition: box-shadow 0.5s;
+}
+
+.panel:hover {
+	box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
+}
+
+.panel-footer .btn:hover {
+	border: 1px solid #f4511e;
+	background-color: #fff !important;
+	color: #f4511e;
+}
+
+.panel-heading {
+	color: #fff !important;
+	background-color: #f4511e !important;
+	padding: 25px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.panel-footer {
+	background-color: #fff !important;
+}
+
+.panel-footer h3 {
+	font-size: 32px;
+}
+
+.panel-footer h4 {
+	color: #aaa;
+	font-size: 14px;
+}
+
+.panel-footer .btn {
+	margin: 15px 0;
+	background-color: #f4511e;
+	color: #fff;
 }
 </style>
 <body>
@@ -54,21 +106,39 @@
 	</div>
 	<p th:text="${geneForm.queryComment}"></p>
 
-	<div class="row table-row">
-		<table id="correlation-results">
-			<thead>
-				<tr>
-					<th>DB-ID</th>
-					<th>SECONDARY-ID</th>
-					<th>GENE-NAME</th>
-					<th>R-VAL</th>
-				</tr>
-			</thead>
-			<tbody>
 
-			</tbody>
-		</table>
+	<div class="container-fluid">
+		<div class="text-center"></div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-default text-center">
+					<div class="panel-heading">
+						<h2>Results</h2>
+						<h4>Shown below are all of the highly correlated genes based
+							on mRNA expression by stage data</h4>
+					</div>
+					<div class="panel-body">
+						<div class="row table-row table-wrapper">
+							<table id="correlation-results">
+								<thead>
+									<tr>
+										<th>DB-ID</th>
+										<th>SECONDARY-ID</th>
+										<th>GENE-NAME</th>
+										<th>R-VAL</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
 
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
 		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
