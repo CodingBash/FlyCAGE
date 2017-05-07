@@ -11,15 +11,31 @@ public class GeneXml {
 
 	@XmlElement(name = "gene-db-id")
 	private String dbIdentifier;
-	
+
 	@XmlElement(name = "gene-sec-id")
 	private String secondaryIdentifier;
-	
+
 	@XmlElement(name = "gene-name")
 	private String geneName;
 
 	@XmlElement(name = "rna-exp")
 	private String rnaData;
+
+	public String getDbIdentifier() {
+		return dbIdentifier;
+	}
+
+	public void setDbIdentifier(String dbIdentifier) {
+		this.dbIdentifier = dbIdentifier;
+	}
+
+	public String getSecondaryIdentifier() {
+		return secondaryIdentifier;
+	}
+
+	public void setSecondaryIdentifier(String secondaryIdentifier) {
+		this.secondaryIdentifier = secondaryIdentifier;
+	}
 
 	public String getGeneName() {
 		return geneName;

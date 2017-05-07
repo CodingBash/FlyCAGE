@@ -6,7 +6,7 @@ public class GeneForm {
 
 	private String geneSpecies;
 
-	private String geneName;
+	private String inputIdentifier;
 
 	private List<String> correlationOptions;
 
@@ -21,11 +21,11 @@ public class GeneForm {
 	}
 
 	public String getGeneName() {
-		return geneName;
+		return inputIdentifier;
 	}
 
 	public void setGeneName(String geneName) {
-		this.geneName = geneName;
+		this.inputIdentifier = geneName;
 	}
 
 	public List<String> getCorrelationOptions() {

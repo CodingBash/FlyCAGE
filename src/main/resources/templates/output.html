@@ -53,8 +53,10 @@
 		<table id="correlation-results">
 			<thead>
 				<tr>
+					<th>DB-ID</th>
+					<th>SECONDARY-ID</th>
 					<th>GENE-NAME</th>
-					<th>R_VAL</th>
+					<th>R-VAL</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -74,7 +76,8 @@
 		src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 	<script>
 		var t = $('#correlation-results').DataTable({
-			aaSorting : [ [ 1, 'des' ] ]
+			aaSorting : [ [ 3, 'des' ] ],
+			"pageLength" : 25
 		})
 	</script>
 	<script th:inline="javascript">
@@ -86,7 +89,7 @@
 	</script>
 	<script>
 		correlationResults.forEach(function(correlationResult){
-			t.row.add([correlationResult.gene.geneName, correlationResult.rVal]).draw(false);
+			t.row.add([correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.rVal]).draw(false);
 		});
 	</script>
 </body>

@@ -22,7 +22,12 @@ public class GenomeDataMapper {
 		List<GeneXml> geneXmlList = genomeXmlUnmarshaller.unmarshallFile();
 
 		for (GeneXml geneXml : geneXmlList) {
+			/*
+			 * TODO: Move all this mapping to a new Mapper class
+			 */
 			Gene gene = new Gene();
+			gene.setDbIdentifier(geneXml.getDbIdentifier());
+			gene.setSecondaryIdentifier(geneXml.getSecondaryIdentifier());
 			gene.setGeneName(geneXml.getGeneName());
 			int[] rnaExp = new int[104];
 			String[] rnaDataXml = StringUtils.split(geneXml.getRnaData(), ",");
