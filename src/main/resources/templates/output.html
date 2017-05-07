@@ -41,6 +41,11 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
 </head>
+<style>
+#correlation-results > tbody {
+    cursor:pointer;
+}
+</style>
 <body>
 	<p th:text="${geneForm.geneSpecies}"></p>
 	<p th:text="${geneForm.geneName}"></p>
@@ -77,8 +82,20 @@
 	<script>
 		var t = $('#correlation-results').DataTable({
 			aaSorting : [ [ 3, 'des' ] ],
-			"pageLength" : 25
+			"pageLength" : 25,
+			fnDrawCallback: function () {
+
+				  $('#correlation-results tbody tr').click(function () {
+					
+					var baseUrl = 'http://www.flymine.org/flymine/keywordSearchResults.do?searchTerm=';
+					var id = t.row(this).data()[0];
+					window.open('http://www.flymine.org/flymine/keywordSearchResults.do?searchTerm=' + id);
+				  });
+
+				}
 		})
+		
+		$('#correlation-results')
 	</script>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
@@ -91,6 +108,8 @@
 		correlationResults.forEach(function(correlationResult){
 			t.row.add([correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.rVal]).draw(false);
 		});
+		
+
 	</script>
 </body>
 </html>
