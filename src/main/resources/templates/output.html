@@ -50,16 +50,21 @@
 	width: 95% !important;
 	margin: auto;
 }
+
+#query-comment {
+	width: 100%;
+	height: 200px;
+}
+
+.extra-space {
+	margin-top: 25px;
+}
 </style>
 <style>
 .panel {
 	border: 1px solid #f4511e;
 	border-radius: 0;
 	transition: box-shadow 0.5s;
-}
-
-.panel:hover {
-	box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
 }
 
 .panel-footer .btn:hover {
@@ -99,16 +104,60 @@
 }
 </style>
 <body>
-	<p th:text="${geneForm.geneSpecies}"></p>
-	<p th:text="${geneForm.geneName}"></p>
-	<div th:each="correlation : ${geneForm.correlationOptions}">
-		<p th:text="${correlation}"></p>
-	</div>
-	<p th:text="${geneForm.queryComment}"></p>
-
-
 	<div class="container-fluid">
 		<div class="text-center"></div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-default text-center">
+					<div class="panel-heading">
+						<h2>Query</h2>
+						<h4>Shown below is the input query</h4>
+					</div>
+					<div class="panel-body">
+						<div class="row table-row table-wrapper">
+							<div class="col-sm-6">
+								<div class="row extra-space"></div>
+								<div class="row">
+									<div class="col-sm-6 text-right">
+										<label for="input-identifier">Input Identifier </label>
+									</div>
+									<div class="col-sm-6 text-left">
+										<input type="text" id="input-identifier"
+											th:value="${geneForm.inputIdentifier}" readonly="readonly"></input>
+									</div>
+								</div>
+								<div class="row extra-space"></div>
+								<div class="row">
+									<div class="col-sm-6 text-right">
+										<label for="gene-species">Organism </label>
+									</div>
+									<div class="col-sm-6 text-left">
+										<input type="text" id="gene-species"
+											th:value="${geneForm.geneSpecies}" readonly="readonly"></input>
+									</div>
+								</div>
+								<div class="row extra-space"></div>
+								<div class="row">
+									<div class="col-sm-6 text-right">
+										<label for="correlation-options">Correlation</label>
+									</div>
+									<div class="col-sm-6 text-left">
+										<input type="text" id="correlation-options"
+											readonly="readonly"></input>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label for="query-comment">Comment</label>
+								<textarea id="query-comment" th:text="${geneForm.queryComment}"
+									readonly="readonly">
+							</textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="panel panel-default text-center">
@@ -169,12 +218,21 @@
 	</script>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
-	
+		var correlationOptions = [[${geneForm.correlationOptions}]];
 	    var correlationResults = [[${correlationResults}]];
-	
+
 	/*]]>*/
 	</script>
 	<script>
+		var correlationOptionsTextAreaString = "";
+		correlationOptions.forEach(function(correlationOption){
+			correlationOptionsTextAreaString += correlationOption + '\n';
+		});
+		$("#correlation-options").val(correlationOptionsTextAreaString);
+		
+		//
+		
+		
 		correlationResults.forEach(function(correlationResult){
 			t.row.add([correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.rVal]).draw(false);
 		});

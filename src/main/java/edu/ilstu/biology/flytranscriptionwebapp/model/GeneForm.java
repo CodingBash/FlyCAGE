@@ -20,12 +20,12 @@ public class GeneForm {
 		this.geneSpecies = geneSpecies;
 	}
 
-	public String getGeneName() {
+	public String getInputIdentifier() {
 		return inputIdentifier;
 	}
 
-	public void setGeneName(String geneName) {
-		this.inputIdentifier = geneName;
+	public void setInputIdentifier(String inputIdentifier) {
+		this.inputIdentifier = inputIdentifier;
 	}
 
 	public List<String> getCorrelationOptions() {

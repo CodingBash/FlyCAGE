@@ -24,7 +24,7 @@ public class OutputController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("output");
 		List<GeneCorrelatedResult> correlationResults = correlationAnalysis
-				.retrieveMrnaCorrelationResults(geneForm.getGeneName());
+				.retrieveMrnaCorrelationResults(geneForm.getInputIdentifier());
 		mav.addObject("correlationResults", correlationResults);
 		// TODO: Eventually map the geneForm to a better Gene object
 		mav.addObject("geneForm", geneForm);
