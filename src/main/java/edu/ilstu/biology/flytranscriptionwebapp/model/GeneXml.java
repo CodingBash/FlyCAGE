@@ -9,6 +9,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GeneXml {
 
+	@XmlElement(name = "gene-db-id")
+	private String dbIdentifier;
+	
+	@XmlElement(name = "gene-sec-id")
+	private String secondaryIdentifier;
+	
 	@XmlElement(name = "gene-name")
 	private String geneName;
 

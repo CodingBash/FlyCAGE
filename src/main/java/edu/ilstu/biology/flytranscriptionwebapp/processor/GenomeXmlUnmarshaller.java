@@ -19,10 +19,12 @@ import edu.ilstu.biology.flytranscriptionwebapp.model.GenomeDataXml;
 @Component
 public class GenomeXmlUnmarshaller {
 	
+	private static final String GENE_XML_FILE = "genedata_w_ids.xml";
+			
 	public List<GeneXml> unmarshallFile() {
 		List<GeneXml> genomeData = null;
 		try {
-			File file = new ClassPathResource("genedata.xml").getFile();
+			File file = new ClassPathResource(GENE_XML_FILE).getFile();
 			// TODO: Fix the JAXB marhsalling
 			// Resource: http://howtodoinjava.com/jaxb/jaxb-exmaple-marshalling-and-unmarshalling-list-or-set-of-objects/
 			JAXBContext jaxbContext = JAXBContext.newInstance(GenomeDataXml.class);
