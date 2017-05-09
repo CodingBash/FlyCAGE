@@ -1,7 +1,5 @@
 package edu.ilstu.biology.flytranscriptionwebapp.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.ilstu.biology.flytranscriptionwebapp.model.GeneCorrelatedResult;
+import edu.ilstu.biology.flytranscriptionwebapp.model.FinalResponseCorrelationResult;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneForm;
 import edu.ilstu.biology.flytranscriptionwebapp.model.PairwiseCorrelationDataAjaxRequestBody;
 import edu.ilstu.biology.flytranscriptionwebapp.model.PairwiseGeneCorrelationData;
@@ -30,16 +28,20 @@ public class OutputController {
 
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("output");
-		List<GeneCorrelatedResult> correlationResults = correlationAnalysis
+		ModelAndView mav = new ModelAndView("output");
+
+		FinalResponseCorrelationResult result = correlationAnalysis
 				.retrieveMrnaCorrelationResults(geneForm.getInputIdentifier());
-		mav.addObject("correlationResults", correlationResults);
+		mav.addObject("result", result);
 		// TODO: Eventually map the geneForm to a better Gene object
 		mav.addObject("geneForm", geneForm);
 		return mav;
 	}
 
+	/*
+	 * TODO: Only accept and send targetgene data. Front end should have access
+	 * of inputgene data for optimization
+	 */
 	@PostMapping("/pairwise-correlation-data")
 	public ResponseEntity<PairwiseGeneCorrelationData> getSearchResultViaAjax(
 			@RequestBody PairwiseCorrelationDataAjaxRequestBody body) {

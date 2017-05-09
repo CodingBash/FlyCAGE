@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 
+import edu.ilstu.biology.flytranscriptionwebapp.model.FinalResponseCorrelationResult;
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneCorrelatedResult;
 
@@ -27,8 +28,13 @@ public class GenomicCorrelationAnalysis {
 	@Autowired
 	private PearsonsCorrelation pearsonsCorrelation;
 
-	@SuppressWarnings("unchecked")
-	public List<GeneCorrelatedResult> retrieveMrnaCorrelationResults(String inputIdentifier) {
+	private static final int CORRELATED_GENE_SIZE = 100;
+
+	/*
+	 * TODO: Seperate the gene searching and the correlation retrieval to
+	 * separate methods. Creat the Final... object in the controller
+	 */
+	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier) {
 		Gene foundGene = null;
 		/*
 		 * Step 1: Linear search for gene
@@ -70,7 +76,7 @@ public class GenomicCorrelationAnalysis {
 			 * http://stackoverflow.com/questions/1846225/java-priorityqueue-
 			 * with-fixed-size For now, just get a sublist
 			 */
-			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(100);
+			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(CORRELATED_GENE_SIZE);
 
 			/*
 			 * Now we calculate the pcorr for all genes! Let's
@@ -95,7 +101,10 @@ public class GenomicCorrelationAnalysis {
 				// }
 			}
 
-			return new LinkedList<GeneCorrelatedResult>(queue).subList(0, 100);
+			FinalResponseCorrelationResult result = new FinalResponseCorrelationResult();
+			result.setInputGene(foundGene);
+			result.setCorrelationResults(new LinkedList<GeneCorrelatedResult>(queue).subList(0, CORRELATED_GENE_SIZE));
+			return result;
 		}
 		/*
 		 * The user entered a false gene, return null
