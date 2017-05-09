@@ -47,6 +47,7 @@
 body {
 	background-color: #E4E4E4
 }
+
 #correlation-results>tbody {
 	cursor: pointer;
 }
@@ -65,12 +66,12 @@ body {
 	margin-top: 25px;
 }
 
-.query-inputs{
+.query-inputs {
 	width: 95% !important;
 	margin: auto;
 }
 
-.panel-heading{
+.panel-heading {
 	height: 11em;
 }
 </style>
@@ -117,6 +118,8 @@ body {
 	color: #fff;
 }
 </style>
+
+<!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
 	<div class="container-fluid">
 		<div class="text-center"></div>
@@ -138,8 +141,9 @@ body {
 												<label for="input-identifier">Input Identifier:</label>
 											</div>
 											<div class="col-sm-6 text-left">
-												<input type="text" id="input-identifier" class="query-inputs"
-													th:value="${geneForm.inputIdentifier}" readonly="readonly"></input>
+												<input type="text" id="input-identifier"
+													class="query-inputs" th:value="${geneForm.inputIdentifier}"
+													readonly="readonly"></input>
 											</div>
 										</div>
 										<div class="row extra-space"></div>
@@ -158,8 +162,8 @@ body {
 												<label for="correlation-options">Correlation:</label>
 											</div>
 											<div class="col-sm-6 text-left">
-												<input type="text" id="correlation-options" class="query-inputs"
-													readonly="readonly"></input>
+												<input type="text" id="correlation-options"
+													class="query-inputs" readonly="readonly"></input>
 											</div>
 										</div>
 									</div>
@@ -167,7 +171,60 @@ body {
 										<label for="query-comment">Comment</label>
 										<textarea id="query-comment"
 											th:text="${geneForm.queryComment}" readonly="readonly">
-							</textarea>
+										</textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 hidden-xs visible-lg">
+						<div class="panel panel-default text-center">
+							<div class="panel-heading">
+								<h2>Form</h2>
+								<h4>Lorem ipsum dolor</h4>
+							</div>
+							<div class="panel-body">
+								<div class="row table-row table-wrapper">
+									<div class="col-sm-6">
+										<div class="row extra-space"></div>
+										<div class="row">
+											<div class="col-sm-6 text-right">
+												<label for="input-identifier">Input Identifier:</label>
+											</div>
+											<div class="col-sm-6 text-left">
+												<input type="text" id="input-identifier"
+													class="query-inputs" th:value="${geneForm.inputIdentifier}"
+													readonly="readonly"></input>
+											</div>
+										</div>
+										<div class="row extra-space"></div>
+										<div class="row">
+											<div class="col-sm-6 text-right">
+												<label for="gene-species">Organism:</label>
+											</div>
+											<div class="col-sm-6 text-left">
+												<input type="text" id="gene-species" class="query-inputs"
+													th:value="${geneForm.geneSpecies}" readonly="readonly"></input>
+											</div>
+										</div>
+										<div class="row extra-space"></div>
+										<div class="row">
+											<div class="col-sm-6 text-right">
+												<label for="correlation-options">Correlation:</label>
+											</div>
+											<div class="col-sm-6 text-left">
+												<input type="text" id="correlation-options"
+													class="query-inputs" readonly="readonly"></input>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<label for="query-comment">Comment</label>
+										<textarea id="query-comment"
+											th:text="${geneForm.queryComment}" readonly="readonly">
+										</textarea>
 									</div>
 								</div>
 							</div>
@@ -199,6 +256,59 @@ body {
 
 										</tbody>
 									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 visible-xs hidden-lg">
+						<div class="panel panel-default text-center">
+							<div class="panel-heading">
+								<h2>Form</h2>
+								<h4>Lorem ipsum dolor</h4>
+							</div>
+							<div class="panel-body">
+								<div class="row table-row table-wrapper">
+									<div class="col-sm-6">
+										<div class="row extra-space"></div>
+										<div class="row">
+											<div class="col-sm-6 text-right">
+												<label for="input-identifier">Input Identifier:</label>
+											</div>
+											<div class="col-sm-6 text-left">
+												<input type="text" id="input-identifier"
+													class="query-inputs" th:value="${geneForm.inputIdentifier}"
+													readonly="readonly"></input>
+											</div>
+										</div>
+										<div class="row extra-space"></div>
+										<div class="row">
+											<div class="col-sm-6 text-right">
+												<label for="gene-species">Organism:</label>
+											</div>
+											<div class="col-sm-6 text-left">
+												<input type="text" id="gene-species" class="query-inputs"
+													th:value="${geneForm.geneSpecies}" readonly="readonly"></input>
+											</div>
+										</div>
+										<div class="row extra-space"></div>
+										<div class="row">
+											<div class="col-sm-6 text-right">
+												<label for="correlation-options">Correlation:</label>
+											</div>
+											<div class="col-sm-6 text-left">
+												<input type="text" id="correlation-options"
+													class="query-inputs" readonly="readonly"></input>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<label for="query-comment">Comment</label>
+										<textarea id="query-comment"
+											th:text="${geneForm.queryComment}" readonly="readonly">
+										</textarea>
+									</div>
 								</div>
 							</div>
 						</div>
