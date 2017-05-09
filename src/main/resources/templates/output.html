@@ -115,6 +115,16 @@ body {
 }
 </style>
 
+<style th:inline="text">
+td.details-control {
+	background: url([[@{/images/details_open.png}]]) no-repeat center center;
+	cursor: pointer;
+}
+
+tr.shown td.details-control {
+	background: url([[@{/images/details_close.png}]]) no-repeat center center;
+}
+</style>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
 	<div class="container-fluid">
@@ -242,7 +252,7 @@ body {
 		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 		crossorigin="anonymous"></script>
 	<script
-		src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+		src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 
 	<!-- BELOW: Links for datatable buttons -->
 	<script
@@ -260,6 +270,13 @@ body {
 	<script>
 		/*<![CDATA[*/
 			var t = $('#correlation-results').DataTable({
+				  "columnDefs": [ {
+				      "targets": 0,
+				      "data": null,
+				      "orderable": false,
+				      "className": 'details-control',
+				      "defaultContent": ''
+				    } ],
 				aaSorting : [ [ 5, 'des' ] ],
 				"pageLength" : 25,
 				dom: 'Bfrtip',
@@ -290,7 +307,7 @@ body {
 			 // Add event listener for opening and closing details
 		    $('#correlation-results tbody').on('click', 'td.details-control', function () {
 		        var tr = $(this).closest('tr');
-		        var row = table.row( tr );
+		        var row = t.row( tr );
 		 
 		        if ( row.child.isShown() ) {
 		            // This row is already open - close it
@@ -331,7 +348,6 @@ body {
 	  				return 0;
 	  			}
 			});
-			
 			var rank = 1;
 			correlationResults.forEach(function(correlationResult){
 		
