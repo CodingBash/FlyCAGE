@@ -38,52 +38,91 @@
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous" />
 
+<!-- Externalize CSS -->
+<style>
+body {
+	background-color: #E4E4E4
+}
+
+#correlation-results>tbody {
+	cursor: pointer;
+}
+
+.table-wrapper {
+	width: 95% !important;
+	margin: auto;
+}
+
+#query-comment {
+	width: 100%;
+	height: 200px;
+}
+
+.extra-space {
+	margin-top: 25px;
+}
+
+.query-inputs {
+	width: 95% !important;
+	margin: auto;
+}
+
+.panel-heading {
+	height: 11em;
+}
+</style>
+<style>
+.panel {
+	border: 1px solid #5C0075;
+	border-radius: 0;
+	transition: box-shadow 0.5s;
+}
+
+.panel-footer .btn:hover {
+	border: 1px solid #5C0075;
+	background-color: #fff !important;
+	color: #f4511e;
+}
+
+.panel-heading {
+	color: #fff !important;
+	background-color: #5C0075 !important;
+	padding: 25px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.panel-footer {
+	background-color: #fff !important;
+}
+
+.panel-footer h3 {
+	font-size: 32px;
+}
+
+.panel-footer h4 {
+	color: #aaa;
+	font-size: 14px;
+}
+
+.panel-footer .btn {
+	margin: 15px 0;
+	background-color: #5C0075;
+	color: #fff;
+}
+</style>
 </head>
 <body>
-	<div class="panel">
-		<div class="panel panel-body">
-			<form action="#" th:action="@{/}" th:object="${geneForm}"
-				method="POST">
-				<div class="form-group">
-					<label for="select-species">Select Species</label> <select
-						class="form-control" id="select-species" th:field="*{geneSpecies}">
-						<option value="D. melanogaster">D. melanogaster</option>
-					</select> <small id="species-help" class="form-text text-muted">All
-						genetic information will be searched within this species</small>
-				</div>
-				<div class="form-group">
-					<label for="insert-gene">Gene Name</label> <input type="text"
-						th:field="*{inputIdentifier}" class="form-control"
-						id="insert-gene" aria-describedby="gene-help"
-						placeholder="Enter Gene Name, DB Identifier, or secondary Identifier i.e. hairy | FBgn0001168 | CG6494 " />
-					<small id="gene-help" class="form-text text-muted">We will
-						compare the data from this gene to every other gene in the
-						database</small>
-				</div>
-				<div class="form-group">
-					<label for="correlation-options">Choose correlation
-						analysis</label> <select multiple="multiple"
-						th:field="*{correlationOptions}" class="form-control"
-						id="correlation-options">
-						<option value="exp-by-stage" select="selected">Expression
-							by Stage (modENCODE)</option>
-					</select> <small id="correlation-help" class="form-text text-muted">Choose
-						all properties to conduct correlation analysis on. Hold shift to
-						select multiple.</small>
-				</div>
-				<div class="form-group">
-					<label for="text-query-comment">Query Comments</label>
-					<textarea class="form-control" th:field="*{queryComment}"
-						id="text-query-comment" rows="3"></textarea>
-					<small id="comment-help" class="form-text text-muted">These
-						comments will be attached to your saved query</small>
-				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
-		</div>
+
+	<div class="container-fluid">
+		<div th:include="fragments :: gene-form"></div>
 	</div>
 
 
+	<!-- SCRIPTS -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
 		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 		crossorigin="anonymous"></script>
