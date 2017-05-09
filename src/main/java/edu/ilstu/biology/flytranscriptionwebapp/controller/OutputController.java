@@ -41,6 +41,8 @@ public class OutputController {
 	/*
 	 * TODO: Only accept and send targetgene data. Front end should have access
 	 * of inputgene data for optimization
+	 * 
+	 * TODO: Does this data needs to be normalized? Or do that on the front-end?
 	 */
 	@PostMapping("/pairwise-correlation-data")
 	public ResponseEntity<PairwiseGeneCorrelationData> getSearchResultViaAjax(
