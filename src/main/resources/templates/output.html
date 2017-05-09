@@ -48,10 +48,6 @@ body {
 	background-color: #E4E4E4
 }
 
-#correlation-results>tbody {
-	cursor: pointer;
-}
-
 .table-wrapper {
 	width: 95% !important;
 	margin: auto;
@@ -202,6 +198,7 @@ body {
 												<th>SECONDARY-ID</th>
 												<th>GENE-NAME</th>
 												<th>R-VAL</th>
+												<th>ACTIONS</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -253,20 +250,8 @@ body {
 			dom: 'Bfrtip',
 			buttons: [
 	            'copy', 'csv', 'excel', 'pdf'
-	        ],
-			fnDrawCallback: function () {
-
-				  $('#correlation-results tbody tr').click(function () {
-					
-					var baseUrl = 'http://www.flymine.org/flymine/keywordSearchResults.do?searchTerm=';
-					var id = t.row(this).data()[0];
-					window.open('http://www.flymine.org/flymine/keywordSearchResults.do?searchTerm=' + id);
-				  });
-
-				}
-		})
-		
-		$('#correlation-results')
+	        ]
+		});
 	</script>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
@@ -286,10 +271,19 @@ body {
 		
 		
 		correlationResults.forEach(function(correlationResult){
-			t.row.add([correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.rVal]).draw(false);
+	
+			var buttonHtml = "";
+			buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '">FlyMine</button>';
+			// Append any other buttons
+			
+			
+			t.row.add([correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.rVal, buttonHtml]).draw(false);
 		});
 		
-
+	    $('.flymine-button').on( 'click', function () {
+	        var geneDbId = $(this).val();
+	        window.open('http://www.flymine.org/flymine/keywordSearchResults.do?searchTerm=' + geneDbId);
+	    } );
 	</script>
 </body>
 </html>
