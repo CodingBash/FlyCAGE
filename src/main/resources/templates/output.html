@@ -191,9 +191,12 @@ body {
 							</div>
 							<div class="panel-body">
 								<div class="row table-row table-wrapper">
-									<table id="correlation-results">
+									<table id="correlation-results"
+										class="hover stripe row-border compact" cellspacing="0">
 										<thead>
 											<tr>
+												<th></th>
+												<th>RANK</th>
 												<th>DB-ID</th>
 												<th>SECONDARY-ID</th>
 												<th>GENE-NAME</th>
@@ -204,6 +207,17 @@ body {
 										<tbody>
 
 										</tbody>
+										<tfoot>
+											<tr>
+												<th></th>
+												<th>RANK</th>
+												<th>DB-ID</th>
+												<th>SECONDARY-ID</th>
+												<th>GENE-NAME</th>
+												<th>R-VAL</th>
+												<th>ACTIONS</th>
+											</tr>
+										</tfoot>
 									</table>
 								</div>
 							</div>
@@ -244,14 +258,52 @@ body {
 	<!-- ABOVE: Links for datatable buttons -->
 
 	<script>
-		var t = $('#correlation-results').DataTable({
-			aaSorting : [ [ 3, 'des' ] ],
-			"pageLength" : 25,
-			dom: 'Bfrtip',
-			buttons: [
-	            'copy', 'csv', 'excel', 'pdf'
-	        ]
-		});
+		/*<![CDATA[*/
+			var t = $('#correlation-results').DataTable({
+				aaSorting : [ [ 5, 'des' ] ],
+				"pageLength" : 25,
+				dom: 'Bfrtip',
+				buttons: [
+		            'copy', 'csv', 'excel', 'pdf'
+		        ]
+			});
+			
+			/* Formatting function for row details - modify as you need */
+		    function format ( d ) {
+		        // `d` is the original data object for the row
+		        return '<table>'+
+		            '<tr>'+
+		                '<td>Full name:</td>'+
+		                '<td>'+'</td>'+
+		            '</tr>'+
+		            '<tr>'+
+		                '<td>Extension number:</td>'+
+		                '<td>'+'</td>'+
+		            '</tr>'+
+		            '<tr>'+
+		                '<td>Extra info:</td>'+
+		                '<td>And any further details here (images etc)...</td>'+
+		            '</tr>'+
+		        '</table>';
+		    }
+			
+			 // Add event listener for opening and closing details
+		    $('#correlation-results tbody').on('click', 'td.details-control', function () {
+		        var tr = $(this).closest('tr');
+		        var row = table.row( tr );
+		 
+		        if ( row.child.isShown() ) {
+		            // This row is already open - close it
+		            row.child.hide();
+		            tr.removeClass('shown');
+		        }
+		        else {
+		            // Open this row
+		            row.child( format(row.data()) ).show();
+		            tr.addClass('shown');
+		        }
+		    } );
+		/*]]>*/
 	</script>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
@@ -261,29 +313,41 @@ body {
 	/*]]>*/
 	</script>
 	<script>
-		var correlationOptionsTextAreaString = "";
-		correlationOptions.forEach(function(correlationOption){
-			correlationOptionsTextAreaString += correlationOption + '\n';
-		});
-		$("#correlation-options").val(correlationOptionsTextAreaString);
-		
-		//
-		
-		
-		correlationResults.forEach(function(correlationResult){
-	
-			var buttonHtml = "";
-			buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '">FlyMine</button>';
-			// Append any other buttons
+		/*<![CDATA[*/
+			var correlationOptionsTextAreaString = "";
+			correlationOptions.forEach(function(correlationOption){
+				correlationOptionsTextAreaString += correlationOption + '\n';
+			});
+			$("#correlation-options").val(correlationOptionsTextAreaString);
 			
+			//
 			
-			t.row.add([correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.rVal, buttonHtml]).draw(false);
-		});
+			correlationResults.sort(function(a,b) {
+	  			if (a.rVal < b.rVal){
+	     			return 1;
+	  			} else if (a.rVal > b.rVal){
+	    			return -1;
+	  			} else {
+	  				return 0;
+	  			}
+			});
+			
+			var rank = 1;
+			correlationResults.forEach(function(correlationResult){
 		
-	    $('.flymine-button').on( 'click', function () {
-	        var geneDbId = $(this).val();
-	        window.open('http://www.flymine.org/flymine/keywordSearchResults.do?searchTerm=' + geneDbId);
-	    } );
+				var buttonHtml = "";
+				buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '">FlyMine</button>';
+				// Append any other buttons
+				
+				t.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.rVal, buttonHtml]).draw(false);
+				rank++;
+			});
+			
+		    $('.flymine-button').on( 'click', function () {
+		        var geneDbId = $(this).val();
+		        window.open('http://www.flymine.org/flymine/keywordSearchResults.do?searchTerm=' + geneDbId);
+		    } );
+	    /*]]>*/
 	</script>
 </body>
 </html>
