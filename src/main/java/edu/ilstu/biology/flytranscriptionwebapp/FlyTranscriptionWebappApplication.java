@@ -21,7 +21,6 @@ public class FlyTranscriptionWebappApplication {
 	@Bean("genomeData")
 	public List<Gene> genomeData(@Autowired GenomeDataMapper genomeDataMapper) {
 		List<Gene> genomeList = genomeDataMapper.mapGenomicData();
-		System.out.println("breaker");
 		return genomeList;
 	}
 	
