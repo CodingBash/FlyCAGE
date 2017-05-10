@@ -39,36 +39,45 @@ public class GenomicCorrelationAnalysis {
 		/*
 		 * Step 1: Linear search for gene
 		 */
-		for (Gene gene : genomeData) {
+		outerloop: for (Gene gene : genomeData) {
 			/*
 			 * TODO: This is a really ugly way of checking if the gene is found
 			 * - refactor
 			 */
-			if (StringUtils.equals(gene.getDbIdentifier(), StringUtils.trim(inputIdentifier))) {
+			if (StringUtils.equalsIgnoreCase(gene.getDbIdentifier(), StringUtils.trim(inputIdentifier))) {
 				/*
 				 * We found the gene - let's get its data
 				 */
 				foundGene = gene;
 				break;
-			} else if (StringUtils.equals(gene.getSecondaryIdentifier(), StringUtils.trim(inputIdentifier))) {
+			} else if (StringUtils.equalsIgnoreCase(gene.getSecondaryIdentifier(), StringUtils.trim(inputIdentifier))) {
 				/*
 				 * We found the gene - let's get its data
 				 */
 				foundGene = gene;
 				break;
-			} else if (StringUtils.equals(gene.getGeneName(), StringUtils.trim(inputIdentifier))) {
+			} else if (StringUtils.equalsIgnoreCase(gene.getGeneName(), StringUtils.trim(inputIdentifier))) {
 				/*
 				 * We found the gene - let's get its data
 				 */
 				foundGene = gene;
 				break;
+			} else {
+				// TODO: Since this is not an ID, this should be added to a
+				// "potential" list, and user should decide which gene to select
+				for (String synonym : gene.getSynonyms()) {
+					if (StringUtils.equalsIgnoreCase(synonym, StringUtils.trim(inputIdentifier))) {
+						foundGene = gene;
+						break outerloop;
+					}
+				}
 			}
 		}
 
 		/*
 		 * If we found the gene, let's continue the process flow...
 		 */
-		if (foundGene != null) {
+		if (foundGene != null && foundGene.getRnaExpData().length > 0) {
 			/*
 			 * TODO: Maybe this will get the top 100 results as expected? No
 			 * this does not - in the future, change to a SortedSet like in this
@@ -82,21 +91,24 @@ public class GenomicCorrelationAnalysis {
 			 * Now we calculate the pcorr for all genes! Let's
 			 */
 			for (Gene gene : genomeData) {
-				// TODO: This may be bad for performance
-				// if (gene.getGeneName() != foundGene.getGeneName()) {
-				double[] foundGeneRna = Doubles.toArray(Ints.asList(foundGene.getRnaExpData()));
-				double[] targetGeneRna = Doubles.toArray(Ints.asList(gene.getRnaExpData()));
-				double rVal = pearsonsCorrelation.correlation(foundGeneRna, targetGeneRna);
-				// TODO: Not sure if this is the correct way to get the
-				// pvals;
-				double pVal = 1.0;// pearsonsCorrelation.getCorrelationPValues().getEntry(foundGeneRna.length,
-									// targetGeneRna.length);
-				if (!Double.isNaN(rVal)) {
-					GeneCorrelatedResult resultGene = new GeneCorrelatedResult();
-					resultGene.setGene(gene);
-					resultGene.setrVal(rVal);
-					resultGene.setpVal(pVal);
-					queue.add(resultGene);
+				// Ensure that the dimensions are equal
+				if (gene.getRnaExpData() != null && gene.getRnaExpData().length == foundGene.getRnaExpData().length) {
+					// TODO: This may be bad for performance
+					// if (gene.getGeneName() != foundGene.getGeneName()) {
+					double[] foundGeneRna = Doubles.toArray(Ints.asList(foundGene.getRnaExpData()));
+					double[] targetGeneRna = Doubles.toArray(Ints.asList(gene.getRnaExpData()));
+					double rVal = pearsonsCorrelation.correlation(foundGeneRna, targetGeneRna);
+					// TODO: Not sure if this is the correct way to get the
+					// pvals;
+					double pVal = 1.0;// pearsonsCorrelation.getCorrelationPValues().getEntry(foundGeneRna.length,
+										// targetGeneRna.length);
+					if (!Double.isNaN(rVal)) {
+						GeneCorrelatedResult resultGene = new GeneCorrelatedResult();
+						resultGene.setGene(gene);
+						resultGene.setrVal(rVal);
+						resultGene.setpVal(pVal);
+						queue.add(resultGene);
+					}
 				}
 				// }
 			}

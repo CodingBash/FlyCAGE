@@ -39,21 +39,25 @@ public class GenomeDataMapper {
 
 		/*
 		 * TODO: This is an O(sigma[1 to N]) operation, in the future, improve
-		 * this performance
-		 * -Perhaps only iterate over the unchecked list (no need to iterate through genes w/ rna data already)
+		 * this performance -Perhaps only iterate over the unchecked list (no
+		 * need to iterate through genes w/ rna data already) [Complete, changed
+		 * to O(n) (unverified)]
 		 * 
 		 * Iterate through geneRnaDataXmlList, search for gene in geneList thru
 		 * the dbIdentifier, then insert rnaData
 		 */
 		ListIterator<Gene> geneIterator = geneList.listIterator();
 		int count = 1;
-		int errorCount = 1;
+		// int errorCount = 1;
 		while (geneIterator.hasNext()) {
 			Gene targetGene = geneIterator.next();
 			GeneRnaDataXml geneRnaDataXml = null;
-			for (GeneRnaDataXml geneXml : geneRnaDataXmlList) {
-				if (StringUtils.equals(targetGene.getDbIdentifier(), geneXml.getDbIdentifier())) {
-					geneRnaDataXml = geneXml;
+			ListIterator<GeneRnaDataXml> geneRnaDataIterator = geneRnaDataXmlList.listIterator();
+			while (geneRnaDataIterator.hasNext()) {
+				GeneRnaDataXml indexGeneRnaData = geneRnaDataIterator.next();
+				if (StringUtils.equals(targetGene.getDbIdentifier(), indexGeneRnaData.getDbIdentifier())) {
+					geneRnaDataXml = indexGeneRnaData;
+					geneRnaDataIterator.remove();
 					break;
 				}
 			}
@@ -65,12 +69,17 @@ public class GenomeDataMapper {
 				}
 				targetGene.setRnaExpData(rnaExp);
 				geneIterator.set(targetGene);
-				
-				
+
 			} else {
 				// TODO: exception handling
-				System.err.println("GENE NOT FOUND: " + count + "; errorCount: " + errorCount);
-				errorCount++;
+				// System.err.println("GENE NOT FOUND: " + count + ";
+				// errorCount: " + errorCount);
+				// errorCount++;
+			}
+
+			// TODO: Change to use Logger SLF4J
+			if (count % 1000 == 0) {
+				System.out.println("GENE: " + count);
 			}
 			count++;
 		}
