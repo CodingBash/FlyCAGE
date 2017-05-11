@@ -1,11 +1,14 @@
 package edu.ilstu.biology.flytranscriptionwebapp.processor;
 
+import java.math.MathContext;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 
+import edu.ilstu.biology.flytranscriptionwebapp.model.CorrelationResult;
 import edu.ilstu.biology.flytranscriptionwebapp.model.FinalResponseCorrelationResult;
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneCorrelatedResult;
@@ -29,6 +33,13 @@ public class GenomicCorrelationAnalysis {
 	private PearsonsCorrelation pearsonsCorrelation;
 
 	private static final int CORRELATED_GENE_SIZE = 100;
+
+	private static final double CI_ZVAL_90 = 1.645;
+	private static final double CI_ZVAL_95 = 1.96;
+	private static final double CI_ZVAL_99 = 2.58;
+
+	// TODO: Generate this dynamically depending on input
+	private static final int SIGNIFICANT_FIGURES = 3;
 
 	/*
 	 * TODO: Seperate the gene searching and the correlation retrieval to
@@ -95,18 +106,32 @@ public class GenomicCorrelationAnalysis {
 				if (gene.getRnaExpData() != null && gene.getRnaExpData().length == foundGene.getRnaExpData().length) {
 					// TODO: This may be bad for performance
 					// if (gene.getGeneName() != foundGene.getGeneName()) {
+					/*
+					 * Prepare the data
+					 */
 					double[] foundGeneRna = Doubles.toArray(Ints.asList(foundGene.getRnaExpData()));
 					double[] targetGeneRna = Doubles.toArray(Ints.asList(gene.getRnaExpData()));
-					double rVal = pearsonsCorrelation.correlation(foundGeneRna, targetGeneRna);
-					// TODO: Not sure if this is the correct way to get the
-					// pvals;
-					double pVal = 1.0;// pearsonsCorrelation.getCorrelationPValues().getEntry(foundGeneRna.length,
-										// targetGeneRna.length);
+					double[][] data = { foundGeneRna, targetGeneRna };
+					RealMatrix matrix = MatrixUtils.createRealMatrix(data).transpose();
+
+					/*
+					 * Conduct Pearson's correlation analysis
+					 */
+					PearsonsCorrelation correlator = new PearsonsCorrelation(matrix);
+					double rVal = correlator.getCorrelationMatrix().getColumn(0)[1];
+					// double zVal = 0.5 * Math.log((1 + rVal)/(1 - rVal));
+					double seVal = correlator.getCorrelationStandardErrors().getColumn(0)[1];
+					double ciVal = CI_ZVAL_95 * seVal;
+					double pVal = correlator.getCorrelationPValues().getColumn(0)[1];
+
 					if (!Double.isNaN(rVal)) {
 						GeneCorrelatedResult resultGene = new GeneCorrelatedResult();
+						CorrelationResult corrResult = new CorrelationResult(rVal, seVal, ciVal, CI_ZVAL_95, pVal,
+								new MathContext(SIGNIFICANT_FIGURES));
+
 						resultGene.setGene(gene);
-						resultGene.setrVal(rVal);
-						resultGene.setpVal(pVal);
+						resultGene.setCorrResult(corrResult);
+
 						queue.add(resultGene);
 					}
 				}

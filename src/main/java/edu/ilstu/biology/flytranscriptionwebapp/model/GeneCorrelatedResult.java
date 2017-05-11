@@ -3,8 +3,7 @@ package edu.ilstu.biology.flytranscriptionwebapp.model;
 public class GeneCorrelatedResult implements Comparable<GeneCorrelatedResult> {
 
 	private Gene gene;
-	private Double rVal;
-	private Double pVal;
+	private CorrelationResult corrResult;
 
 	public Gene getGene() {
 		return gene;
@@ -14,26 +13,17 @@ public class GeneCorrelatedResult implements Comparable<GeneCorrelatedResult> {
 		this.gene = gene;
 	}
 
-	public Double getrVal() {
-		return rVal;
+	public CorrelationResult getCorrResult() {
+		return corrResult;
 	}
 
-	public void setrVal(Double rVal) {
-		this.rVal = rVal;
-	}
-
-	public Double getpVal() {
-		return pVal;
-	}
-
-	public void setpVal(Double pVal) {
-		this.pVal = pVal;
+	public void setCorrResult(CorrelationResult corrResult) {
+		this.corrResult = corrResult;
 	}
 
 	@Override
 	public int compareTo(GeneCorrelatedResult other) {
-		// TODO: Unsure if this will work as expected. Will be easy to tell
-		return Double.compare(other.rVal, this.rVal);
+		return Double.compare(other.corrResult.getrVal(), this.corrResult.getrVal());
 	}
 
 }
