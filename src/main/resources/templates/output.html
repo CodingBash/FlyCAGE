@@ -212,7 +212,8 @@ tr.shown td.details-control {
 									<div class="table-wrapper">
 										<table id="correlation-results"
 											class="stripe row-border compact nowrap"
-											style="width: 100%; margin: auto;" cellspacing="0">
+											style="width: 100% !important; margin: auto !important;"
+											cellspacing="0">
 											<thead>
 												<tr>
 													<th></th>
@@ -480,7 +481,7 @@ tr.shown td.details-control {
 				buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '">FlyMine</button>';
 				// Append any other buttons
 				
-				t.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
+				t.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, (correlationResult.gene.geneName.length > 15) ? correlationResult.gene.geneName.substring(0,15) + "...": correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
 				rank++;
 			});
 			
