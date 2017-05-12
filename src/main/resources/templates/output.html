@@ -486,7 +486,8 @@ tr.shown td.details-control {
 			
 		    $('.flymine-button').on( 'click', function () {
 		        var geneDbId = $(this).val();
-		        window.open('http://www.flymine.org/flymine/keywordSearchResults.do?searchTerm=' + geneDbId);
+		        var flymineUrl = 'http://www.flymine.org/query/portal.do?externalid=' + geneDbId + '&class=Gene&origin=fly-tran-webapp&organism=D.%20melanogaster'
+		        window.open(flymineUrl);
 		    } );
 	    /*]]>*/
 	</script>
