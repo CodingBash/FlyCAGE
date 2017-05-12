@@ -65,12 +65,12 @@ body {
 }
 
 .query-inputs {
-	width: 95% !important;
+	width: 100% !important;
 	margin: auto;
 }
 
-.panel-heading {
-	height: 11em;
+.card-header {
+	height: 10em;
 }
 
 /* For Plotlyjs CSS */
@@ -79,50 +79,30 @@ div[id*="-graph"] {
 }
 </style>
 <style>
-.panel {
-	border: 1px solid #5C0075;
-	border-radius: 0;
+.card {
+	border: 1px solid #5C0075; border-radius : 0;
 	transition: box-shadow 0.5s;
+	border-radius: 0;
 }
 
-.panel-footer .btn:hover {
-	border: 1px solid #5C0075;
-	background-color: #fff !important;
-	color: #f4511e;
-}
-
-.panel-body {
+.card-block {
 	background-color: #fff !important;
 }
 
-.panel-heading {
+.card-header {
 	color: #fff !important;
 	background-color: #5C0075 !important;
-	padding: 25px;
-	border-bottom: 1px solid transparent;
+	padding: 25px; border-bottom : 1px solid transparent;
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
+	border-bottom: 1px solid transparent;
 }
 
-.panel-footer {
-	background-color: #fff !important;
-}
-
-.panel-footer h3 {
-	font-size: 32px;
-}
-
-.panel-footer h4 {
-	color: #aaa;
-	font-size: 14px;
-}
-
-.panel-footer .btn {
-	margin: 15px 0;
-	background-color: #5C0075;
-	color: #fff;
+.row {
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 </style>
 
@@ -142,18 +122,18 @@ tr.shown td.details-control {
 	<div class="container-fluid">
 		<div class="text-xs-center"></div>
 		<div class="row">
-			<div class="col-xl-6">
+			<div class="col-lg-6">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="card text-xs-center">
-							<div class="card-header">
+						<div class="card">
+							<div class="card-header text-center">
 								<h2>Query</h2>
 								<h4>Shown below is the input query</h4>
 							</div>
 							<div class="card-block">
 								<div class="container-fluid">
 									<div class="row">
-										<div class="col-md-6">
+										<div class="col-md-12">
 											<div class="row extra-space"></div>
 											<div class="row">
 												<div class="col-md-6 text-xs-center">
@@ -185,11 +165,16 @@ tr.shown td.details-control {
 														class="query-inputs" readonly="readonly" />
 												</div>
 											</div>
-										</div>
-										<div class="col-md-6">
-											<label for="query-comment">Comment:</label>
-											<textarea id="query-comment"
-												th:text="${geneForm.queryComment}" readonly="readonly"></textarea>
+											<div class="row extra-space"></div>
+											<div class="row">
+												<div class="col-md-6 text-xs-center">
+													<label for="query-comment">Comment:</label>
+												</div>
+												<div class="col-md-6 text-xs-left">
+													<textarea id="query-comment"
+														th:text="${geneForm.queryComment}" readonly="readonly"></textarea>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -199,16 +184,15 @@ tr.shown td.details-control {
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div th:include="fragments :: gene-form"
-							class="hidden-lg-down"></div>
+						<div th:include="fragments :: gene-form" class="hidden-md-down"></div>
 					</div>
 				</div>
 			</div>
-			<div class="col-xl-6">
+			<div class="col-lg-6">
 				<div class="row">
 					<div class="col-12">
-						<div id="result-panel" class="card text-xs-center">
-							<div class="card-header">
+						<div id="result-panel" class="card">
+							<div class="card-header text-center">
 								<h2>Results</h2>
 								<h4>Shown below are all of the highly correlated genes
 
@@ -323,7 +307,7 @@ tr.shown td.details-control {
 		        {
 		            targets: 4,
 		            render: function ( data, type, row ) {
-		                return data.substr( 0, 15 );
+		                return (data.length >15) ? data.substr( 0, 15 ) + "..." : data;
 		            }
 		        }],
 				aaSorting : [ [ 5, 'des' ] ],

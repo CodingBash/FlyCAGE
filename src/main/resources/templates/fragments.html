@@ -5,56 +5,54 @@
 </head>
 <body>
 	<div th:fragment="gene-form">
-		<div class="card  text-xs-center">
-			<div class="card-header">
+		<div class="card">
+			<div class="card-header text-center">
 				<h2>Input Form</h2>
 				<h4>View the correlation data for a specified gene</h4>
 			</div>
 			<div class="card-block">
 				<div class="container-fluid">
-					<div class="row">
-						<div class="row">
-							<div class="col-sm-12 text-xs-center">
-								<form action="#" th:action="@{/}" th:object="${geneForm}"
-									method="POST">
-									<div class="form-group">
-										<label for="select-species">Select Species</label> <select
-											class="form-control" id="select-species"
-											th:field="*{geneSpecies}">
-											<option value="D. melanogaster">D. melanogaster</option>
-										</select> <small id="species-help" class="form-text text-muted">All
-											genetic information will be searched within this species</small>
-									</div>
-									<div class="form-group">
-										<label for="insert-gene">Gene Name</label> <input type="text"
-											th:field="*{inputIdentifier}" class="form-control"
-											id="insert-gene" aria-describedby="gene-help"
-											placeholder="Enter Gene Name, DB Identifier, or secondary Identifier i.e. hairy | FBgn0001168 | CG6494 " />
-										<small id="gene-help" class="form-text text-muted">We
-											will compare the data from this gene to every other gene in
-											the database</small>
-									</div>
-									<div class="form-group">
-										<label for="correlation-options">Choose correlation
-											analysis</label> <select multiple="multiple"
-											th:field="*{correlationOptions}" class="form-control"
-											id="correlation-options">
-											<option value="exp-by-stage" select="selected">Expression
-												by Stage (modENCODE)</option>
-										</select> <small id="correlation-help" class="form-text text-muted">Choose
-											all properties to conduct correlation analysis on. Hold shift
-											to select multiple.</small>
-									</div>
-									<div class="form-group">
-										<label for="text-query-comment">Query Comments</label>
-										<textarea class="form-control" th:field="*{queryComment}"
-											id="text-query-comment" rows="3"></textarea>
-										<small id="comment-help" class="form-text text-muted">These
-											comments will be attached to your saved query</small>
-									</div>
-									<button type="submit" class="btn btn-primary">Submit</button>
-								</form>
-							</div>
+					<div class="row justify-content-center text-center">
+						<div class="col-sm-12">
+							<form action="#" th:action="@{/}" th:object="${geneForm}"
+								method="POST">
+								<div class="form-group">
+									<label for="select-species">Select Species</label> <select
+										class="form-control" id="select-species"
+										th:field="*{geneSpecies}">
+										<option value="D. melanogaster">D. melanogaster</option>
+									</select> <small id="species-help" class="form-text text-muted">All
+										genetic information will be searched within this species</small>
+								</div>
+								<div class="form-group">
+									<label for="insert-gene">Gene Name</label> <input type="text"
+										th:field="*{inputIdentifier}" class="form-control"
+										id="insert-gene" aria-describedby="gene-help"
+										placeholder="Enter Gene Name, DB Identifier, or secondary Identifier i.e. hairy | FBgn0001168 | CG6494 " />
+									<small id="gene-help" class="form-text text-muted">We
+										will compare the data from this gene to every other gene in
+										the database</small>
+								</div>
+								<div class="form-group">
+									<label for="correlation-options">Choose correlation
+										analysis</label> <select multiple="multiple"
+										th:field="*{correlationOptions}" class="form-control"
+										id="correlation-options">
+										<option value="exp-by-stage" select="selected">Expression
+											by Stage (modENCODE)</option>
+									</select> <small id="correlation-help" class="form-text text-muted">Choose
+										all properties to conduct correlation analysis on. Hold shift
+										to select multiple.</small>
+								</div>
+								<div class="form-group">
+									<label for="text-query-comment">Query Comments</label>
+									<textarea class="form-control" th:field="*{queryComment}"
+										id="text-query-comment" rows="3"></textarea>
+									<small id="comment-help" class="form-text text-muted">These
+										comments will be attached to your saved query</small>
+								</div>
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</form>
 						</div>
 					</div>
 				</div>

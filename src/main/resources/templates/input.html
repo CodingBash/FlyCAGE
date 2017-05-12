@@ -34,9 +34,9 @@
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous" />
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+	crossorigin="anonymous"></link>
 
 <!-- Externalize CSS -->
 <style>
@@ -59,28 +59,30 @@ body {
 }
 
 .query-inputs {
-	width: 95% !important;
+	width: 100% !important;
 	margin: auto;
 }
 
-.panel-heading {
-	height: 11em;
+.card-header {
+	height: 10em;
+}
+
+/* For Plotlyjs CSS */
+div[id*="-graph"] {
+	width: 100%;
 }
 </style>
 <style>
-.panel {
-	border: 1px solid #5C0075;
+.card {
 	border-radius: 0;
 	transition: box-shadow 0.5s;
 }
 
-.panel-footer .btn:hover {
-	border: 1px solid #5C0075;
+.card-block {
 	background-color: #fff !important;
-	color: #f4511e;
 }
 
-.panel-heading {
+.card-header {
 	color: #fff !important;
 	background-color: #5C0075 !important;
 	padding: 25px;
@@ -91,30 +93,32 @@ body {
 	border-bottom-right-radius: 0px;
 }
 
-.panel-footer {
-	background-color: #fff !important;
+.row {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+</style>
+
+<style th:inline="text">
+td.details-control {
+	background: url([[@{/images/details_open.png}]]) no-repeat center center;
+	cursor: pointer;
 }
 
-.panel-footer h3 {
-	font-size: 32px;
-}
-
-.panel-footer h4 {
-	color: #aaa;
-	font-size: 14px;
-}
-
-.panel-footer .btn {
-	margin: 15px 0;
-	background-color: #5C0075;
-	color: #fff;
+tr.shown td.details-control {
+	background: url([[@{/images/details_close.png}]]) no-repeat center
+		center;
 }
 </style>
 </head>
 <body>
 
 	<div class="container-fluid">
-		<div th:include="fragments :: gene-form"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<div th:include="fragments :: gene-form"></div>
+			</div>
+		</div>
 	</div>
 
 
@@ -125,8 +129,12 @@ body {
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+		integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+		integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
 		crossorigin="anonymous"></script>
 	<script>
 		
