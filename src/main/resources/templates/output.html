@@ -33,9 +33,9 @@
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous" />
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+	crossorigin="anonymous"></link>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -91,6 +91,10 @@ div[id*="-graph"] {
 	color: #f4511e;
 }
 
+.panel-body {
+	background-color: #fff !important;
+}
+
 .panel-heading {
 	color: #fff !important;
 	background-color: #5C0075 !important;
@@ -136,56 +140,57 @@ tr.shown td.details-control {
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
 	<div class="container-fluid">
-		<div class="text-center"></div>
+		<div class="text-xs-center"></div>
 		<div class="row">
-			<div class="col-lg-6">
+			<div class="col-xl-6">
 				<div class="row">
-					<div class="col-sm-12">
-						<div class="panel panel-default text-center">
-							<div class="panel-heading">
+					<div class="col-md-12">
+						<div class="card text-xs-center">
+							<div class="card-header">
 								<h2>Query</h2>
 								<h4>Shown below is the input query</h4>
 							</div>
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="row extra-space"></div>
-										<div class="row">
-											<div class="col-sm-6 text-center">
-												<label for="input-identifier">Input Identifier:</label>
+							<div class="card-block">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="row extra-space"></div>
+											<div class="row">
+												<div class="col-md-6 text-xs-center">
+													<label for="input-identifier">Input Identifier:</label>
+												</div>
+												<div class="col-md-6 text-xs-left">
+													<input type="text" id="input-identifier"
+														class="query-inputs"
+														th:value="${geneForm.inputIdentifier}" readonly="readonly" />
+												</div>
 											</div>
-											<div class="col-sm-6 text-left">
-												<input type="text" id="input-identifier"
-													class="query-inputs" th:value="${geneForm.inputIdentifier}"
-													readonly="readonly"></input>
+											<div class="row extra-space"></div>
+											<div class="row">
+												<div class="col-md-6 text-xs-center">
+													<label for="gene-species">Organism:</label>
+												</div>
+												<div class="col-md-6 text-xs-left">
+													<input type="text" id="gene-species" class="query-inputs"
+														th:value="${geneForm.geneSpecies}" readonly="readonly" />
+												</div>
+											</div>
+											<div class="row extra-space"></div>
+											<div class="row">
+												<div class="col-md-6 text-xs-center">
+													<label for="correlation-options">Correlation:</label>
+												</div>
+												<div class="col-md-6 text-xs-left">
+													<input type="text" id="correlation-options"
+														class="query-inputs" readonly="readonly" />
+												</div>
 											</div>
 										</div>
-										<div class="row extra-space"></div>
-										<div class="row">
-											<div class="col-sm-6 text-center">
-												<label for="gene-species">Organism:</label>
-											</div>
-											<div class="col-sm-6 text-left">
-												<input type="text" id="gene-species" class="query-inputs"
-													th:value="${geneForm.geneSpecies}" readonly="readonly"></input>
-											</div>
+										<div class="col-md-6">
+											<label for="query-comment">Comment:</label>
+											<textarea id="query-comment"
+												th:text="${geneForm.queryComment}" readonly="readonly"></textarea>
 										</div>
-										<div class="row extra-space"></div>
-										<div class="row">
-											<div class="col-sm-6 text-center">
-												<label for="correlation-options">Correlation:</label>
-											</div>
-											<div class="col-sm-6 text-left">
-												<input type="text" id="correlation-options"
-													class="query-inputs" readonly="readonly"></input>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<label for="query-comment">Comment:</label>
-										<textarea id="query-comment"
-											th:text="${geneForm.queryComment}" readonly="readonly">
-										</textarea>
 									</div>
 								</div>
 							</div>
@@ -193,21 +198,24 @@ tr.shown td.details-control {
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-12 hidden-xs visible-lg">
-						<div th:include="fragments :: gene-form"></div>
+					<div class="col-md-12">
+						<div th:include="fragments :: gene-form"
+							class="hidden-lg-down"></div>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-xl-6">
 				<div class="row">
-					<div class="col-xs-12">
-						<div id="result-panel" class="panel panel-default text-center">
-							<div class="panel-heading">
+					<div class="col-12">
+						<div id="result-panel" class="card text-xs-center">
+							<div class="card-header">
 								<h2>Results</h2>
 								<h4>Shown below are all of the highly correlated genes
+
 									based on mRNA expression by stage data</h4>
 							</div>
-							<div class="panel-body">
+							<div class="card-block">
+								<div class="row extra-space"></div>
 								<div class="row table-row">
 									<div class="table-wrapper">
 										<table id="correlation-results"
@@ -226,8 +234,7 @@ tr.shown td.details-control {
 													<th>ACTIONS</th>
 												</tr>
 											</thead>
-											<tbody>
-											</tbody>
+											<tbody></tbody>
 											<tfoot>
 												<tr>
 													<th></th>
@@ -248,8 +255,8 @@ tr.shown td.details-control {
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-12 visible-xs visible-md hidden-lg">
-						<div th:include="fragments :: gene-form"></div>
+					<div class="col-md-12 ">
+						<div th:include="fragments :: gene-form" class="hidden-lg-up"></div>
 					</div>
 				</div>
 			</div>
@@ -261,8 +268,12 @@ tr.shown td.details-control {
 		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 		crossorigin="anonymous"></script>
 	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+		integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+		integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
 		crossorigin="anonymous"></script>
 	<script
 		src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
@@ -308,7 +319,13 @@ tr.shown td.details-control {
 		        { responsivePriority: 3, targets: 5 },
 		        { responsivePriority: 4, targets: 6 },
 		        { responsivePriority: 5, targets: 7 },
-		        { responsivePriority: 6, targets: 4 }],
+		        { responsivePriority: 6, targets: 4 },
+		        {
+		            targets: 4,
+		            render: function ( data, type, row ) {
+		                return data.substr( 0, 15 );
+		            }
+		        }],
 				aaSorting : [ [ 5, 'des' ] ],
 				"pageLength" : 25,
 				dom: 'Bfrtip',
@@ -360,7 +377,7 @@ tr.shown td.details-control {
 				var correlationData = [{
 					name : pairwiseCorrelationDataAjaxRequestBody.inputGene,
 					y : pairwiseGeneCorrelationData.inputGeneData,
-					mode : 'lines',
+					mode : 'lines+markers',
 					marker : {
 						color : 'blue',
 						size : 8
@@ -371,13 +388,14 @@ tr.shown td.details-control {
 				}, {
 					name : pairwiseCorrelationDataAjaxRequestBody.targetGene,
 					y : pairwiseGeneCorrelationData.targetGeneData,
-					mode : 'lines',
+					mode : 'lines+markers',
 					marker : {
 						color : 'red',
 						size : 8
 					},
 					line : {
-						width : 4
+						width : 4,
+						dash : "dot"
 					}
 				}];
 				Plotly.plot(plotDivId, correlationData, {
@@ -481,7 +499,7 @@ tr.shown td.details-control {
 				buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '">FlyMine</button>';
 				// Append any other buttons
 				
-				t.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, (correlationResult.gene.geneName.length > 15) ? correlationResult.gene.geneName.substring(0,15) + "...": correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
+				t.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
 				rank++;
 			});
 			
