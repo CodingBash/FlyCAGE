@@ -31,7 +31,9 @@
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700'
 	rel='stylesheet' type='text/css'></link>
-
+<link
+	href='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css'
+	rel='stylesheet' type='text/css'></link>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
@@ -126,7 +128,6 @@ tr.shown td.details-control {
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
 		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 		crossorigin="anonymous"></script>
-
 	<!-- Latest compiled and minified JavaScript -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
@@ -138,6 +139,11 @@ tr.shown td.details-control {
 		crossorigin="anonymous"></script>
 	<script>
 		
+	</script>
+	<script>
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
 	</script>
 </body>
 </html>

@@ -30,6 +30,9 @@
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700'
 	rel='stylesheet' type='text/css'></link>
+<link
+	href='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css'
+	rel='stylesheet' type='text/css'></link>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -80,7 +83,8 @@ div[id*="-graph"] {
 </style>
 <style>
 .card {
-	border: 1px solid #5C0075; border-radius : 0;
+	border: 1px solid #5C0075;
+	border-radius: 0;
 	transition: box-shadow 0.5s;
 	border-radius: 0;
 }
@@ -92,7 +96,8 @@ div[id*="-graph"] {
 .card-header {
 	color: #fff !important;
 	background-color: #5C0075 !important;
-	padding: 25px; border-bottom : 1px solid transparent;
+	padding: 25px;
+	border-bottom: 1px solid transparent;
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
 	border-bottom-left-radius: 0px;
@@ -208,27 +213,57 @@ tr.shown td.details-control {
 											cellspacing="0">
 											<thead>
 												<tr>
+													<!--  TODO: Make fragment for these -->
 													<th></th>
-													<th>RANK</th>
-													<th>DB-ID</th>
-													<th>SECONDARY-ID</th>
-													<th>GENE-NAME</th>
-													<th>R-VAL</th>
-													<th>P-VAL</th>
-													<th>ACTIONS</th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Rank by R-VAL"
+														data-placement="top">RANK</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="FlyBase database ID"
+														data-placement="top">DB ID</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="FlyBase secondary ID"
+														data-placement="top">2nd ID</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Name of gene"
+														data-placement="top">GENE NAME</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Pearson's R coefficient"
+														data-placement="top">R VAL</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Correlation p-value"
+														data-placement="top">P VAL</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Button actions on row entry"
+														data-placement="top">ACTION</a></th>
 												</tr>
 											</thead>
 											<tbody></tbody>
 											<tfoot>
 												<tr>
+													<!--  TODO: Make fragment for these -->
 													<th></th>
-													<th>RANK</th>
-													<th>DB-ID</th>
-													<th>SECONDARY-ID</th>
-													<th>GENE-NAME</th>
-													<th>R-VAL</th>
-													<th>P-VAL</th>
-													<th>ACTIONS</th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Rank by R-VAL"
+														data-placement="top">RANK</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="FlyBase database ID"
+														data-placement="top">DB ID</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="FlyBase secondary ID"
+														data-placement="top">2nd ID</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Name of gene"
+														data-placement="top">GENE NAME</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Pearson's R coefficient"
+														data-placement="top">R VAL</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Correlation p-value"
+														data-placement="top">P VAL</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Button actions on row entry"
+														data-placement="top">ACTION</a></th>
 												</tr>
 											</tfoot>
 										</table>
@@ -288,6 +323,11 @@ tr.shown td.details-control {
 	    var finalResponseCorrelationResult = [[${result}]];
 
 	/*]]>*/
+	</script>
+	<script>
+	$(function () {
+		  $('[data-toggle="tooltip"]').tooltip()
+		})
 	</script>
 	<script>
 		/*<![CDATA[*/
