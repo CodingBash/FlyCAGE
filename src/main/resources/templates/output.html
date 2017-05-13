@@ -73,7 +73,8 @@ body {
 	margin: auto;
 }
 
-.card-header {
+/* TODO: Quick Workaround to differentiate between main panels, and expression stage panels. Same with the other psuedopanel stylers Make more organized */
+.panel-header {
 	height: 10em;
 }
 
@@ -83,18 +84,18 @@ div[id*="-graph"] {
 }
 </style>
 <style>
-.card {
+.panel {
 	border: 1px solid #5C0075;
 	border-radius: 0;
 	transition: box-shadow 0.5s;
 	border-radius: 0;
 }
 
-.card-block {
+.panel-block {
 	background-color: #fff !important;
 }
 
-.card-header {
+.panel-header {
 	color: #fff !important;
 	background-color: #5C0075 !important;
 	padding: 25px;
@@ -131,12 +132,12 @@ tr.shown td.details-control {
 			<div class="col-lg-4">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="card">
-							<div class="card-header text-center">
+						<div class="card panel">
+							<div class="card-header panel-header text-center">
 								<h2>Query</h2>
 								<h4>Shown below is the input query</h4>
 							</div>
-							<div class="card-block">
+							<div class="card-block panel-block">
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-md-12">
@@ -197,14 +198,14 @@ tr.shown td.details-control {
 			<div class="col-lg-8">
 				<div class="row">
 					<div class="col-12">
-						<div id="result-panel" class="card">
-							<div class="card-header text-center">
+						<div id="result-panel" class="card panel">
+							<div class="card-header panel-header text-center">
 								<h2>Results</h2>
 								<h4>Shown below are all of the highly correlated genes
 
 									based on mRNA expression by stage data</h4>
 							</div>
-							<div class="card-block">
+							<div class="card-block panel-block">
 								<div class="row extra-space"></div>
 								<div class="row table-row">
 									<div class="table-wrapper">
@@ -285,7 +286,6 @@ tr.shown td.details-control {
 		</div>
 	</div>
 
-
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
 		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 		crossorigin="anonymous"></script>
@@ -365,10 +365,34 @@ tr.shown td.details-control {
 		        }
 			});
 			
+		
 			/* Formatting function for row details - modify as you need */
 		    function attachPlotHtml(pairwiseCorrelationDataAjaxRequestBody) {
-		    	var plotDivId= pairwiseCorrelationDataAjaxRequestBody.inputGene + '-' + pairwiseCorrelationDataAjaxRequestBody.targetGene + '-graph';
-		        return '<div id="' + plotDivId + '"></div>'
+		    	// TODO: Modularize these two variables
+				var plotDivId= pairwiseCorrelationDataAjaxRequestBody.inputGene + '-' + pairwiseCorrelationDataAjaxRequestBody.targetGene + '-graph';
+		        var tableIdExtender = pairwiseCorrelationDataAjaxRequestBody.inputGene + '-' + pairwiseCorrelationDataAjaxRequestBody.targetGene;
+		    	
+		    	var expressionStageMapping = '<div id="accordion-' + tableIdExtender+ '" role="tablist" aria-multiselectable="true">' +
+				  '<div class="card">' +
+				    '<div class="card-header" role="tab" id="heading-'+tableIdExtender+'">' +
+				      '<h6 class="mb-0">' +
+				        '<a class="collapsed" data-toggle="collapse" data-parent="#accordion-'+tableIdExtender+'" href="#collapse-'+tableIdExtender+'" aria-expanded="true" aria-controls="collapse-'+tableIdExtender+'">' +
+				          'View Expression Stage Mapping' +
+				        '</a>' +
+				      '</h6>' +
+				    '</div>' +
+				    '<div id="collapse-'+tableIdExtender+'" class="collapse" role="tabpanel" aria-labelledby="heading-'+tableIdExtender+'">' +
+				      '<div class="card-block">' +
+				        'Anim pariatur cliche reprehenderit, enim eiusmod high sustainable VHS.' +
+				      '</div>' +
+				    '</div>' +
+				  '</div>' +
+				'</div>';
+		    	
+				/*
+					TODO: Add Datatable - do this after adding sorting to the plotly
+				*/
+				return '<div id="' + plotDivId + '"></div>' + expressionStageMapping;
 		    }
 			
 			function retrieveCorrelationData(pairwiseCorrelationDataAjaxRequestBody){
