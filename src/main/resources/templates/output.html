@@ -24,7 +24,8 @@
 <meta name="twitter:image" content="" />
 <meta name="twitter:url" content="" />
 <meta name="twitter:card" content="" />
-<title>Fly Transcription</title>
+
+<title>FlyCorr</title>
 
 <!-- Google Fonts -->
 <link
@@ -127,7 +128,7 @@ tr.shown td.details-control {
 	<div class="container-fluid">
 		<div class="text-xs-center"></div>
 		<div class="row">
-			<div class="col-lg-6">
+			<div class="col-lg-4">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
@@ -193,7 +194,7 @@ tr.shown td.details-control {
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-lg-8">
 				<div class="row">
 					<div class="col-12">
 						<div id="result-panel" class="card">
@@ -223,7 +224,8 @@ tr.shown td.details-control {
 														data-placement="top">DB ID</a></th>
 													<th><a href="#correlation-results"
 														data-toggle="tooltip" title="FlyBase secondary ID"
-														data-placement="top">2nd ID</a></th>
+														data-placement="top">2<sup>nd</sup> ID
+													</a></th>
 													<th><a href="#correlation-results"
 														data-toggle="tooltip" title="Name of gene"
 														data-placement="top">GENE NAME</a></th>
@@ -251,7 +253,8 @@ tr.shown td.details-control {
 														data-placement="top">DB ID</a></th>
 													<th><a href="#correlation-results"
 														data-toggle="tooltip" title="FlyBase secondary ID"
-														data-placement="top">2nd ID</a></th>
+														data-placement="top">2<sup>nd</sup> ID
+													</a></th>
 													<th><a href="#correlation-results"
 														data-toggle="tooltip" title="Name of gene"
 														data-placement="top">GENE NAME</a></th>
@@ -348,7 +351,7 @@ tr.shown td.details-control {
 		        {
 		            targets: 4,
 		            render: function ( data, type, row ) {
-		                return (data.length >15) ? data.substr( 0, 15 ) + "..." : data;
+		                return (data.length > 25) ? data.substr( 0, 25 ) + "..." : data;
 		            }
 		        }],
 				aaSorting : [ [ 5, 'des' ] ],
