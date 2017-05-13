@@ -325,6 +325,7 @@ tr.shown td.details-control {
 	/*]]>*/
 	</script>
 	<script>
+	
 	$(function () {
 		  $('[data-toggle="tooltip"]').tooltip()
 		})
@@ -520,12 +521,15 @@ tr.shown td.details-control {
 			finalResponseCorrelationResult.correlationResults.forEach(function(correlationResult){
 		
 				var buttonHtml = "";
-				buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '">FlyMine</button>';
+				dataToggle = 'datatoggle="tooltip" data-placement="top" title="FlyMine '+ correlationResult.gene.dbIdentifier + ' Report"';
+				buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '"' + dataToggle +'>FlyMine</button>';
 				// Append any other buttons
 				
 				t.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
 				rank++;
 			});
+			// Now that buttons are added, activate tooltip for all of them
+			$('.flymine-button').tooltip(); 
 			
 		    $('.flymine-button').on( 'click', function () {
 		        var geneDbId = $(this).val();
