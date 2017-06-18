@@ -381,6 +381,9 @@ tr.shown td.details-control {
 				        '</a>' +
 				      '</h6>' +
 				    '</div>' +
+				    '<div>'  +
+				    	'<button type="button" class="btn btn-primary">Normalize</button>' + // TODO, add onclick event
+				    '</div>'
 				    '<div id="collapse-'+tableIdExtender+'" class="collapse" role="tabpanel" aria-labelledby="heading-'+tableIdExtender+'">' +
 				      '<div class="card-block">' +
 				        'Anim pariatur cliche reprehenderit, enim eiusmod high sustainable VHS.' +
@@ -394,6 +397,18 @@ tr.shown td.details-control {
 				*/
 				return '<div id="' + plotDivId + '"></div>' + expressionStageMapping;
 		    }
+			
+			function normalizePlotData(plotDivId){
+				// TODO: Create onclick method and extract plotDivId then call this method
+				var plotDiv = document.getElementById(plotDivId);
+				var plotData = plotDiv.data;
+				inputGeneData = plotData[0].y;
+				targetGeneData = plotData[0].y;
+				// TODO: Verify the above works
+				// TODO: Normalize across both data
+				// TODO: Update the plot data
+				// TODO: Build function to reverse, will I have to make another remote call or will this data be stored somewhere. How will it be stored?
+			}
 			
 			function retrieveCorrelationData(pairwiseCorrelationDataAjaxRequestBody){
 				var pairwiseGeneCorrelationData = null;
