@@ -381,9 +381,6 @@ tr.shown td.details-control {
 				        '</a>' +
 				      '</h6>' +
 				    '</div>' +
-				    '<div>'  +
-				    	'<button type="button" class="btn btn-primary">Normalize</button>' + // TODO, add onclick event
-				    '</div>'
 				    '<div id="collapse-'+tableIdExtender+'" class="collapse" role="tabpanel" aria-labelledby="heading-'+tableIdExtender+'">' +
 				      '<div class="card-block">' +
 				        'Anim pariatur cliche reprehenderit, enim eiusmod high sustainable VHS.' +
@@ -392,23 +389,49 @@ tr.shown td.details-control {
 				  '</div>' +
 				'</div>';
 		    	
+				var normalizationButtonHtml = 				    '<div>'  +
+		    	'<button type="button" class="btn btn-primary normalization-btn">Normalize</button>' + // TODO, add onclick event
+			    '</div>';
 				/*
 					TODO: Add Datatable - do this after adding sorting to the plotly
 				*/
-				return '<div id="' + plotDivId + '"></div>' + expressionStageMapping;
+				return '<div id="' + plotDivId + '" class ="custom-plotly-plot"></div>' + normalizationButtonHtml +  expressionStageMapping;
 		    }
 			
+			$(document).on("click", '.normalization-btn',function(){
+				normalizePlotData($(event.target).parents().children(".custom-plotly-plot")[0].id);
+			});
+			
 			function normalizePlotData(plotDivId){
-				// TODO: Create onclick method and extract plotDivId then call this method
 				var plotDiv = document.getElementById(plotDivId);
 				var plotData = plotDiv.data;
 				inputGeneData = plotData[0].y;
 				targetGeneData = plotData[0].y;
+				newInputGeneData = [];
+				newTargetGeneData = [];
+				
+				geneDataContainer = inputGeneData.concat(targetGeneData);
+				max = Math.max(geneDataContainer);
+				min = Math.min(geneDataContainer);
+				normalizer = function(val) {
+								return (val - min) / (max - min); 
+							}
+				for(var i = 0; i < inputGeneData.length; i++){
+					newInputGeneData.push(normalizer(inputGeneData[i]));
+				}
+				
+				for(var i = 0; i < targetGeneData.length; i++){
+					newTargetGeneData.push(normalizer(targetGeneData[i]));
+				}
+				
+				Plotly.update(plotDiv, [{y: newInputGeneData},{y: newTargetGeneData}]);
 				// TODO: Verify the above works
 				// TODO: Normalize across both data
 				// TODO: Update the plot data
 				// TODO: Build function to reverse, will I have to make another remote call or will this data be stored somewhere. How will it be stored?
 			}
+			
+		
 			
 			function retrieveCorrelationData(pairwiseCorrelationDataAjaxRequestBody){
 				var pairwiseGeneCorrelationData = null;
@@ -497,7 +520,6 @@ tr.shown td.details-control {
 		            $(".plotly").css({
 		                "width": newPlotWidth + "px",
 		            });
-		   
 
 		            // Applying width and height to a new variable for Plotly
 		            var update = {
