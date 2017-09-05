@@ -419,17 +419,16 @@ tr.shown td.details-control {
 			 * On-click event for the normalize button
 			 */
 			$(document).on("click", '.normalization-btn',function(){
-				normalizePlotData($(event.target).parents().children(".custom-plotly-plot")[0].id); // TODO: Find a better way to get the plot (this seems inefficient)
-			    $(event.target).html('Original');
+				normalizePlotData($(event.target).parents().children(".custom-plotly-plot")[0].id, event.target); // TODO: Find a better way to get the plot (this seems inefficient)
 			});
 			
 			/*
 			 * Function to normalize the plot data
 			 */
-			function normalizePlotData(plotDivId){
+			function normalizePlotData(plotDivId, eventTarget){
 				var normalizedPlotResults = $.grep(normalizationContainer, function(e){ return e.plotDivId == plotDivId; });
+				var plotDiv = document.getElementById(plotDivId);
 				if(normalizedPlotResults.length == 0 || normalizedPlotResults[0].isNormalized == false){
-					var plotDiv = document.getElementById(plotDivId);
 					var plotData = plotDiv.data;
 					var inputGeneData = plotData[1].y;
 					var targetGeneData = plotData[0].y; // Ensure these are correct order "0, 1"
@@ -455,28 +454,30 @@ tr.shown td.details-control {
 						newTargetGeneData.push(normalizer(targetGeneData[i], targetMax, targetMin));
 					}
 					
-					var update = {y: [newInputGeneData, newTargetGeneData]};
+					var update = {
+							y: [newInputGeneData, newTargetGeneData],
+							title: "Correlation Line Graph (Normalized)" // TODO: Title change not working
+					};
 					Plotly.restyle(plotDiv, update, [1, 0])
-					normalizationContainer.push({
-						plotDivId: plotDivId,
-						isNormalized: true,
-						originalData: [inputGeneData, targetGeneData]
-					});
-				
+					
+					if(normalizedPlotResults.length == 0){
+						normalizationContainer.push({
+							plotDivId: plotDivId,
+							isNormalized: true,
+							originalData: [inputGeneData, targetGeneData]
+						});
+					} else {
+						normalizedPlotResults[0].isNormalized = true;
+					}
+					$(eventTarget).html('Original');
 				} else {
-					var plotDiv = document.getElementById(plotDivId);
-					var update = {y: [normalizedPlotResults[0].originalData[0],normalizedPlotResults[0].originalData[1]]};
+					var update = {
+							y: [normalizedPlotResults[0].originalData[0],normalizedPlotResults[0].originalData[1]],
+							title: 'Correlation Line Graph (Original)' // TODO: Title change not working
+					};
 					Plotly.restyle(plotDiv, update, [1, 0])
-					// TODO: Change entry in normalization container
-					// Reverse
-					
-					
-					
-					
-					
-					
-					
-					// TODO: Change the button name to "Normalize"
+					normalizedPlotResults[0].isNormalized = false; // No need to check if length != 0, to be in this block, it has to be
+					$(eventTarget).html('Normalize');
 				}
 			}
 			
@@ -538,7 +539,7 @@ tr.shown td.details-control {
 					}
 				}];
 				Plotly.plot(plotDivId, correlationData, {
-					title : 'Correlation Plot',
+					title : 'Correlation Line Graph (Original)',
 					xaxis : {
 						title : "Expression Stage",
 						range : [0, 104]
