@@ -392,8 +392,8 @@ tr.shown td.details-control {
 				/*
 				 * HTML for the correlation-graph normalize button. Will be attached to the result string
 				 */
-				var normalizationButtonHtml = 				    '<div>'  +
-		    	'<button type="button" class="btn btn-primary normalization-btn">Normalize</button>' + // TODO, add onclick event
+				var normalizationButtonHtml = '<div class="text-center">'  +
+		    	'<button type="button" class="btn btn-primary normalization-btn text-center">Normalize</button>' + 
 			    '</div>';
 				/*
 					TODO: Add Datatable - do this after adding sorting to the plotly
@@ -403,7 +403,7 @@ tr.shown td.details-control {
 		    }
 			
 			/*
-			 * Normalization Container
+			 * Normalization Container: Contains list of plots that has been normalized at least once
 			 * List of objects:
 				 {
 				   plotDivId: string
@@ -426,40 +426,65 @@ tr.shown td.details-control {
 			 * Function to normalize the plot data
 			 */
 			function normalizePlotData(plotDivId, eventTarget){
+				// Retrieves all normalizes plots with the same plotDivId
 				var normalizedPlotResults = $.grep(normalizationContainer, function(e){ return e.plotDivId == plotDivId; });
+				
+				// Retrieves the plot object using its ID
 				var plotDiv = document.getElementById(plotDivId);
+				
+				// If there is no entry in the normalizationContainer (hasn't been normalized yet) or there is an entry but is not normalized -> let's normalize
 				if(normalizedPlotResults.length == 0 || normalizedPlotResults[0].isNormalized == false){
+					/*
+					 * Retreive appropriate data
+					 */
 					var plotData = plotDiv.data;
 					var inputGeneData = plotData[1].y;
-					var targetGeneData = plotData[0].y; // Ensure these are correct order "0, 1"
+					var targetGeneData = plotData[0].y;
 					var newInputGeneData = [];
 					var newTargetGeneData = [];
 					
-					var geneDataContainer = inputGeneData.concat(targetGeneData);
+					/*
+					 * Retreive max/min of both sets (used for normalization)
+					 */
 					var inputMax = Math.max.apply(null, inputGeneData);
 					var inputMin = Math.min.apply(null, inputGeneData);
-					
 					var targetMax = Math.max.apply(null, targetGeneData);
 					var targetMin = Math.min.apply(null, targetGeneData);
 					
+					// Create normalization function
 					var normalizer = function(val, max, min) {
 									return (val - min) / (max - min); 
 								}
 					
+					/*
+					 * Normalize input gene data
+					 */
 					for(var i = 0; i < inputGeneData.length; i++){
 						newInputGeneData.push(normalizer(inputGeneData[i], inputMax, inputMin));
 					}
 					
+					/*
+					 * Normalize target gene data
+					 */
 					for(var i = 0; i < targetGeneData.length; i++){
 						newTargetGeneData.push(normalizer(targetGeneData[i], targetMax, targetMin));
 					}
 					
+					/*
+					 * Update the plot with the normalized data
+					 */
 					var update = {
 							y: [newInputGeneData, newTargetGeneData],
 							title: "Correlation Line Graph (Normalized)" // TODO: Title change not working
 					};
 					Plotly.restyle(plotDiv, update, [1, 0])
 					
+					// Change button text to 'Original'
+					$(eventTarget).html('Original');
+					
+					/*
+					 * Add/update the entry in the normalizedContainer
+					 */
 					if(normalizedPlotResults.length == 0){
 						normalizationContainer.push({
 							plotDivId: plotDivId,
@@ -469,14 +494,21 @@ tr.shown td.details-control {
 					} else {
 						normalizedPlotResults[0].isNormalized = true;
 					}
-					$(eventTarget).html('Original');
-				} else {
+				} else { // Else: The plot is normalized
+					
+					/*
+					 * Update the plot with the original data
+					 */
 					var update = {
 							y: [normalizedPlotResults[0].originalData[0],normalizedPlotResults[0].originalData[1]],
 							title: 'Correlation Line Graph (Original)' // TODO: Title change not working
 					};
 					Plotly.restyle(plotDiv, update, [1, 0])
+					
+					// Update the entry in the normalized container
 					normalizedPlotResults[0].isNormalized = false; // No need to check if length != 0, to be in this block, it has to be
+					
+					// Change button text to 'Normalize'
 					$(eventTarget).html('Normalize');
 				}
 			}
