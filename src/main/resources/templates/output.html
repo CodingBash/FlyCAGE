@@ -464,6 +464,10 @@ tr.shown td.details-control {
 					});
 				
 				} else {
+					var plotDiv = document.getElementById(plotDivId);
+					var update = {y: [normalizedPlotResults[0].originalData[0],normalizedPlotResults[0].originalData[1]]};
+					Plotly.restyle(plotDiv, update, [1, 0])
+					// TODO: Change entry in normalization container
 					// Reverse
 					
 					
