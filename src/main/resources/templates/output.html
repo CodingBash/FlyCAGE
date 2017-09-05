@@ -389,42 +389,59 @@ tr.shown td.details-control {
 				  '</div>' +
 				'</div>';
 		    	
+				/*
+				 * HTML for the correlation-graph normalize button. Will be attached to the result string
+				 */
 				var normalizationButtonHtml = 				    '<div>'  +
 		    	'<button type="button" class="btn btn-primary normalization-btn">Normalize</button>' + // TODO, add onclick event
 			    '</div>';
 				/*
 					TODO: Add Datatable - do this after adding sorting to the plotly
+					TODO: May want to do this after the selective expression stage too (since I will need logic to make the table dynamic instead of static)
 				*/
 				return '<div id="' + plotDivId + '" class ="custom-plotly-plot"></div>' + normalizationButtonHtml +  expressionStageMapping;
 		    }
 			
+			/*
+			 * On-click event for the normalize button
+			 */
 			$(document).on("click", '.normalization-btn',function(){
-				normalizePlotData($(event.target).parents().children(".custom-plotly-plot")[0].id);
+				normalizePlotData($(event.target).parents().children(".custom-plotly-plot")[0].id); // TODO: Find a better way to get the plot (this seems inefficient)
 			});
 			
+			/*
+			 * Function to normalize the plot data
+			 */
 			function normalizePlotData(plotDivId){
 				var plotDiv = document.getElementById(plotDivId);
 				var plotData = plotDiv.data;
-				inputGeneData = plotData[0].y;
-				targetGeneData = plotData[0].y;
-				newInputGeneData = [];
-				newTargetGeneData = [];
+				var inputGeneData = plotData[1].y;
+				var targetGeneData = plotData[0].y; // Ensure these are correct order "0, 1"
+				var newInputGeneData = [];
+				var newTargetGeneData = [];
 				
-				geneDataContainer = inputGeneData.concat(targetGeneData);
-				max = Math.max(geneDataContainer);
-				min = Math.min(geneDataContainer);
-				normalizer = function(val) {
+				var geneDataContainer = inputGeneData.concat(targetGeneData);
+				var inputMax = Math.max.apply(null, inputGeneData);
+				var inputMin = Math.min.apply(null, inputGeneData);
+				
+				var targetMax = Math.max.apply(null, targetGeneData);
+				var targetMin = Math.min.apply(null, targetGeneData);
+				
+				var normalizer = function(val, max, min) {
 								return (val - min) / (max - min); 
 							}
+				
 				for(var i = 0; i < inputGeneData.length; i++){
-					newInputGeneData.push(normalizer(inputGeneData[i]));
+					newInputGeneData.push(normalizer(inputGeneData[i], inputMax, inputMin));
 				}
 				
 				for(var i = 0; i < targetGeneData.length; i++){
-					newTargetGeneData.push(normalizer(targetGeneData[i]));
+					newTargetGeneData.push(normalizer(targetGeneData[i], targetMax, targetMin));
 				}
 				
-				Plotly.update(plotDiv, [{y: newInputGeneData},{y: newTargetGeneData}]);
+				var update = {y: [newInputGeneData, newTargetGeneData]};
+				Plotly.restyle(plotDiv, update, [1, 0])
+				
 				// TODO: Verify the above works
 				// TODO: Normalize across both data
 				// TODO: Update the plot data
