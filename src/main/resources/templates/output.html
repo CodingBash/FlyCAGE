@@ -403,6 +403,19 @@ tr.shown td.details-control {
 		    }
 			
 			/*
+			 * Normalization Container
+			 * List of objects:
+				 {
+				   plotDivId: string
+				   isNormalized: boolean,
+				   originalData: 2D list
+				 }
+			 */
+			 var normalizationContainer = []
+			// TODO: When closing the tab, normalization disappears and is unable to normalize again since the object is still in the container.
+			// Either find a way to not reload the data (preferred, but longer), or remove the object when closing
+			// Look into more exception scenarios
+			/*
 			 * On-click event for the normalize button
 			 */
 			$(document).on("click", '.normalization-btn',function(){
@@ -413,39 +426,47 @@ tr.shown td.details-control {
 			 * Function to normalize the plot data
 			 */
 			function normalizePlotData(plotDivId){
-				var plotDiv = document.getElementById(plotDivId);
-				var plotData = plotDiv.data;
-				var inputGeneData = plotData[1].y;
-				var targetGeneData = plotData[0].y; // Ensure these are correct order "0, 1"
-				var newInputGeneData = [];
-				var newTargetGeneData = [];
+				var normalizedPlotResults = $.grep(normalizationContainer, function(e){ return e.plotDivId == plotDivId; });
+				if(normalizedPlotResults.length == 0 || normalizedPlotResults[0].isNormalized == false){
+					var plotDiv = document.getElementById(plotDivId);
+					var plotData = plotDiv.data;
+					var inputGeneData = plotData[1].y;
+					var targetGeneData = plotData[0].y; // Ensure these are correct order "0, 1"
+					var newInputGeneData = [];
+					var newTargetGeneData = [];
+					
+					var geneDataContainer = inputGeneData.concat(targetGeneData);
+					var inputMax = Math.max.apply(null, inputGeneData);
+					var inputMin = Math.min.apply(null, inputGeneData);
+					
+					var targetMax = Math.max.apply(null, targetGeneData);
+					var targetMin = Math.min.apply(null, targetGeneData);
+					
+					var normalizer = function(val, max, min) {
+									return (val - min) / (max - min); 
+								}
+					
+					for(var i = 0; i < inputGeneData.length; i++){
+						newInputGeneData.push(normalizer(inputGeneData[i], inputMax, inputMin));
+					}
+					
+					for(var i = 0; i < targetGeneData.length; i++){
+						newTargetGeneData.push(normalizer(targetGeneData[i], targetMax, targetMin));
+					}
+					
+					var update = {y: [newInputGeneData, newTargetGeneData]};
+					Plotly.restyle(plotDiv, update, [1, 0])
+					normalizationContainer.push({
+						plotDivId: plotDivId,
+						isNormalized: true,
+						originalData: [inputGeneData, targetGeneData]
+					});
+					// TODO: Verify the above works
+					// TODO: Normalize across both data
+					// TODO: Update the plot data
+					// TODO: Build function to reverse, will I have to make another remote call or will this data be stored somewhere. How will it be stored?
 				
-				var geneDataContainer = inputGeneData.concat(targetGeneData);
-				var inputMax = Math.max.apply(null, inputGeneData);
-				var inputMin = Math.min.apply(null, inputGeneData);
-				
-				var targetMax = Math.max.apply(null, targetGeneData);
-				var targetMin = Math.min.apply(null, targetGeneData);
-				
-				var normalizer = function(val, max, min) {
-								return (val - min) / (max - min); 
-							}
-				
-				for(var i = 0; i < inputGeneData.length; i++){
-					newInputGeneData.push(normalizer(inputGeneData[i], inputMax, inputMin));
 				}
-				
-				for(var i = 0; i < targetGeneData.length; i++){
-					newTargetGeneData.push(normalizer(targetGeneData[i], targetMax, targetMin));
-				}
-				
-				var update = {y: [newInputGeneData, newTargetGeneData]};
-				Plotly.restyle(plotDiv, update, [1, 0])
-				
-				// TODO: Verify the above works
-				// TODO: Normalize across both data
-				// TODO: Update the plot data
-				// TODO: Build function to reverse, will I have to make another remote call or will this data be stored somewhere. How will it be stored?
 			}
 			
 		
