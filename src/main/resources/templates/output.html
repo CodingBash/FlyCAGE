@@ -420,6 +420,7 @@ tr.shown td.details-control {
 			 */
 			$(document).on("click", '.normalization-btn',function(){
 				normalizePlotData($(event.target).parents().children(".custom-plotly-plot")[0].id); // TODO: Find a better way to get the plot (this seems inefficient)
+			    $(event.target).html('Original');
 			});
 			
 			/*
@@ -461,11 +462,17 @@ tr.shown td.details-control {
 						isNormalized: true,
 						originalData: [inputGeneData, targetGeneData]
 					});
-					// TODO: Verify the above works
-					// TODO: Normalize across both data
-					// TODO: Update the plot data
-					// TODO: Build function to reverse, will I have to make another remote call or will this data be stored somewhere. How will it be stored?
 				
+				} else {
+					// Reverse
+					
+					
+					
+					
+					
+					
+					
+					// TODO: Change the button name to "Normalize"
 				}
 			}
 			
