@@ -44,6 +44,56 @@
 										all properties to conduct correlation analysis on. Hold shift
 										to select multiple.</small>
 								</div>
+								<div class="text-left">
+									<div class="form-group">
+										<label class="custom-control custom-checkbox"> <input
+											type="checkbox" class="custom-control-input"/> <span
+											class="custom-control-indicator"></span> <span
+											class="custom-control-description">Embryogenesis</span> 
+										</label>
+										<br/>
+										<label class="custom-control custom-checkbox"> <input
+											type="checkbox" class="custom-control-input"/> <span
+											class="custom-control-indicator"></span> <span
+											class="custom-control-description">Development</span> 
+										</label>
+										<br/>
+										<label class="custom-control custom-checkbox"> <input
+											type="checkbox" class="custom-control-input"/> <span
+											class="custom-control-indicator"></span> <span
+											class="custom-control-description">Tissue</span> 
+										</label>
+										<br/>
+										<label class="custom-control custom-checkbox"> <input
+											type="checkbox" class="custom-control-input"/> <span
+											class="custom-control-indicator"></span> <span
+											class="custom-control-description">Treatment</span> 
+										</label>
+										<br/>
+										<label class="custom-control custom-checkbox"> <input
+											type="checkbox" class="custom-control-input"/> <span
+											class="custom-control-indicator"></span> <span
+											class="custom-control-description">Cell Line</span> 
+										</label>
+										
+										<!-- this is the global checkbox -->
+										<div class="make-switch switch-mini" id="rowSelectAll">
+										    <input type="checkbox" id="rowSelectAll"/>
+										</div>
+										
+										<!-- row checkboxs -->
+										<div class="make-switch switch-mini toggle-state-switch">
+										    <input type="checkbox" class="row-select"/>
+										</div>
+										<div class="make-switch switch-mini toggle-state-switch">
+										    <input type="checkbox" class="row-select"/>
+										</div>
+										<div class="make-switch switch-mini toggle-state-switch">
+										    <input type="checkbox" class="row-select"/>
+										</div>
+
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="text-query-comment">Query Comments</label>
 									<textarea class="form-control" th:field="*{queryComment}"
