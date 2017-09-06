@@ -113,6 +113,10 @@ tr.shown td.details-control {
 	background: url([[@{/images/details_close.png}]]) no-repeat center
 		center;
 }
+
+[class$="-sub-checkbox"] {
+	padding-left: 10px !important;
+}
 </style>
 </head>
 <body>
@@ -144,10 +148,35 @@ tr.shown td.details-control {
 		
 	</script>
 	<script>
-		$('#rowSelectAllc').change(function() {
-			console.log("here")
-			$('.row-select').prop("checked", this.checked)
+	//<![CDATA[
+		$('.embryogenesis-main-checkbox').change(function() {
+			$('.embryogenesis-sub-checkbox').prop("checked", this.checked)
 		});
+		
+		$('.embryogenesis-sub-checkbox').change(function() {
+			var oneChecked = false;
+			var allTrue = true;
+			$('.embryogenesis-sub-checkbox').each(function(index, currentElement){
+				if(currentElement.checked == true){
+					oneChecked = true;
+				} else if (currentElement.checked == false){
+					allTrue  = false;
+				}
+			});
+			
+			if (oneChecked && !allTrue){
+				$('.embryogenesis-main-checkbox').prop('indeterminate', true);
+			} else if(allTrue) {
+				$('.embryogenesis-main-checkbox').prop('indeterminate', false);
+				$('.embryogenesis-main-checkbox').prop('checked', true);
+			}else if (!oneChecked){
+				$('.embryogenesis-main-checkbox').prop('indeterminate', false);
+				$('.embryogenesis-main-checkbox').prop('checked', false);
+			} else {
+				$('.embryogenesis-main-checkbox').prop('indeterminate', false);
+			}
+		});
+	//]]>
 	</script>
 	<script>
 		$(function() {
