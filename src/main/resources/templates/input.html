@@ -149,33 +149,42 @@ tr.shown td.details-control {
 	</script>
 	<script>
 	//<![CDATA[
-		$('.embryogenesis-main-checkbox').change(function() {
-			$('.embryogenesis-sub-checkbox').prop("checked", this.checked)
-		});
 		
-		$('.embryogenesis-sub-checkbox').change(function() {
-			var oneChecked = false;
-			var allTrue = true;
-			$('.embryogenesis-sub-checkbox').each(function(index, currentElement){
-				if(currentElement.checked == true){
-					oneChecked = true;
-				} else if (currentElement.checked == false){
-					allTrue  = false;
-				}
+		
+		
+		
+		var groups = ["embryogenesis", "development", "tissue", "treatment", "cell-line"];
+		$.each(groups, function(i){
+			$('.' + groups[i] + '-main-checkbox').change(function() {
+				$('.' + groups[i]+ '-sub-checkbox').prop("checked", this.checked)
 			});
 			
-			if (oneChecked && !allTrue){
-				$('.embryogenesis-main-checkbox').prop('indeterminate', true);
-			} else if(allTrue) {
-				$('.embryogenesis-main-checkbox').prop('indeterminate', false);
-				$('.embryogenesis-main-checkbox').prop('checked', true);
-			}else if (!oneChecked){
-				$('.embryogenesis-main-checkbox').prop('indeterminate', false);
-				$('.embryogenesis-main-checkbox').prop('checked', false);
-			} else {
-				$('.embryogenesis-main-checkbox').prop('indeterminate', false);
-			}
+			$('.' + groups[i] + '-sub-checkbox').change(function() {
+				var oneChecked = false;
+				var allTrue = true;
+				$('.' + groups[i] + '-sub-checkbox').each(function(index, currentElement){
+					if(currentElement.checked == true){
+						oneChecked = true;
+					} else if (currentElement.checked == false){
+						allTrue  = false;
+					}
+				});
+				if (oneChecked && !allTrue){
+					$('.' + groups[i] + '-main-checkbox').prop('indeterminate', true);
+				} else if(allTrue) {
+					$('.' + groups[i] + '-main-checkbox').prop('indeterminate', false);
+					$('.' + groups[i] + '-main-checkbox').prop('checked', true);
+				}else if (!oneChecked){
+					$('.' + groups[i] + '-main-checkbox').prop('indeterminate', false);
+					$('.' + groups[i] + '-main-checkbox').prop('checked', false);
+				} else {
+					$('.' + groups[i] + '-main-checkbox').prop('indeterminate', false);
+				}
+			});
 		});
+		
+		
+		
 	//]]>
 	</script>
 	<script>
