@@ -155,11 +155,21 @@ tr.shown td.details-control {
 		
 		var groups = ["embryogenesis", "development", "tissue", "treatment", "cell-line"];
 		$.each(groups, function(i){
-			$('.' + groups[i] + '-main-checkbox').change(function() {
-				$('.' + groups[i]+ '-sub-checkbox').prop("checked", this.checked)
-			});
 			
-			$('.' + groups[i] + '-sub-checkbox').change(function() {
+			/*
+			 * Adjust the main-checkbox relative to the input sub-checkbox
+			 */
+			var adjustMasterCheckboxes = function(subCheckbox) {
+				allClassNames = $(subCheckbox).prop('class').split(" ");
+				checkboxClassName = "";
+				$.each(allClassNames, function(i){
+					if(allClassNames[i].includes("-sub-checkbox")){
+						checkboxClassName = allClassNames[i];
+						return false; // break
+					}
+				});
+				groupName = checkboxClassName.substring(0, checkboxClassName.indexOf('-'));
+				
 				var oneChecked = false;
 				var allTrue = true;
 				$('.' + groups[i] + '-sub-checkbox').each(function(index, currentElement){
@@ -170,17 +180,52 @@ tr.shown td.details-control {
 					}
 				});
 				if (oneChecked && !allTrue){
-					$('.' + groups[i] + '-main-checkbox').prop('indeterminate', true);
+					$('.' + groupName + '-main-checkbox').prop('indeterminate', true);
 				} else if(allTrue) {
-					$('.' + groups[i] + '-main-checkbox').prop('indeterminate', false);
-					$('.' + groups[i] + '-main-checkbox').prop('checked', true);
+					$('.' + groupName + '-main-checkbox').prop('indeterminate', false);
+					$('.' + groupName + '-main-checkbox').prop('checked', true);
 				}else if (!oneChecked){
-					$('.' + groups[i] + '-main-checkbox').prop('indeterminate', false);
-					$('.' + groups[i] + '-main-checkbox').prop('checked', false);
+					$('.' + groupName + '-main-checkbox').prop('indeterminate', false);
+					$('.' + groupName + '-main-checkbox').prop('checked', false);
 				} else {
-					$('.' + groups[i] + '-main-checkbox').prop('indeterminate', false);
+					$('.' + groupName + '-main-checkbox').prop('indeterminate', false);
 				}
+			}
+			
+			/*
+			 * Change all identical checkboxes relative to the input sub-checkbox
+			 */
+			var changeIdenticalCheckboxes = function(subCheckbox){
+				wholeId = $(subCheckbox).prop('id');
+				stageId= wholeId.substring(wholeId.indexOf('-'), wholeId .length)
+				identicalCheckboxes = $('[id $= ' + stageId+ ']');
+				identicalCheckboxes.prop('checked', subCheckbox.checked);
+				
+				identicalCheckboxes.each(function(index, currentCheckbox){
+					adjustMasterCheckboxes(currentCheckbox);
+				});
+				
+			}
+			
+			/*
+			* Event for main-checkbox change
+			*/
+			$('.' + groups[i] + '-main-checkbox').change(function() {
+				checkboxesToChange = $('.' + groups[i]+ '-sub-checkbox');
+				checkboxesToChange.prop("checked", this.checked);
+			    checkboxesToChange.each(function(index, currentCheckbox){
+			    	changeIdenticalCheckboxes(currentCheckbox);
+			    });
 			});
+			
+			/*
+			 * Event for sub-checkbox change
+			 */
+			$('.' + groups[i] + '-sub-checkbox').change(function() {
+				changeIdenticalCheckboxes(this);
+				adjustMasterCheckboxes(this);
+			});
+			
 		});
 		
 		
