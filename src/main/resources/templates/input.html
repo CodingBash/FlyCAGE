@@ -172,7 +172,7 @@ tr.shown td.details-control {
 				
 				var oneChecked = false;
 				var allTrue = true;
-				$('.' + groups[i] + '-sub-checkbox').each(function(index, currentElement){
+				$('.' + groupName + '-sub-checkbox').each(function(index, currentElement){
 					if(currentElement.checked == true){
 						oneChecked = true;
 					} else if (currentElement.checked == false){
@@ -197,7 +197,7 @@ tr.shown td.details-control {
 			 */
 			var changeIdenticalCheckboxes = function(subCheckbox){
 				wholeId = $(subCheckbox).prop('id');
-				stageId= wholeId.substring(wholeId.indexOf('-'), wholeId .length)
+				stageId = wholeId.substring(wholeId.indexOf('-'), wholeId .length)
 				identicalCheckboxes = $('[id $= ' + stageId+ ']');
 				identicalCheckboxes.prop('checked', subCheckbox.checked);
 				
@@ -222,8 +222,9 @@ tr.shown td.details-control {
 			 * Event for sub-checkbox change
 			 */
 			$('.' + groups[i] + '-sub-checkbox').change(function() {
-				changeIdenticalCheckboxes(this);
 				adjustMasterCheckboxes(this);
+				changeIdenticalCheckboxes(this);
+				
 			});
 			
 		});
