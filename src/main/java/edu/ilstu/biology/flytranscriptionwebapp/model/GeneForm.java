@@ -1,6 +1,7 @@
 package edu.ilstu.biology.flytranscriptionwebapp.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class GeneForm {
 
@@ -11,6 +12,8 @@ public class GeneForm {
 	private List<String> correlationOptions;
 
 	private String queryComment;
+	
+	private Map<String, Boolean> expressionStages;
 
 	public String getGeneSpecies() {
 		return geneSpecies;
@@ -44,4 +47,12 @@ public class GeneForm {
 		this.queryComment = queryComment;
 	}
 
+	public Map<String, Boolean> getExpressionStages() {
+		return expressionStages;
+	}
+
+	public void setExpressionStages(Map<String, Boolean> expressionStages) {
+		this.expressionStages = expressionStages;
+	}
+	
 }
