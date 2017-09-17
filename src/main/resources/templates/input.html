@@ -159,14 +159,15 @@ tr.shown td.details-control {
 	<script>
 	//<![CDATA[
 		
+		// TODO: BUG, script does not work in the output page. See below
+		// TODO: Need to find a way to tie this script with the HTML fragment to avoid duplication. Perhaps externalize script and attach to end of fragment??
 		
-		
-		
-		var groups = ["embryogenesis", "development", "tissue", "treatment", "cell-line"];
+		var groups = ["embryogenesis", "development", "tissue", "treatment", "cellline"];
 		$.each(groups, function(i){
 			
 			/*
 			 * Adjust the main-checkbox relative to the input sub-checkbox
+			 * i.e. if some but not all "group"-sub-checkbox is selected, make "group"-master-checkbox *indeterminate*
 			 */
 			var adjustMasterCheckboxes = function(subCheckbox) {
 				allClassNames = $(subCheckbox).prop('class').split(" ");
