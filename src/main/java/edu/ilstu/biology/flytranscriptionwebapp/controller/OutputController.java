@@ -1,5 +1,7 @@
 package edu.ilstu.biology.flytranscriptionwebapp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,7 @@ public class OutputController {
 	private RetrieveCorrelationData retrieveCorrelationData;
 
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
-	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm) {
+	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm, @ModelAttribute("expressionStages") List<String> expressionStages) {
 		ModelAndView mav = new ModelAndView("output");
 
 		FinalResponseCorrelationResult result = correlationAnalysis

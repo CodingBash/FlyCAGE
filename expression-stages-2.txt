@@ -1,0 +1,104 @@
+"4-day Adult, Caffeine 2.5mg/ml"
+"4-day Adult, Caffeine 25mg/ml"
+"4-day Adult, Cd 0.05M"
+"4-day Adult, Cd 0.1M"
+"4-day Adult, Cu 15mM"
+"4-day Adult, Paraquat 10mM"
+"4-day Adult, Paraquat 5mM"
+"4-day Adult, Zn 4.5mM"
+"4-day Adult, cold 1"
+"4-day Adult, cold 2"
+"4-day Adult, heatshock"
+A 1d carcass
+A 1d dig sys
+A 20d carcass
+A 20d dig sys
+A 4d carcass
+A 4d dig sys
+A MateF 1d head
+A MateF 20d head
+A MateF 4d head
+A MateF 4d ovary
+A MateM 1d head
+A MateM 20d head
+A MateM 4d acc gland
+A MateM 4d head
+A MateM 4d testis
+A VirF 1d head
+A VirF 20d head
+A VirF 4d head
+A VirF 4d ovary
+CNS ML-DmBG1-c1
+CNS ML-DmBG2-c2
+L3 CNS
+L3 Wand carcass
+L3 Wand dig sys
+L3 Wand fat
+L3 Wand imag disc
+L3 Wand saliv
+P15
+P5
+P6
+P8
+P8 CNS
+P8 fat
+P9-10
+Schneider line 2 S2R+
+Schneider line 2 Sg4
+WPP fat
+WPP saliv
+adult female 01day
+adult female 05day
+adult female 30day
+adult male 01day
+adult male 05day
+adult male 30day
+antennal disc ML-DmD20-c5
+embryo 00-02hr
+embryo 02-04hr
+embryo 04-06hr
+embryo 06-08hr
+embryo 08-10hr
+embryo 10-12hr
+embryo 12-14hr
+embryo 14-16hr
+embryo 16-18hr
+embryo 18-20hr
+embryo 20-22hr
+embryo 22-24hr
+embryonic 1182-4H
+embryonic GM2
+embryonic Kc167
+embryonic S1
+embryonic S3
+eye-antennal disc ML-DmD11
+haltere disc ML-DmD17-c3
+larva L1
+larva L2
+larva L3 12hr old
+"larva L3 late, Zn 5mM"
+larva L3 puffstage 1-2
+larva L3 puffstage 3-6
+larva L3 puffstage 7-9
+"larva L3, Caffeine 1.5mg/ml"
+"larva L3, Cd 12hr"
+"larva L3, Cd 6hr"
+"larva L3, Cu 0.5mM"
+"larva L3, EtOH 10"
+"larva L3, EtOH 2.5"
+"larva L3, EtOH 5"
+"larva L3, Rotenone 2?g"
+"larva L3, Rotenone 8?g"
+leg disc CME L1
+mixed discs ML-DmD4-c1
+ovary OSC
+ovary OSS
+ovary fGS/OSS
+tumorous blood cells mbn2
+white prepupae new
+wing disc CME-W2
+wing disc ML-DmD16-c3
+wing disc ML-DmD21
+wing disc ML-DmD32
+wing disc ML-DmD8
+wing disc ML-DmD9
