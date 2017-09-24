@@ -25,11 +25,14 @@ public class InputController {
 
 	}
 
+	/*
+	 * TODO: GeneForm Validation
+	 * TODO: Example: Ensure at least two expression stages are selected
+	 * 
+	 */
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String processInput(GeneForm geneForm, RedirectAttributes redirectAttributes) {
 		redirectAttributes.addFlashAttribute("geneForm", geneForm);
-		redirectAttributes.addFlashAttribute("expressionStages",
-				retrieveExpressionStages.getDmelanogasterExpressionStages());
 		return "redirect:/output";
 	}
 }

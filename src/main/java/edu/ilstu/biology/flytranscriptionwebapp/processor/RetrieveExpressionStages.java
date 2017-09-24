@@ -3,11 +3,15 @@ package edu.ilstu.biology.flytranscriptionwebapp.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RetrieveExpressionStages {
 
+	@Autowired
+	private ExpressionStageConverter expressionStageConverter;
+	
 	public List<String> getDmelanogasterExpressionStages() {
 		List<String> expressionStages = new ArrayList<String>();
 
@@ -118,6 +122,6 @@ public class RetrieveExpressionStages {
 		expressionStages.add("wing disc ML-DmD32");
 		expressionStages.add("wing disc ML-DmD8");
 		expressionStages.add("wing disc ML-DmD9");
-		return expressionStages;
+		return expressionStageConverter.convertListofLabelsToId(expressionStages);
 	}
 }
