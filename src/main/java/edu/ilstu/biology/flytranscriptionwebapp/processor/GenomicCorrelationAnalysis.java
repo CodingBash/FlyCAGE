@@ -105,6 +105,7 @@ public class GenomicCorrelationAnalysis {
 			 */
 			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(CORRELATED_GENE_SIZE);
 
+			Gene finalFoundGene = null;
 			/*
 			 * Now we calculate the pcorr for all genes! Let's
 			 */
@@ -156,19 +157,23 @@ public class GenomicCorrelationAnalysis {
 						CorrelationResult corrResult = new CorrelationResult(rVal, seVal, ciVal, CI_ZVAL_95, pVal,
 								new MathContext(SIGNIFICANT_FIGURES));
 
-						gene.setRnaExpData(Ints.toArray(Doubles.asList(targetGeneRna)));
-						resultGene.setGene(gene);
+						Gene geneClone = new Gene(gene); // Cloning to prevent manipulating genome data
+						geneClone.setRnaExpData(Ints.toArray(Doubles.asList(targetGeneRna)));
+						resultGene.setGene(geneClone);
 						resultGene.setCorrResult(corrResult);
-
 						queue.add(resultGene);
+						
+						if(finalFoundGene == null){
+							finalFoundGene = new Gene(foundGene); // Cloning to prevent manipulating genome data
+							finalFoundGene.setRnaExpData(Ints.toArray(Doubles.asList(foundGeneRna)));
+						}
 					}
 				}
-				// }
 			}
 
 			FinalResponseCorrelationResult result = new FinalResponseCorrelationResult();
-			result.setInputGene(foundGene);
-			result.setCorrelationResults(new LinkedList<GeneCorrelatedResult>(queue).subList(0, CORRELATED_GENE_SIZE));
+			result.setInputGene(finalFoundGene);
+			result.setCorrelationResults(new LinkedList<GeneCorrelatedResult>(queue).subList(0, Math.min(queue.size(), CORRELATED_GENE_SIZE)));
 			return result;
 		}
 		/*
