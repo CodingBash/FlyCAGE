@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.ilstu.biology.flytranscriptionwebapp.model.ExpressionStageOptions;
 import edu.ilstu.biology.flytranscriptionwebapp.model.FinalResponseCorrelationResult;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneForm;
 import edu.ilstu.biology.flytranscriptionwebapp.model.PairwiseCorrelationDataAjaxRequestBody;
 import edu.ilstu.biology.flytranscriptionwebapp.model.PairwiseGeneCorrelationData;
+import edu.ilstu.biology.flytranscriptionwebapp.processor.ExpressionStageOptionsGenerator;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.GenomicCorrelationAnalysis;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveCorrelationData;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveExpressionStages;
@@ -34,6 +36,9 @@ public class OutputController {
 	@Autowired
 	private RetrieveExpressionStages retrieveExpressionStages;
 	
+	@Autowired
+	private ExpressionStageOptionsGenerator expressionStageOptionsGenerator;
+	
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm) {
 		ModelAndView mav = new ModelAndView("output");
@@ -45,9 +50,9 @@ public class OutputController {
 				.retrieveMrnaCorrelationResults(geneForm.getInputIdentifier(), selectedExpressionIndices);
 		
 		
-		
-		
 		mav.addObject("result", result);
+		ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator.generateExpressionStageOptions();
+		mav.addObject("expressionStageOptions", expressionStageOptions);
 		// TODO: Eventually map the geneForm to a better Gene object
 		mav.addObject("geneForm", geneForm);
 		return mav;
@@ -63,8 +68,9 @@ public class OutputController {
 	public ResponseEntity<PairwiseGeneCorrelationData> getSearchResultViaAjax(
 			@RequestBody PairwiseCorrelationDataAjaxRequestBody body) {
 		PairwiseGeneCorrelationData pData = new PairwiseGeneCorrelationData();
-		pData.setInputGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getInputGene()));
-		pData.setTargetGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getTargetGene()));
+		List<Integer> selectedIndices = selectedExpressionStageIndices(body.getSelectedExpressionStages(), retrieveExpressionStages.getDmelanogasterExpressionStages());
+		pData.setInputGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getInputGene(), selectedIndices));
+		pData.setTargetGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getTargetGene(), selectedIndices));
 		return ResponseEntity.ok(pData);
 	}
 	

@@ -324,6 +324,7 @@ tr.shown td.details-control {
 	/*<![CDATA[*/
 		var correlationOptions = [[${geneForm.correlationOptions}]];
 	    var finalResponseCorrelationResult = [[${result}]];
+	    var expressionStages = [[${geneForm.expressionStages}]];
 
 	/*]]>*/
 	</script>
@@ -633,7 +634,8 @@ tr.shown td.details-control {
 		        	
 					var pairwiseCorrelationDataAjaxRequestBody = {
 							inputGene: finalResponseCorrelationResult.inputGene.dbIdentifier,
-							targetGene: row.data()[2]
+							targetGene: row.data()[2],
+							selectedExpressionStages: expressionStages
 					};
 					
 		            // Open this row
