@@ -98,12 +98,12 @@ div[id*="-graph"] {
 }
 
 .form-card {
-
+	
 }
 
 .form-card-header {
-    background-color: #fff !important;
-    border-bottom: 1px solid #000 !important;
+	background-color: #fff !important;
+	border-bottom: 1px solid #000 !important;
 }
 
 .row {
@@ -154,105 +154,8 @@ tr.shown td.details-control {
 		crossorigin="anonymous"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js">
-		
 	</script>
-	<script th:inline="javascript">
-	//<![CDATA[
-	 var expressionStageOptions = /*[[${expressionStageOptions}]]*/ 'Static Filler';
-	 var groups = [];
-	 $.each(expressionStageOptions.expressionStageGroupList, function(i, currentElement){
-		 groups.push(currentElement.groupTitle);
-	 });
-	 console.log(expressionStageOptions);
-	//]]>
-	</script>
-	<script>
-	//<![CDATA[
-		
-		// TODO: BUG, script does not work in the output page. See below
-		// TODO: Need to find a way to tie this script with the HTML fragment to avoid duplication. Perhaps externalize script and attach to end of fragment??
-		
-		
-		$.each(groups, function(i){
-			
-			/*
-			 * Adjust the main-checkbox relative to the input sub-checkbox
-			 * i.e. if some but not all "group"-sub-checkbox is selected, make "group"-master-checkbox *indeterminate*
-			 */
-			var adjustMasterCheckboxes = function(subCheckbox) {
-				allClassNames = $(subCheckbox).prop('class').split(" ");
-				checkboxClassName = "";
-				$.each(allClassNames, function(i){
-					if(allClassNames[i].includes("-sub-checkbox")){
-						checkboxClassName = allClassNames[i];
-						return false; // break
-					}
-				});
-				groupName = checkboxClassName.substring(0, checkboxClassName.indexOf('-'));
-				
-				var oneChecked = false;
-				var allTrue = true;
-				$('.' + groupName + '-sub-checkbox').each(function(index, currentElement){
-					if(currentElement.checked == true){
-						oneChecked = true;
-					} else if (currentElement.checked == false){
-						allTrue  = false;
-					}
-				});
-				if (oneChecked && !allTrue){
-					$('.' + groupName + '-main-checkbox').prop('indeterminate', true);
-				} else if(allTrue) {
-					$('.' + groupName + '-main-checkbox').prop('indeterminate', false);
-					$('.' + groupName + '-main-checkbox').prop('checked', true);
-				}else if (!oneChecked){
-					$('.' + groupName + '-main-checkbox').prop('indeterminate', false);
-					$('.' + groupName + '-main-checkbox').prop('checked', false);
-				} else {
-					$('.' + groupName + '-main-checkbox').prop('indeterminate', false);
-				}
-			}
-			
-			/*
-			 * Change all identical checkboxes relative to the input sub-checkbox
-			 */
-			var changeIdenticalCheckboxes = function(subCheckbox){
-				wholeId = $(subCheckbox).prop('id');
-				stageId = wholeId.substring(wholeId.indexOf('-'), wholeId .length)
-				identicalCheckboxes = $('[id $= ' + stageId+ ']');
-				identicalCheckboxes.prop('checked', subCheckbox.checked);
-				
-				identicalCheckboxes.each(function(index, currentCheckbox){
-					adjustMasterCheckboxes(currentCheckbox);
-				});
-				
-			}
-			
-			/*
-			* Event for main-checkbox change
-			*/
-			$('.' + groups[i] + '-main-checkbox').change(function() {
-				checkboxesToChange = $('.' + groups[i]+ '-sub-checkbox');
-				checkboxesToChange.prop("checked", this.checked);
-			    checkboxesToChange.each(function(index, currentCheckbox){
-			    	changeIdenticalCheckboxes(currentCheckbox);
-			    });
-			});
-			
-			/*
-			 * Event for sub-checkbox change
-			 */
-			$('.' + groups[i] + '-sub-checkbox').change(function() {
-				adjustMasterCheckboxes(this);
-				changeIdenticalCheckboxes(this);
-				
-			});
-			
-		});
-		
-		
-		
-	//]]>
-	</script>
+	<div th:include="fragments :: form-expression-stage-checkbox-selection"></div>
 	<script>
 		$(function() {
 			$('[data-toggle="tooltip"]').tooltip()

@@ -319,7 +319,7 @@ tr.shown td.details-control {
 	<script src="https://d3js.org/d3.v3.min.js"></script>
 	<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
 	<!-- ABOVE PlotlyJS scripts -->
-
+	<div th:include="fragments :: form-expression-stage-checkbox-selection"></div>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 		var correlationOptions = [[${geneForm.correlationOptions}]];
@@ -329,7 +329,6 @@ tr.shown td.details-control {
 	/*]]>*/
 	</script>
 	<script>
-	
 	$(function () {
 		  $('[data-toggle="tooltip"]').tooltip()
 		})
