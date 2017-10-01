@@ -49,6 +49,8 @@
 	href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" />
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
 </head>
 <style>
 body {
@@ -127,9 +129,19 @@ tr.shown td.details-control {
 </style>
 <style>
 /* Style the accordion checkboxes */
-
-.sub-checkbox-div{
+.sub-checkbox-div {
 	padding-left: 50px !important;
+}
+</style>
+<style>
+/* For jQuery UI slider */
+#custom-handle {
+	width: 3em;
+	height: 1.6em;
+	top: 50%;
+	margin-top: -.8em;
+	text-align: center;
+	line-height: 1.6em;
 }
 </style>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
@@ -305,6 +317,9 @@ tr.shown td.details-control {
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
 		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+		integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+		crossorigin="anonymous"></script>
 	<script
 		src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 
@@ -328,6 +343,49 @@ tr.shown td.details-control {
 	<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
 	<!-- ABOVE PlotlyJS scripts -->
 	<div th:include="fragments :: form-expression-stage-checkbox-selection"></div>
+	<script>
+		$(function() {
+			var handle = $("#custom-handle");
+			
+			var createEvent = function(sliderElement){
+				handle.text($(sliderElement).slider("value"));
+				$( "#slider" ).slider( "option", "value", 100 ); // Value set to default TODO: must be in sync with input box
+				handle.text(100); // Set default value to handle
+			};
+			
+			var slideEvent = function(value){
+				handle.text(value);
+				
+				var value = $( "#slider" ).slider( "option", "value" );
+				$('#result-count').val(value);
+			};
+			
+			var changeEvent = function(){
+				var value = $( "#slider" ).slider( "option", "value" );
+				$('#result-count').val(value);
+			};
+			
+			$("#slider").slider({
+				create : function() {
+					createEvent(this)
+				},
+				slide : function(event, ui) {
+					slideEvent(ui.value);
+				},
+				change : function(event, ui) {
+					changeEvent();
+				}
+			});
+			$("#slider").slider("option", "min", 2); // Min for correlation to work
+			$("#slider").slider("option", "max", 500); // Max genes recommended (may be overrided by input number box)
+			
+			$('#result-count').on('change', function(){
+				var val = $('#result-count').val();
+				$( "#slider" ).slider( "option", "value", val );
+				slideEvent(val);
+			});
+		});
+	</script>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 		var correlationOptions = [[${geneForm.correlationOptions}]];

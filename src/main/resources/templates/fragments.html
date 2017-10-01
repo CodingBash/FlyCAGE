@@ -44,6 +44,28 @@
 										all properties to conduct correlation analysis on. Hold shift
 										to select multiple.</small>
 								</div>
+								<div class="form-group">
+									<label for="result-count">Choose gene result count</label>
+									<div class="row">
+										<div class="col-sm-3">
+											<input type="number" min="2" max="25000" class="form-control"
+												id="result-count" aria-describedby="result-count-help"
+												placeholder="100" />
+											<!-- TODO: Max needs to be retrieved from back-end (should be total number of genes to be analyzed), back end needs to ensure no errors occur in validation and processing -->
+										</div>
+										<div class="col-sm-9">
+											<div id="slider">
+												<div id="custom-handle" class="ui-slider-handle"></div>
+											</div>
+										</div>
+									</div>
+									<small id="result-count-help" class="form-text text-muted">Choose
+										the amount of genes that will display on the results page.
+										NOTE: Large amounts will take significantly longer to process
+										and load results</small>
+								</div>
+
+
 								<div class="text-left">
 									<div class="form-group">
 										<div id="accordion" role="tablist" aria-multiselectable="true">
@@ -71,7 +93,8 @@
 													th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupTitle}">
 													<div class="card-body">
 														<div
-															th:each="expressionStage : ${expressionStageGroup.expressionStageList}" class="sub-checkbox-div">
+															th:each="expressionStage : ${expressionStageGroup.expressionStageList}"
+															class="sub-checkbox-div">
 															<label class="custom-control custom-checkbox"> <input
 																type="checkbox"
 																th:field="*{expressionStages[__${expressionStage}__]}"
@@ -125,15 +148,16 @@
 			 */
 			if ($('.expression-stage-checkbox:checked').length == 0) {
 				/*
-				* Check every checkbox by default
-				*/
+				 * Check every checkbox by default
+				 */
 				$('.expression-stage-checkbox').prop('checked', true);
 			}
 		</script>
 		<script>
-			$("input[class$='sub-checkbox']").each(function(index, currentElement){
-				adjustMasterCheckboxes($(currentElement));	
-			});
+			$("input[class$='sub-checkbox']").each(
+					function(index, currentElement) {
+						adjustMasterCheckboxes($(currentElement));
+					});
 		</script>
 	</div>
 </body>

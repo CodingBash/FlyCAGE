@@ -42,6 +42,8 @@
 	crossorigin="anonymous"></link>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.min.css"></link>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
 <!-- Externalize CSS -->
 <style>
 body {
@@ -126,9 +128,19 @@ tr.shown td.details-control {
 </style>
 <style>
 /* Style the accordion checkboxes */
-
-.sub-checkbox-div{
+.sub-checkbox-div {
 	padding-left: 50px !important;
+}
+</style>
+<style>
+/* For jQuery UI slider */
+#custom-handle {
+	width: 3em;
+	height: 1.6em;
+	top: 50%;
+	margin-top: -.8em;
+	text-align: center;
+	line-height: 1.6em;
 }
 </style>
 </head>
@@ -140,6 +152,10 @@ tr.shown td.details-control {
 				<div th:include="fragments :: gene-form"></div>
 			</div>
 		</div>
+	</div>
+
+	<div id="slider">
+		<div id="custom-handle" class="ui-slider-handle"></div>
 	</div>
 
 
@@ -160,11 +176,57 @@ tr.shown td.details-control {
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js">
 		
 	</script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+		integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+		crossorigin="anonymous"></script>
 	<div th:include="fragments :: form-expression-stage-checkbox-selection"></div>
 	<script>
 		$(function() {
 			$('[data-toggle="tooltip"]').tooltip()
 		})
+	</script>
+	<script>
+		$(function() {
+			var handle = $("#custom-handle");
+			
+			var createEvent = function(sliderElement){
+				handle.text($(sliderElement).slider("value"));
+				$( "#slider" ).slider( "option", "value", 100 ); // Value set to default TODO: must be in sync with input box
+				handle.text(100); // Set default value to handle
+			};
+			
+			var slideEvent = function(value){
+				handle.text(value);
+				
+				var value = $( "#slider" ).slider( "option", "value" );
+				$('#result-count').val(value);
+			};
+			
+			var changeEvent = function(){
+				var value = $( "#slider" ).slider( "option", "value" );
+				$('#result-count').val(value);
+			};
+			
+			$("#slider").slider({
+				create : function() {
+					createEvent(this)
+				},
+				slide : function(event, ui) {
+					slideEvent(ui.value);
+				},
+				change : function(event, ui) {
+					changeEvent();
+				}
+			});
+			$("#slider").slider("option", "min", 2); // Min for correlation to work
+			$("#slider").slider("option", "max", 500); // Max genes recommended (may be overrided by input number box)
+			
+			$('#result-count').on('change', function(){
+				var val = $('#result-count').val();
+				$( "#slider" ).slider( "option", "value", val );
+				slideEvent(val);
+			});
+		});
 	</script>
 </body>
 </html>
