@@ -343,28 +343,40 @@ tr.shown td.details-control {
 	<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
 	<!-- ABOVE PlotlyJS scripts -->
 	<div th:include="fragments :: form-expression-stage-checkbox-selection"></div>
-	<script>
+	<script th:inline="javascript">
+		var DEFAULT_VALUE = 100;
+		/*<![CDATA[*/
+		var geneResultCount = /*[[${geneForm.geneResultCount}]]*/-1;
+
+		geneResultCount = (geneResultCount == null ? DEFAULT_VALUE : geneResultCount);
+
+		/*]]>*/
+
 		$(function() {
 			var handle = $("#custom-handle");
-			
-			var createEvent = function(sliderElement){
-				handle.text($(sliderElement).slider("value"));
-				$( "#slider" ).slider( "option", "value", 100 ); // Value set to default TODO: must be in sync with input box
-				handle.text(100); // Set default value to handle
+
+			var createEvent = function(sliderElement) {
+				/*
+				 * If input = default (meaning the form is fresh)
+				 * Do the initial createSlider event
+				 */
+				$("#slider").slider("option", "value", geneResultCount); // Value set to default TODO: must be in sync with input box
+				handle.text(geneResultCount); // Set default value to handle
+				$('#result-count').val(geneResultCount);
 			};
-			
-			var slideEvent = function(value){
+
+			var slideEvent = function(value) {
 				handle.text(value);
-				
-				var value = $( "#slider" ).slider( "option", "value" );
+
+				var value = $("#slider").slider("option", "value");
 				$('#result-count').val(value);
 			};
-			
-			var changeEvent = function(){
-				var value = $( "#slider" ).slider( "option", "value" );
+
+			var changeEvent = function() {
+				var value = $("#slider").slider("option", "value");
 				$('#result-count').val(value);
 			};
-			
+
 			$("#slider").slider({
 				create : function() {
 					createEvent(this)
@@ -378,17 +390,16 @@ tr.shown td.details-control {
 			});
 			$("#slider").slider("option", "min", 2); // Min for correlation to work
 			$("#slider").slider("option", "max", 500); // Max genes recommended (may be overrided by input number box)
-			
-			$('#result-count').on('change', function(){
+
+			$('#result-count').on('change', function() {
 				var val = $('#result-count').val();
-				$( "#slider" ).slider( "option", "value", val );
+				$("#slider").slider("option", "value", val);
 				slideEvent(val);
 			});
 		});
 	</script>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
-		var correlationOptions = [[${geneForm.correlationOptions}]];
 	    var finalResponseCorrelationResult = [[${result}]];
 	    var expressionStages = [[${geneForm.expressionStages}]];
 
@@ -713,14 +724,6 @@ tr.shown td.details-control {
 	</script>
 	<script>
 		/*<![CDATA[*/
-			var correlationOptionsTextAreaString = "";
-			correlationOptions.forEach(function(correlationOption){
-				correlationOptionsTextAreaString += correlationOption + '\n';
-			});
-			$("#correlation-options").val(correlationOptionsTextAreaString);
-			
-			//
-			
 			finalResponseCorrelationResult.correlationResults.sort(function(a,b) {
 	  			if (a.corrResult.rVal < b.corrResult.rVal){
 	     			return 1;

@@ -35,23 +35,24 @@ public class OutputController {
 
 	@Autowired
 	private RetrieveExpressionStages retrieveExpressionStages;
-	
+
 	@Autowired
 	private ExpressionStageOptionsGenerator expressionStageOptionsGenerator;
-	
+
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm) {
 		ModelAndView mav = new ModelAndView("output");
 		List<String> allExpressionStages = retrieveExpressionStages.getDmelanogasterExpressionStages();
-		
-		List<Integer> selectedExpressionIndices = selectedExpressionStageIndices(geneForm.getExpressionStages(), allExpressionStages);
-		
-		FinalResponseCorrelationResult result = correlationAnalysis
-				.retrieveMrnaCorrelationResults(geneForm.getInputIdentifier(), selectedExpressionIndices);
-		
-		
+
+		List<Integer> selectedExpressionIndices = selectedExpressionStageIndices(geneForm.getExpressionStages(),
+				allExpressionStages);
+
+		FinalResponseCorrelationResult result = correlationAnalysis.retrieveMrnaCorrelationResults(
+				geneForm.getInputIdentifier(), selectedExpressionIndices, geneForm.getGeneResultCount());
+
 		mav.addObject("result", result);
-		ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator.generateExpressionStageOptions();
+		ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator
+				.generateExpressionStageOptions();
 		mav.addObject("expressionStageOptions", expressionStageOptions);
 		// TODO: Eventually map the geneForm to a better Gene object
 		mav.addObject("geneForm", geneForm);
@@ -68,17 +69,19 @@ public class OutputController {
 	public ResponseEntity<PairwiseGeneCorrelationData> getSearchResultViaAjax(
 			@RequestBody PairwiseCorrelationDataAjaxRequestBody body) {
 		PairwiseGeneCorrelationData pData = new PairwiseGeneCorrelationData();
-		List<Integer> selectedIndices = selectedExpressionStageIndices(body.getSelectedExpressionStages(), retrieveExpressionStages.getDmelanogasterExpressionStages());
+		List<Integer> selectedIndices = selectedExpressionStageIndices(body.getSelectedExpressionStages(),
+				retrieveExpressionStages.getDmelanogasterExpressionStages());
 		pData.setInputGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getInputGene(), selectedIndices));
 		pData.setTargetGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getTargetGene(), selectedIndices));
 		return ResponseEntity.ok(pData);
 	}
-	
+
 	// TODO: Move to its own processor
-	public List<Integer> selectedExpressionStageIndices(Map<String, Boolean> selectedExpressionStages, List<String> allExpressionStages){
+	public List<Integer> selectedExpressionStageIndices(Map<String, Boolean> selectedExpressionStages,
+			List<String> allExpressionStages) {
 		List<Integer> selectedExpressionIndices = new LinkedList<Integer>();
-		for(Map.Entry<String, Boolean> entry : selectedExpressionStages.entrySet()){
-			if(entry.getValue() != null && entry.getValue()==Boolean.TRUE){
+		for (Map.Entry<String, Boolean> entry : selectedExpressionStages.entrySet()) {
+			if (entry.getValue() != null && entry.getValue() == Boolean.TRUE) {
 				selectedExpressionIndices.add(allExpressionStages.indexOf(entry.getKey()));
 			}
 		}

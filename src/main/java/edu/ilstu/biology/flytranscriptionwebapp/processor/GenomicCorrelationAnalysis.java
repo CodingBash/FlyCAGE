@@ -33,8 +33,6 @@ public class GenomicCorrelationAnalysis {
 	@Autowired
 	private PearsonsCorrelation pearsonsCorrelation;
 
-	private static final int CORRELATED_GENE_SIZE = 100;
-
 	private static final double CI_ZVAL_90 = 1.645;
 	private static final double CI_ZVAL_95 = 1.96;
 	private static final double CI_ZVAL_99 = 2.58;
@@ -47,7 +45,7 @@ public class GenomicCorrelationAnalysis {
 	 * separate methods. Creat the Final... object in the controller
 	 */
 	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier,
-			List<Integer> selectedExpressionIndices) {
+			List<Integer> selectedExpressionIndices, Integer geneResultCount) {
 		/*
 		 * 
 		 * TODO: Put this logic in another method. It seems to not belong here
@@ -103,7 +101,7 @@ public class GenomicCorrelationAnalysis {
 			 * http://stackoverflow.com/questions/1846225/java-priorityqueue-
 			 * with-fixed-size For now, just get a sublist
 			 */
-			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(CORRELATED_GENE_SIZE);
+			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(geneResultCount);
 
 			Gene finalFoundGene = null;
 			/*
@@ -120,16 +118,15 @@ public class GenomicCorrelationAnalysis {
 					 */
 					double[] preFoundGeneRna = Doubles.toArray(Ints.asList(foundGene.getRnaExpData()));
 					double[] preTargetGeneRna = Doubles.toArray(Ints.asList(gene.getRnaExpData()));
-					
-					
-					double[] foundGeneRna = new double[selectedExpressionIndices.size()]; 
-					double[] targetGeneRna = new double[selectedExpressionIndices.size()]; 
-					
+
+					double[] foundGeneRna = new double[selectedExpressionIndices.size()];
+					double[] targetGeneRna = new double[selectedExpressionIndices.size()];
+
 					/*
 					 * Fill array with values that were selected
 					 */
 					int counter = 0;
-					for(Integer index : selectedExpressionIndices){
+					for (Integer index : selectedExpressionIndices) {
 						foundGeneRna[counter] = preFoundGeneRna[index];
 						targetGeneRna[counter] = preTargetGeneRna[index];
 						counter++;
@@ -157,14 +154,20 @@ public class GenomicCorrelationAnalysis {
 						CorrelationResult corrResult = new CorrelationResult(rVal, seVal, ciVal, CI_ZVAL_95, pVal,
 								new MathContext(SIGNIFICANT_FIGURES));
 
-						Gene geneClone = new Gene(gene); // Cloning to prevent manipulating genome data
+						Gene geneClone = new Gene(gene); // Cloning to prevent
+															// manipulating
+															// genome data
 						geneClone.setRnaExpData(Ints.toArray(Doubles.asList(targetGeneRna)));
 						resultGene.setGene(geneClone);
 						resultGene.setCorrResult(corrResult);
 						queue.add(resultGene);
-						
-						if(finalFoundGene == null){
-							finalFoundGene = new Gene(foundGene); // Cloning to prevent manipulating genome data
+
+						if (finalFoundGene == null) {
+							finalFoundGene = new Gene(foundGene); // Cloning to
+																	// prevent
+																	// manipulating
+																	// genome
+																	// data
 							finalFoundGene.setRnaExpData(Ints.toArray(Doubles.asList(foundGeneRna)));
 						}
 					}
@@ -173,7 +176,8 @@ public class GenomicCorrelationAnalysis {
 
 			FinalResponseCorrelationResult result = new FinalResponseCorrelationResult();
 			result.setInputGene(finalFoundGene);
-			result.setCorrelationResults(new LinkedList<GeneCorrelatedResult>(queue).subList(0, Math.min(queue.size(), CORRELATED_GENE_SIZE)));
+			result.setCorrelationResults(
+					new LinkedList<GeneCorrelatedResult>(queue).subList(0, Math.min(queue.size(), geneResultCount)));
 			return result;
 		}
 		/*
