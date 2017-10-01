@@ -9,8 +9,8 @@ public class GeneForm {
 
 	private String inputIdentifier;
 
-	private List<String> correlationOptions;
-
+	private Integer geneResultCount;
+	
 	private String queryComment;
 	
 	private Map<String, Boolean> expressionStages;
@@ -31,12 +31,12 @@ public class GeneForm {
 		this.inputIdentifier = inputIdentifier;
 	}
 
-	public List<String> getCorrelationOptions() {
-		return correlationOptions;
+	public Integer getGeneResultCount() {
+		return geneResultCount;
 	}
 
-	public void setCorrelationOptions(List<String> correlationOptions) {
-		this.correlationOptions = correlationOptions;
+	public void setGeneResultCount(Integer geneResultCount) {
+		this.geneResultCount = geneResultCount;
 	}
 
 	public String getQueryComment() {

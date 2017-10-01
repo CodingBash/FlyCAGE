@@ -34,21 +34,11 @@
 										the database</small>
 								</div>
 								<div class="form-group">
-									<label for="correlation-options">Choose correlation
-										analysis</label> <select multiple="multiple"
-										th:field="*{correlationOptions}" class="form-control"
-										id="correlation-options">
-										<option value="exp-by-stage" select="selected">Expression
-											by Stage (modENCODE)</option>
-									</select> <small id="correlation-help" class="form-text text-muted">Choose
-										all properties to conduct correlation analysis on. Hold shift
-										to select multiple.</small>
-								</div>
-								<div class="form-group">
 									<label for="result-count">Choose gene result count</label>
 									<div class="row">
 										<div class="col-sm-3">
-											<input type="number" min="2" max="25000" class="form-control"
+											<input type="number" min="2" max="25000"
+												th:field="*{geneResultCount} " class="form-control"
 												id="result-count" aria-describedby="result-count-help"
 												placeholder="100" />
 											<!-- TODO: Max needs to be retrieved from back-end (should be total number of genes to be analyzed), back end needs to ensure no errors occur in validation and processing -->
