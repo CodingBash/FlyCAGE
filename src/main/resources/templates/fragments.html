@@ -44,6 +44,52 @@
 										all properties to conduct correlation analysis on. Hold shift
 										to select multiple.</small>
 								</div>
+								<div class="text-left">
+									<div class="form-group">
+										<div id="accordion" role="tablist" aria-multiselectable="true">
+											<div class="card form-card"
+												th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
+												<div class="card-header form-card-header" role="tab"
+													th:id="'heading-'+${expressionStageGroup.groupTitle}">
+													<h5 class="mb-0">
+														<label class="custom-control custom-checkbox"> <input
+															type="checkbox"
+															th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-main-checkbox'" />
+															<span class="custom-control-indicator"></span> <span
+															class="custom-control-description"><a
+																data-toggle="collapse" data-parent="#accordion"
+																th:href="'#collapse-' + ${expressionStageGroup.groupTitle}"
+																aria-expanded="true"
+																th:aria-controls="'collapse-' + ${expressionStageGroup.groupTitle}"
+																th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">GroupTitle</a></span>
+														</label>
+													</h5>
+												</div>
+												<div
+													th:id="'collapse-' + ${expressionStageGroup.groupTitle}"
+													class="collapse" role="tabpanel"
+													th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupTitle}">
+													<div class="card-block">
+														<div
+															th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
+															<label class="custom-control custom-checkbox"> <input
+																type="checkbox"
+																th:field="*{expressionStages[__${expressionStage}__]}"
+																value="true"
+																th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-sub-checkbox'"
+																th:name="${expressionStageGroup.groupTitle} + '-' + ${expressionStage}"
+																th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage}" />
+																<span class="custom-control-indicator"></span> <span
+																class="custom-control-description"
+																th:text="${expressionStage}">Expression Stage</span>
+															</label> <br />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="text-query-comment">Query Comments</label>
 									<textarea class="form-control" th:field="*{queryComment}"
@@ -58,6 +104,37 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div th:fragment="form-expression-stage-checkbox-selection">
+		<script th:inline="javascript">
+			//<![CDATA[
+			var expressionStageOptions = /*[[${expressionStageOptions}]]*/'ERROR: Unable to import expressionStageOptions';
+			var groups = [];
+			$.each(expressionStageOptions.expressionStageGroupList, function(i,
+					currentElement) {
+				groups.push(currentElement.groupTitle);
+			});
+			console.log(expressionStageOptions);
+			//]]>
+		</script>
+		<script
+			th:src="@{/script/form-expression-stage-checkbox-selection.js}"></script>
+		<script>
+			/*
+			 * If no checkboxes are checked (meaning that the form is fresh, and does not have any values saved from previous query)
+			 */
+			if ($('.expression-stage-checkbox:checked').length == 0) {
+				/*
+				* Check every checkbox by default
+				*/
+				$('.expression-stage-checkbox').prop('checked', true);
+			}
+		</script>
+		<script>
+			$("input[class$='sub-checkbox']").each(function(index, currentElement){
+				adjustMasterCheckboxes($(currentElement));	
+			});
+		</script>
 	</div>
 </body>
 </html>

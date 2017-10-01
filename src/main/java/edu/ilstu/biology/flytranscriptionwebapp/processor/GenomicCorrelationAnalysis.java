@@ -3,6 +3,7 @@ package edu.ilstu.biology.flytranscriptionwebapp.processor;
 import java.math.MathContext;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -45,7 +46,13 @@ public class GenomicCorrelationAnalysis {
 	 * TODO: Seperate the gene searching and the correlation retrieval to
 	 * separate methods. Creat the Final... object in the controller
 	 */
-	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier) {
+	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier,
+			List<Integer> selectedExpressionIndices) {
+		/*
+		 * 
+		 * TODO: Put this logic in another method. It seems to not belong here
+		 */
+
 		Gene foundGene = null;
 		/*
 		 * Step 1: Linear search for gene
@@ -98,19 +105,40 @@ public class GenomicCorrelationAnalysis {
 			 */
 			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(CORRELATED_GENE_SIZE);
 
+			Gene finalFoundGene = null;
 			/*
 			 * Now we calculate the pcorr for all genes! Let's
 			 */
 			for (Gene gene : genomeData) {
 				// Ensure that the dimensions are equal
 				if (gene.getRnaExpData() != null && gene.getRnaExpData().length == foundGene.getRnaExpData().length) {
+
 					// TODO: This may be bad for performance
 					// if (gene.getGeneName() != foundGene.getGeneName()) {
 					/*
 					 * Prepare the data
 					 */
-					double[] foundGeneRna = Doubles.toArray(Ints.asList(foundGene.getRnaExpData()));
-					double[] targetGeneRna = Doubles.toArray(Ints.asList(gene.getRnaExpData()));
+					double[] preFoundGeneRna = Doubles.toArray(Ints.asList(foundGene.getRnaExpData()));
+					double[] preTargetGeneRna = Doubles.toArray(Ints.asList(gene.getRnaExpData()));
+					
+					
+					double[] foundGeneRna = new double[selectedExpressionIndices.size()]; 
+					double[] targetGeneRna = new double[selectedExpressionIndices.size()]; 
+					
+					/*
+					 * Fill array with values that were selected
+					 */
+					int counter = 0;
+					for(Integer index : selectedExpressionIndices){
+						foundGeneRna[counter] = preFoundGeneRna[index];
+						targetGeneRna[counter] = preTargetGeneRna[index];
+						counter++;
+					}
+					/*
+					 * Expression Stage Selection TODO: This method is starting
+					 * to be less cohesive. Need to refactor
+					 */
+
 					double[][] data = { foundGeneRna, targetGeneRna };
 					RealMatrix matrix = MatrixUtils.createRealMatrix(data).transpose();
 
@@ -129,18 +157,23 @@ public class GenomicCorrelationAnalysis {
 						CorrelationResult corrResult = new CorrelationResult(rVal, seVal, ciVal, CI_ZVAL_95, pVal,
 								new MathContext(SIGNIFICANT_FIGURES));
 
-						resultGene.setGene(gene);
+						Gene geneClone = new Gene(gene); // Cloning to prevent manipulating genome data
+						geneClone.setRnaExpData(Ints.toArray(Doubles.asList(targetGeneRna)));
+						resultGene.setGene(geneClone);
 						resultGene.setCorrResult(corrResult);
-
 						queue.add(resultGene);
+						
+						if(finalFoundGene == null){
+							finalFoundGene = new Gene(foundGene); // Cloning to prevent manipulating genome data
+							finalFoundGene.setRnaExpData(Ints.toArray(Doubles.asList(foundGeneRna)));
+						}
 					}
 				}
-				// }
 			}
 
 			FinalResponseCorrelationResult result = new FinalResponseCorrelationResult();
-			result.setInputGene(foundGene);
-			result.setCorrelationResults(new LinkedList<GeneCorrelatedResult>(queue).subList(0, CORRELATED_GENE_SIZE));
+			result.setInputGene(finalFoundGene);
+			result.setCorrelationResults(new LinkedList<GeneCorrelatedResult>(queue).subList(0, Math.min(queue.size(), CORRELATED_GENE_SIZE)));
 			return result;
 		}
 		/*

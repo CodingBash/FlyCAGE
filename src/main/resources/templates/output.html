@@ -319,16 +319,16 @@ tr.shown td.details-control {
 	<script src="https://d3js.org/d3.v3.min.js"></script>
 	<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
 	<!-- ABOVE PlotlyJS scripts -->
-
+	<div th:include="fragments :: form-expression-stage-checkbox-selection"></div>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 		var correlationOptions = [[${geneForm.correlationOptions}]];
 	    var finalResponseCorrelationResult = [[${result}]];
+	    var expressionStages = [[${geneForm.expressionStages}]];
 
 	/*]]>*/
 	</script>
 	<script>
-	
 	$(function () {
 		  $('[data-toggle="tooltip"]').tooltip()
 		})
@@ -573,8 +573,8 @@ tr.shown td.details-control {
 				Plotly.plot(plotDivId, correlationData, {
 					title : 'Correlation Line Graph (Original)',
 					xaxis : {
-						title : "Expression Stage",
-						range : [0, 104]
+						title : "Expression Stage"
+						// range : [0, 104]
 					},
 					yaxis : {
 						title : "Expression Score",
@@ -633,7 +633,8 @@ tr.shown td.details-control {
 		        	
 					var pairwiseCorrelationDataAjaxRequestBody = {
 							inputGene: finalResponseCorrelationResult.inputGene.dbIdentifier,
-							targetGene: row.data()[2]
+							targetGene: row.data()[2],
+							selectedExpressionStages: expressionStages
 					};
 					
 		            // Open this row

@@ -1,5 +1,6 @@
 package edu.ilstu.biology.flytranscriptionwebapp.processor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,7 @@ public class RetrieveCorrelationData {
 	@Qualifier("genomeData")
 	private List<Gene> genomeData;
 
-	public List<Integer> retrieveCorrelationData(String inputIdentifier) {
+	public List<Integer> retrieveCorrelationData(String inputIdentifier, List<Integer> selectedIndices) {
 		List<Integer> correlationData = null;
 		/*
 		 * Step 1: Linear search for gene
@@ -49,7 +50,15 @@ public class RetrieveCorrelationData {
 			}
 		}
 
+		/*
+		 * Now only keep indices that were selected
+		 */
+		List<Integer> finalCorrelationData = new ArrayList<Integer>(selectedIndices.size());
+		for(Integer index : selectedIndices){
+			finalCorrelationData.add(correlationData.get(index));
+		}
+		
 		// Find out the better way of creating empty lists
-		return correlationData;
+		return finalCorrelationData;
 	}
 }

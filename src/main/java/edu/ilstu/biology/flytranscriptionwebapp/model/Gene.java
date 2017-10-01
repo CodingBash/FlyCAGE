@@ -8,6 +8,18 @@ public class Gene {
 	private String geneName;
 	private List<String> synonyms;
 	private int[] rnaExpData;
+	
+	public Gene(){
+		super();
+	}
+
+	public Gene(Gene gene){
+		this.dbIdentifier = gene.getDbIdentifier();
+		this.secondaryIdentifier = gene.getSecondaryIdentifier();
+		this.geneName = gene.getGeneName();
+		this.synonyms = gene.getSynonyms();
+		this.rnaExpData = gene.getRnaExpData();
+	}
 
 	public String getDbIdentifier() {
 		return dbIdentifier;

@@ -39,7 +39,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
 	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
 	crossorigin="anonymous"></link>
-
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.min.css"></link>
 <!-- Externalize CSS -->
 <style>
 body {
@@ -96,6 +97,15 @@ div[id*="-graph"] {
 	border-bottom-right-radius: 0px;
 }
 
+.form-card {
+	
+}
+
+.form-card-header {
+	background-color: #fff !important;
+	border-bottom: 1px solid #000 !important;
+}
+
 .row {
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -111,6 +121,10 @@ td.details-control {
 tr.shown td.details-control {
 	background: url([[@{/images/details_close.png}]]) no-repeat center
 		center;
+}
+
+[class$="-sub-checkbox"] {
+	padding-left: 10px !important;
 }
 </style>
 </head>
@@ -138,9 +152,10 @@ tr.shown td.details-control {
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
 		integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
 		crossorigin="anonymous"></script>
-	<script>
-		
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js">
 	</script>
+	<div th:include="fragments :: form-expression-stage-checkbox-selection"></div>
 	<script>
 		$(function() {
 			$('[data-toggle="tooltip"]').tooltip()
