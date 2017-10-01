@@ -125,6 +125,13 @@ tr.shown td.details-control {
 		center;
 }
 </style>
+<style>
+/* Style the accordion checkboxes */
+
+.sub-checkbox-div{
+	padding-left: 50px !important;
+}
+</style>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
 	<div class="container-fluid">
@@ -138,7 +145,7 @@ tr.shown td.details-control {
 								<h2>Query</h2>
 								<h4>Shown below is the input query</h4>
 							</div>
-							<div class="card-block panel-block">
+							<div class="card-body panel-block">
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-md-12">
@@ -206,7 +213,7 @@ tr.shown td.details-control {
 
 									based on mRNA expression by stage data</h4>
 							</div>
-							<div class="card-block panel-block">
+							<div class="card-body panel-block">
 								<div class="row extra-space"></div>
 								<div class="row table-row">
 									<div class="table-wrapper">
@@ -280,7 +287,7 @@ tr.shown td.details-control {
 				</div>
 				<div class="row">
 					<div class="col-md-12 ">
-						<div th:include="fragments :: gene-form" class="hidden-lg-up"></div>
+						<div th:include="fragments :: gene-form" class="hidden-md-up"></div>
 					</div>
 				</div>
 			</div>
@@ -383,7 +390,7 @@ tr.shown td.details-control {
 				      '</h6>' +
 				    '</div>' +
 				    '<div id="collapse-'+tableIdExtender+'" class="collapse" role="tabpanel" aria-labelledby="heading-'+tableIdExtender+'">' +
-				      '<div class="card-block">' +
+				      '<div class="card-body">' +
 				        'Anim pariatur cliche reprehenderit, enim eiusmod high sustainable VHS.' +
 				      '</div>' +
 				    '</div>' +
