@@ -45,6 +45,8 @@ public class GenomicCorrelationAnalysis {
 	 * separate methods. Creat the Final... object in the controller
 	 * 
 	 * TODO: support for gene of interest list
+	 * 
+	 * TODO: Needs extensive code cleaning
 	 */
 	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier,
 			List<Integer> selectedExpressionIndices, String geneOfInterest, Integer geneResultCount) {
@@ -57,38 +59,11 @@ public class GenomicCorrelationAnalysis {
 		/*
 		 * Step 1: Linear search for gene
 		 */
-		outerloop: for (Gene gene : genomeData) {
-			/*
-			 * TODO: This is a really ugly way of checking if the gene is found
-			 * - refactor
-			 */
-			if (StringUtils.equalsIgnoreCase(gene.getDbIdentifier(), StringUtils.trim(inputIdentifier))) {
-				/*
-				 * We found the gene - let's get its data
-				 */
-				foundGene = gene;
+		for (Gene gene : genomeData) {
+			
+			foundGene = findGene(gene, inputIdentifier);
+			if (foundGene != null){
 				break;
-			} else if (StringUtils.equalsIgnoreCase(gene.getSecondaryIdentifier(), StringUtils.trim(inputIdentifier))) {
-				/*
-				 * We found the gene - let's get its data
-				 */
-				foundGene = gene;
-				break;
-			} else if (StringUtils.equalsIgnoreCase(gene.getGeneName(), StringUtils.trim(inputIdentifier))) {
-				/*
-				 * We found the gene - let's get its data
-				 */
-				foundGene = gene;
-				break;
-			} else {
-				// TODO: Since this is not an ID, this should be added to a
-				// "potential" list, and user should decide which gene to select
-				for (String synonym : gene.getSynonyms()) {
-					if (StringUtils.equalsIgnoreCase(synonym, StringUtils.trim(inputIdentifier))) {
-						foundGene = gene;
-						break outerloop;
-					}
-				}
 			}
 		}
 
@@ -172,8 +147,11 @@ public class GenomicCorrelationAnalysis {
 						/*
 						 * TODO: Need to compare gene names based on all identifiers
 						 * Will need to modularize the compare logic from above, and use here.
+						 * 
+						 * TODO: Determine if potentialGeneOfInterest is in optimized scope
 						 */
-						if (resultGene.getGene().getDbIdentifier().equals(geneOfInterest)){
+						Gene potentialGeneOfInterest = findGene(resultGene.getGene(), geneOfInterest);
+						if (potentialGeneOfInterest != null){
 							genesOfInterestList.add(resultGene);
 						}
 						
@@ -202,5 +180,37 @@ public class GenomicCorrelationAnalysis {
 		else {
 			return null;
 		}
+	}
+	
+	private Gene findGene(Gene gene, String inputIdentifier){
+		/*
+		 * TODO: This is a really ugly way of checking if the gene is found
+		 * - refactor
+		 */
+		if (StringUtils.equalsIgnoreCase(gene.getDbIdentifier(), StringUtils.trim(inputIdentifier))) {
+			/*
+			 * We found the gene - let's get its data
+			 */
+			return gene;
+		} else if (StringUtils.equalsIgnoreCase(gene.getSecondaryIdentifier(), StringUtils.trim(inputIdentifier))) {
+			/*
+			 * We found the gene - let's get its data
+			 */
+			return gene;
+		} else if (StringUtils.equalsIgnoreCase(gene.getGeneName(), StringUtils.trim(inputIdentifier))) {
+			/*
+			 * We found the gene - let's get its data
+			 */
+			return gene;
+		} else {
+			// TODO: Since this is not an ID, this should be added to a
+			// "potential" list, and user should decide which gene to select
+			for (String synonym : gene.getSynonyms()) {
+				if (StringUtils.equalsIgnoreCase(synonym, StringUtils.trim(inputIdentifier))) {
+					return gene;
+				}
+			}
+		}
+		return null;
 	}
 }
