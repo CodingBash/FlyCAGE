@@ -1,6 +1,5 @@
 package edu.ilstu.biology.flytranscriptionwebapp.model;
 
-import java.util.List;
 import java.util.Map;
 
 public class GeneForm {
@@ -9,10 +8,12 @@ public class GeneForm {
 
 	private String inputIdentifier;
 
+	private String genesOfInterest;
+
 	private Integer geneResultCount;
-	
+
 	private String queryComment;
-	
+
 	private Map<String, Boolean> expressionStages;
 
 	public String getGeneSpecies() {
@@ -29,6 +30,14 @@ public class GeneForm {
 
 	public void setInputIdentifier(String inputIdentifier) {
 		this.inputIdentifier = inputIdentifier;
+	}
+
+	public String getGenesOfInterest() {
+		return genesOfInterest;
+	}
+
+	public void setGenesOfInterest(String genesOfInterest) {
+		this.genesOfInterest = genesOfInterest;
 	}
 
 	public Integer getGeneResultCount() {
@@ -54,5 +63,5 @@ public class GeneForm {
 	public void setExpressionStages(Map<String, Boolean> expressionStages) {
 		this.expressionStages = expressionStages;
 	}
-	
+
 }

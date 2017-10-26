@@ -28,10 +28,17 @@
 									<label for="insert-gene">Gene Name</label> <input type="text"
 										th:field="*{inputIdentifier}" class="form-control"
 										id="insert-gene" aria-describedby="gene-help"
-										placeholder="Enter Gene Name, DB Identifier, or secondary Identifier i.e. hairy | FBgn0001168 | CG6494 " />
+										placeholder="i.e. eve | FBgn0000606 | CG2328" />
 									<small id="gene-help" class="form-text text-muted">We
 										will compare the data from this gene to every other gene in
 										the database</small>
+								</div>
+								<div class="form-group">
+									<label for="insert-gene">Genes of Interest</label> <input type="text"
+										th:field="*{genesOfInterest}" class="form-control"
+										id="genes-of-interest" aria-describedby="genes-of-interest-help"
+										placeholder="i.e. eve | FBgn0000606 | CG2328" />
+									<small id="genes-of-interest-help" class="form-text text-muted">TODO: Insert description</small>
 								</div>
 								<div class="form-group">
 									<label for="result-count">Choose gene result count</label>
