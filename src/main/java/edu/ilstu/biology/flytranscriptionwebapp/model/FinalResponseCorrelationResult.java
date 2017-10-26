@@ -14,6 +14,8 @@ public class FinalResponseCorrelationResult {
 	 * data
 	 */
 	private List<GeneCorrelatedResult> correlationResults;
+	
+	private List<GeneCorrelatedResult> correlationResultsForGenesOfInterest;
 
 	public Gene getInputGene() {
 		return inputGene;
@@ -31,4 +33,12 @@ public class FinalResponseCorrelationResult {
 		this.correlationResults = correlationResults;
 	}
 
+	public List<GeneCorrelatedResult> getCorrelationResultsForGenesOfInterest() {
+		return correlationResultsForGenesOfInterest;
+	}
+
+	public void setCorrelationResultsForGenesOfInterest(List<GeneCorrelatedResult> correlationResultsForGenesOfInterest) {
+		this.correlationResultsForGenesOfInterest = correlationResultsForGenesOfInterest;
+	}
+	
 }

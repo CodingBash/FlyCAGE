@@ -48,7 +48,7 @@ public class OutputController {
 				allExpressionStages);
 
 		FinalResponseCorrelationResult result = correlationAnalysis.retrieveMrnaCorrelationResults(
-				geneForm.getInputIdentifier(), selectedExpressionIndices, geneForm.getGeneResultCount());
+				geneForm.getInputIdentifier(), selectedExpressionIndices, geneForm.getGenesOfInterest(), geneForm.getGeneResultCount());
 
 		mav.addObject("result", result);
 		ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator

@@ -1,9 +1,9 @@
 package edu.ilstu.biology.flytranscriptionwebapp.processor;
 
 import java.math.MathContext;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -43,9 +43,11 @@ public class GenomicCorrelationAnalysis {
 	/*
 	 * TODO: Seperate the gene searching and the correlation retrieval to
 	 * separate methods. Creat the Final... object in the controller
+	 * 
+	 * TODO: support for gene of interest list
 	 */
 	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier,
-			List<Integer> selectedExpressionIndices, Integer geneResultCount) {
+			List<Integer> selectedExpressionIndices, String geneOfInterest, Integer geneResultCount) {
 		/*
 		 * 
 		 * TODO: Put this logic in another method. It seems to not belong here
@@ -102,6 +104,11 @@ public class GenomicCorrelationAnalysis {
 			 * with-fixed-size For now, just get a sublist
 			 */
 			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(geneResultCount);
+			
+			/*
+			 * Genes of Interest List
+			 */
+			List<GeneCorrelatedResult> genesOfInterestList = new ArrayList<GeneCorrelatedResult>(1);
 
 			Gene finalFoundGene = null;
 			/*
@@ -161,7 +168,15 @@ public class GenomicCorrelationAnalysis {
 						resultGene.setGene(geneClone);
 						resultGene.setCorrResult(corrResult);
 						queue.add(resultGene);
-
+						
+						/*
+						 * TODO: Need to compare gene names based on all identifiers
+						 * Will need to modularize the compare logic from above, and use here.
+						 */
+						if (resultGene.getGene().getDbIdentifier().equals(geneOfInterest)){
+							genesOfInterestList.add(resultGene);
+						}
+						
 						if (finalFoundGene == null) {
 							finalFoundGene = new Gene(foundGene); // Cloning to
 																	// prevent
@@ -178,6 +193,7 @@ public class GenomicCorrelationAnalysis {
 			result.setInputGene(finalFoundGene);
 			result.setCorrelationResults(
 					new LinkedList<GeneCorrelatedResult>(queue).subList(0, Math.min(queue.size(), geneResultCount)));
+			result.setCorrelationResultsForGenesOfInterest(genesOfInterestList);
 			return result;
 		}
 		/*
