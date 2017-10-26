@@ -293,6 +293,73 @@ tr.shown td.details-control {
 										</table>
 									</div>
 								</div>
+								<div class="row extra-space"></div>
+								<div class="row table-row">
+									<div class="table-wrapper">
+										<table id="goi-results"
+											class="stripe row-border compact nowrap"
+											style="width: 100% !important; margin: auto !important;"
+											cellspacing="0">
+											<thead>
+												<tr>
+													<!--  TODO: Make fragment for these -->
+													<th></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Rank by R-VAL"
+														data-placement="top">RANK</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="FlyBase database ID"
+														data-placement="top">DB ID</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="FlyBase secondary ID"
+														data-placement="top">2<sup>nd</sup> ID
+													</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Name of gene"
+														data-placement="top">GENE NAME</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Pearson's R coefficient"
+														data-placement="top">R VAL</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Correlation p-value"
+														data-placement="top">P VAL</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Button actions on row entry"
+														data-placement="top">ACTION</a></th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+											<tfoot>
+												<tr>
+													<!--  TODO: Make fragment for these -->
+													<th></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Rank by R-VAL"
+														data-placement="top">RANK</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="FlyBase database ID"
+														data-placement="top">DB ID</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="FlyBase secondary ID"
+														data-placement="top">2<sup>nd</sup> ID
+													</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Name of gene"
+														data-placement="top">GENE NAME</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Pearson's R coefficient"
+														data-placement="top">R VAL</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Correlation p-value"
+														data-placement="top">P VAL</a></th>
+													<th><a href="#correlation-results"
+														data-toggle="tooltip" title="Button actions on row entry"
+														data-placement="top">ACTION</a></th>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -441,6 +508,37 @@ tr.shown td.details-control {
 		            "details": false
 		        }
 			});
+		
+			var t2 = $('#goi-results').DataTable({
+				  "columnDefs": [ {
+				      "targets": 0,
+				      "data": null,
+				      "orderable": false,
+				      "className": 'details-control',
+				      "defaultContent": ''
+				    },  { responsivePriority: 1, targets: 0 },
+			        { responsivePriority: 2, targets: 2 },
+			        { responsivePriority: 3, targets: 5 },
+			        { responsivePriority: 4, targets: 6 },
+			        { responsivePriority: 5, targets: 7 },
+			        { responsivePriority: 6, targets: 4 },
+			        {
+			            targets: 4,
+			            render: function ( data, type, row ) {
+			                return (data.length > 25) ? data.substr( 0, 25 ) + "..." : data;
+			            }
+			        }],
+					aaSorting : [ [ 5, 'des' ] ],
+					"pageLength" : 25,
+					dom: 'Bfrtip',
+					buttons: [
+			            'copy', 'csv', 'excel', 'pdf'
+			        ],
+			        "responsive": {
+			            "details": false
+			        }
+				});
+				
 			
 		
 			/* Formatting function for row details - modify as you need */
@@ -697,7 +795,7 @@ tr.shown td.details-control {
 			}
 			
 			 // Add event listener for opening and closing details
-		    $('#correlation-results tbody').on('click', 'td.details-control', function () {
+		    $('[id$="-results"] tbody').on('click', 'td.details-control', function () {
 		        var tr = $(this).closest('tr');
 		        var row = t.row( tr );
 		 
@@ -733,6 +831,17 @@ tr.shown td.details-control {
 	  				return 0;
 	  			}
 			});
+		
+			finalResponseCorrelationResult.correlationResultsForGenesOfInterest.sort(function(a,b) {
+	  			if (a.corrResult.rVal < b.corrResult.rVal){
+	     			return 1;
+	  			} else if (a.corrResult.rVal > b.corrResult.rVal){
+	    			return -1;
+	  			} else {
+	  				return 0;
+	  			}
+			});
+			
 			var rank = 1;
 			finalResponseCorrelationResult.correlationResults.forEach(function(correlationResult){
 		
@@ -742,6 +851,25 @@ tr.shown td.details-control {
 				// Append any other buttons
 				
 				t.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
+				rank++;
+			});
+			// Now that buttons are added, activate tooltip for all of them
+			$('.flymine-button').tooltip(); 
+			
+		    $('.flymine-button').on( 'click', function () {
+		        var geneDbId = $(this).val();
+		        var flymineUrl = 'http://www.flymine.org/query/portal.do?externalid=' + geneDbId + '&class=Gene&origin=fly-tran-webapp&organism=D.%20melanogaster'
+		        window.open(flymineUrl);
+		    } );
+		    
+		    finalResponseCorrelationResult.correlationResultsForGenesOfInterest.forEach(function(correlationResult){
+				
+				var buttonHtml = "";
+				dataToggle = 'datatoggle="tooltip" data-placement="top" title="FlyMine '+ correlationResult.gene.dbIdentifier + ' Report"';
+				buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '"' + dataToggle +'>FlyMine</button>';
+				// Append any other buttons
+				
+				t2.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
 				rank++;
 			});
 			// Now that buttons are added, activate tooltip for all of them
