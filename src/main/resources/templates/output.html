@@ -797,7 +797,17 @@ tr.shown td.details-control {
 			 // Add event listener for opening and closing details
 		    $('[id$="-results"] tbody').on('click', 'td.details-control', function () {
 		        var tr = $(this).closest('tr');
-		        var row = t.row( tr );
+		        
+		        /*
+		        * TODO: Adhoc/hard-coded way of determining which table this event belongs to. Make more dynamic
+		        */
+		        var row;
+		        if($(tr).closest('table').attr('id') == "correlation-results"){
+		        	row = t.row( tr );
+		        } else {
+		        	row = t2.row( tr );	
+		        }
+		         
 		 
 		        if ( row.child.isShown() ) {
 		            // This row is already open - close it
@@ -862,6 +872,7 @@ tr.shown td.details-control {
 		        window.open(flymineUrl);
 		    } );
 		    
+		    rank = 1;
 		    finalResponseCorrelationResult.correlationResultsForGenesOfInterest.forEach(function(correlationResult){
 				
 				var buttonHtml = "";
