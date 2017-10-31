@@ -50,23 +50,12 @@ public class GenomicCorrelationAnalysis {
 	 */
 	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier,
 			List<Integer> selectedExpressionIndices, String geneOfInterest, Integer geneResultCount) {
+		
 		/*
-		 * 
-		 * TODO: Put this logic in another method. It seems to not belong here
+		 * Step 1: Find input gene
 		 */
-
-		Gene foundGene = null;
-		/*
-		 * Step 1: Linear search for gene
-		 */
-		for (Gene gene : genomeData) {
-			
-			foundGene = findGene(gene, inputIdentifier);
-			if (foundGene != null){
-				break;
-			}
-		}
-
+		Gene foundGene = findGeneInGenome(inputIdentifier);
+		
 		/*
 		 * If we found the gene, let's continue the process flow...
 		 */
@@ -86,6 +75,8 @@ public class GenomicCorrelationAnalysis {
 			List<GeneCorrelatedResult> genesOfInterestList = new ArrayList<GeneCorrelatedResult>(1);
 
 			Gene finalFoundGene = null;
+			
+			
 			/*
 			 * Now we calculate the pcorr for all genes! Let's
 			 */
@@ -150,7 +141,7 @@ public class GenomicCorrelationAnalysis {
 						 * 
 						 * TODO: Determine if potentialGeneOfInterest is in optimized scope
 						 */
-						Gene potentialGeneOfInterest = findGene(resultGene.getGene(), geneOfInterest);
+						Gene potentialGeneOfInterest = determineGeneIdentifierMatch(resultGene.getGene(), geneOfInterest);
 						if (potentialGeneOfInterest != null){
 							genesOfInterestList.add(resultGene);
 						}
@@ -182,7 +173,18 @@ public class GenomicCorrelationAnalysis {
 		}
 	}
 	
-	private Gene findGene(Gene gene, String inputIdentifier){
+	private Gene findGeneInGenome(String inputIdentifier){
+		Gene foundGene = null;
+		for (Gene gene : genomeData) {
+			foundGene = determineGeneIdentifierMatch(gene, inputIdentifier);
+			if (foundGene != null){
+				return foundGene;
+			}
+		}
+		return null;
+	}
+	
+	private Gene determineGeneIdentifierMatch(Gene gene, String inputIdentifier){
 		/*
 		 * TODO: This is a really ugly way of checking if the gene is found
 		 * - refactor
