@@ -4,6 +4,7 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -49,13 +50,13 @@ public class GenomicCorrelationAnalysis {
 	 * TODO: Needs extensive code cleaning
 	 */
 	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier,
-			List<Integer> selectedExpressionIndices, String geneOfInterest, Integer geneResultCount) {
-		
+			List<Integer> selectedExpressionIndices, List<String> inputGeneOfInterestList, Integer geneResultCount) {
+
 		/*
 		 * Step 1: Find input gene
 		 */
 		Gene foundGene = findGeneInGenome(inputIdentifier);
-		
+
 		/*
 		 * If we found the gene, let's continue the process flow...
 		 */
@@ -68,15 +69,14 @@ public class GenomicCorrelationAnalysis {
 			 * with-fixed-size For now, just get a sublist
 			 */
 			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(geneResultCount);
-			
+
 			/*
 			 * Genes of Interest List
 			 */
 			List<GeneCorrelatedResult> genesOfInterestList = new ArrayList<GeneCorrelatedResult>(1);
 
 			Gene finalFoundGene = null;
-			
-			
+
 			/*
 			 * Now we calculate the pcorr for all genes! Let's
 			 */
@@ -134,18 +134,39 @@ public class GenomicCorrelationAnalysis {
 						resultGene.setGene(geneClone);
 						resultGene.setCorrResult(corrResult);
 						queue.add(resultGene);
-						
+
 						/*
-						 * TODO: Need to compare gene names based on all identifiers
-						 * Will need to modularize the compare logic from above, and use here.
+						 * TODO: Need to compare gene names based on all
+						 * identifiers Will need to modularize the compare logic
+						 * from above, and use here.
 						 * 
-						 * TODO: Determine if potentialGeneOfInterest is in optimized scope
+						 * TODO: Determine if potentialGeneOfInterest is in
+						 * optimized scope
+						 * 
+						 * scaled logic to iterate through the geneOfInterest
+						 * list. If found, remove item from list
 						 */
-						Gene potentialGeneOfInterest = determineGeneIdentifierMatch(resultGene.getGene(), geneOfInterest);
-						if (potentialGeneOfInterest != null){
-							genesOfInterestList.add(resultGene);
+						final ListIterator<String> li = inputGeneOfInterestList.listIterator();
+						while (li.hasNext()) {
+							Gene potentialGeneOfInterest = determineGeneIdentifierMatch(resultGene.getGene(),
+									li.next());
+
+							/*
+							 * If potentialGeneOfInterest found: - add found
+							 * gene to geneOfInterestList - remove found gene
+							 * from inputGeneOfInterestList - break, and proceed
+							 * with execution
+							 * 
+							 * TODO: Rename inputGeneOfInterestList and
+							 * genesOfInterestList (ambigious names)
+							 */
+							if (potentialGeneOfInterest != null) {
+								genesOfInterestList.add(resultGene);
+								li.remove();
+								break;
+							}
 						}
-						
+
 						if (finalFoundGene == null) {
 							finalFoundGene = new Gene(foundGene); // Cloning to
 																	// prevent
@@ -172,22 +193,22 @@ public class GenomicCorrelationAnalysis {
 			return null;
 		}
 	}
-	
-	private Gene findGeneInGenome(String inputIdentifier){
+
+	private Gene findGeneInGenome(String inputIdentifier) {
 		Gene foundGene = null;
 		for (Gene gene : genomeData) {
 			foundGene = determineGeneIdentifierMatch(gene, inputIdentifier);
-			if (foundGene != null){
+			if (foundGene != null) {
 				return foundGene;
 			}
 		}
 		return null;
 	}
-	
-	private Gene determineGeneIdentifierMatch(Gene gene, String inputIdentifier){
+
+	private Gene determineGeneIdentifierMatch(Gene gene, String inputIdentifier) {
 		/*
-		 * TODO: This is a really ugly way of checking if the gene is found
-		 * - refactor
+		 * TODO: This is a really ugly way of checking if the gene is found -
+		 * refactor
 		 */
 		if (StringUtils.equalsIgnoreCase(gene.getDbIdentifier(), StringUtils.trim(inputIdentifier))) {
 			/*

@@ -1,12 +1,16 @@
 package edu.ilstu.biology.flytranscriptionwebapp.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,8 +51,24 @@ public class OutputController {
 		List<Integer> selectedExpressionIndices = selectedExpressionStageIndices(geneForm.getExpressionStages(),
 				allExpressionStages);
 
+		// TODO: Input and security validation
+		List<String> geneOfInterestList = new ArrayList<String>(
+				Arrays.asList(StringUtils.delimitedListToStringArray(geneForm.getGenesOfInterest(), ",")));
+
+		/*
+		 * Trims and validates genesOfInterest.
+		 * TODO: Make Validator class for this
+		 * TODO: Move this logic to different class (TO to regular object)
+		 */
+		final ListIterator<String> li = geneOfInterestList.listIterator();
+		while (li.hasNext()) {
+			final String element = li.next();
+			li.set(StringUtils.trimWhitespace(element));
+		}
+
 		FinalResponseCorrelationResult result = correlationAnalysis.retrieveMrnaCorrelationResults(
-				geneForm.getInputIdentifier(), selectedExpressionIndices, geneForm.getGenesOfInterest(), geneForm.getGeneResultCount());
+				geneForm.getInputIdentifier(), selectedExpressionIndices, geneOfInterestList,
+				geneForm.getGeneResultCount());
 
 		mav.addObject("result", result);
 		ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator
