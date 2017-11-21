@@ -27,6 +27,7 @@ import edu.ilstu.biology.flytranscriptionwebapp.processor.ExpressionStageOptions
 import edu.ilstu.biology.flytranscriptionwebapp.processor.GenomicCorrelationAnalysis;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveCorrelationData;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveExpressionStages;
+import edu.ilstu.biology.flytranscriptionwebapp.validation.InvalidGeneException;
 
 @Controller
 public class OutputController {
@@ -45,7 +46,7 @@ public class OutputController {
 
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm) {
-		ModelAndView mav = new ModelAndView("output");
+		ModelAndView mav = new ModelAndView();
 		List<String> allExpressionStages = retrieveExpressionStages.getDmelanogasterExpressionStages();
 
 		List<Integer> selectedExpressionIndices = selectedExpressionStageIndices(geneForm.getExpressionStages(),
@@ -56,9 +57,8 @@ public class OutputController {
 				Arrays.asList(StringUtils.delimitedListToStringArray(geneForm.getGenesOfInterest(), ",")));
 
 		/*
-		 * Trims and validates genesOfInterest.
-		 * TODO: Make Validator class for this
-		 * TODO: Move this logic to different class (TO to regular object)
+		 * Trims and validates genesOfInterest. TODO: Make Validator class for
+		 * this TODO: Move this logic to different class (TO to regular object)
 		 */
 		final ListIterator<String> li = geneOfInterestList.listIterator();
 		while (li.hasNext()) {
@@ -66,16 +66,30 @@ public class OutputController {
 			li.set(StringUtils.trimWhitespace(element));
 		}
 
-		FinalResponseCorrelationResult result = correlationAnalysis.retrieveMrnaCorrelationResults(
-				geneForm.getInputIdentifier(), selectedExpressionIndices, geneOfInterestList,
-				geneForm.getGeneResultCount());
-
+		FinalResponseCorrelationResult result = null;
+		try {
+			result = correlationAnalysis.retrieveMrnaCorrelationResults(geneForm.getInputIdentifier(),
+					selectedExpressionIndices, geneOfInterestList, geneForm.getGeneResultCount());
+		} catch (InvalidGeneException ige) {
+			// TODO: Consider a redirect to "GET /" w/ redirectattributes (to switch the URL)
+			mav.addObject("exception", ige);
+			ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator
+					.generateExpressionStageOptions(); // TODO: Duplicate
+														// expression
+														// generation. Remove
+														// and use only one for
+														// both results
+			mav.addObject("expressionStageOptions", expressionStageOptions);
+			mav.setViewName("input"); 
+			return mav;
+		}
 		mav.addObject("result", result);
 		ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator
 				.generateExpressionStageOptions();
 		mav.addObject("expressionStageOptions", expressionStageOptions);
 		// TODO: Eventually map the geneForm to a better Gene object
 		mav.addObject("geneForm", geneForm);
+		mav.setViewName("output");
 		return mav;
 	}
 

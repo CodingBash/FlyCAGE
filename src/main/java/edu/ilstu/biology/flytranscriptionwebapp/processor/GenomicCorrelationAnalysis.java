@@ -23,6 +23,7 @@ import edu.ilstu.biology.flytranscriptionwebapp.model.CorrelationResult;
 import edu.ilstu.biology.flytranscriptionwebapp.model.FinalResponseCorrelationResult;
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneCorrelatedResult;
+import edu.ilstu.biology.flytranscriptionwebapp.validation.GeneValidator;
 
 @Component
 public class GenomicCorrelationAnalysis {
@@ -33,6 +34,9 @@ public class GenomicCorrelationAnalysis {
 
 	@Autowired
 	private PearsonsCorrelation pearsonsCorrelation;
+
+	@Autowired
+	private GeneValidator geneValidator;
 
 	private static final double CI_ZVAL_90 = 1.645;
 	private static final double CI_ZVAL_95 = 1.96;
@@ -45,8 +49,6 @@ public class GenomicCorrelationAnalysis {
 	 * TODO: Seperate the gene searching and the correlation retrieval to
 	 * separate methods. Creat the Final... object in the controller
 	 * 
-	 * TODO: support for gene of interest list
-	 * 
 	 * TODO: Needs extensive code cleaning
 	 */
 	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier,
@@ -57,141 +59,142 @@ public class GenomicCorrelationAnalysis {
 		 */
 		Gene foundGene = findGeneInGenome(inputIdentifier);
 
+		geneValidator.validateFoundGene(foundGene); // throws unchecked
+													// InvalidGeneException
+
+		FinalResponseCorrelationResult finalResult = computeCorrelationResult(foundGene, selectedExpressionIndices,
+				inputGeneOfInterestList, geneResultCount);
+
+		return finalResult;
+	}
+
+	private FinalResponseCorrelationResult computeCorrelationResult(Gene foundGene,
+			List<Integer> selectedExpressionIndices, List<String> inputGeneOfInterestList, Integer geneResultCount) {
 		/*
 		 * If we found the gene, let's continue the process flow...
 		 */
-		if (foundGene != null && foundGene.getRnaExpData().length > 0) {
-			/*
-			 * TODO: Maybe this will get the top 100 results as expected? No
-			 * this does not - in the future, change to a SortedSet like in this
-			 * post:
-			 * http://stackoverflow.com/questions/1846225/java-priorityqueue-
-			 * with-fixed-size For now, just get a sublist
-			 */
-			Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(geneResultCount);
+		/*
+		 * TODO: Maybe this will get the top 100 results as expected? No this
+		 * does not - in the future, change to a SortedSet like in this post:
+		 * http://stackoverflow.com/questions/1846225/java-priorityqueue-
+		 * with-fixed-size For now, just get a sublist
+		 */
+		Queue<GeneCorrelatedResult> queue = new PriorityQueue<GeneCorrelatedResult>(geneResultCount);
 
-			/*
-			 * Genes of Interest List
-			 */
-			List<GeneCorrelatedResult> genesOfInterestList = new ArrayList<GeneCorrelatedResult>(1);
+		/*
+		 * Genes of Interest List declaration
+		 */
+		List<GeneCorrelatedResult> genesOfInterestList = new ArrayList<GeneCorrelatedResult>(1);
 
-			Gene finalFoundGene = null;
+		Gene finalFoundGene = null;
 
-			/*
-			 * Now we calculate the pcorr for all genes! Let's
-			 */
-			for (Gene gene : genomeData) {
-				// Ensure that the dimensions are equal
-				if (gene.getRnaExpData() != null && gene.getRnaExpData().length == foundGene.getRnaExpData().length) {
+		/*
+		 * Now we calculate the pcorr for all genes!
+		 */
+		for (Gene gene : genomeData) {
+			// Ensure that the dimensions are equal
+			if (gene.getRnaExpData() != null && gene.getRnaExpData().length == foundGene.getRnaExpData().length) {
 
-					// TODO: This may be bad for performance
-					// if (gene.getGeneName() != foundGene.getGeneName()) {
+				// TODO: This may be bad for performance
+				// if (gene.getGeneName() != foundGene.getGeneName()) {
+				/*
+				 * Prepare the data
+				 */
+				double[] preFoundGeneRna = Doubles.toArray(Ints.asList(foundGene.getRnaExpData()));
+				double[] preTargetGeneRna = Doubles.toArray(Ints.asList(gene.getRnaExpData()));
+
+				double[] foundGeneRna = new double[selectedExpressionIndices.size()];
+				double[] targetGeneRna = new double[selectedExpressionIndices.size()];
+
+				/*
+				 * Fill array with values that were selected
+				 */
+				int counter = 0;
+				for (Integer index : selectedExpressionIndices) {
+					foundGeneRna[counter] = preFoundGeneRna[index];
+					targetGeneRna[counter] = preTargetGeneRna[index];
+					counter++;
+				}
+				/*
+				 * Expression Stage Selection TODO: This method is starting to
+				 * be less cohesive. Need to refactor
+				 */
+
+				double[][] data = { foundGeneRna, targetGeneRna };
+				RealMatrix matrix = MatrixUtils.createRealMatrix(data).transpose();
+
+				/*
+				 * Conduct Pearson's correlation analysis
+				 */
+				PearsonsCorrelation correlator = new PearsonsCorrelation(matrix);
+				double rVal = correlator.getCorrelationMatrix().getColumn(0)[1];
+				// double zVal = 0.5 * Math.log((1 + rVal)/(1 - rVal));
+				double seVal = correlator.getCorrelationStandardErrors().getColumn(0)[1];
+				double ciVal = CI_ZVAL_95 * seVal;
+				double pVal = correlator.getCorrelationPValues().getColumn(0)[1];
+
+				if (!Double.isNaN(rVal)) {
+					GeneCorrelatedResult resultGene = new GeneCorrelatedResult();
+					CorrelationResult corrResult = new CorrelationResult(rVal, seVal, ciVal, CI_ZVAL_95, pVal,
+							new MathContext(SIGNIFICANT_FIGURES));
+
+					Gene geneClone = new Gene(gene); // Cloning to prevent
+														// manipulating
+														// genome data
+					geneClone.setRnaExpData(Ints.toArray(Doubles.asList(targetGeneRna)));
+					resultGene.setGene(geneClone);
+					resultGene.setCorrResult(corrResult);
+					queue.add(resultGene);
+
 					/*
-					 * Prepare the data
+					 * TODO: Need to compare gene names based on all identifiers
+					 * Will need to modularize the compare logic from above, and
+					 * use here.
+					 * 
+					 * TODO: Determine if potentialGeneOfInterest is in
+					 * optimized scope
+					 * 
+					 * scaled logic to iterate through the geneOfInterest list.
+					 * If found, remove item from list
 					 */
-					double[] preFoundGeneRna = Doubles.toArray(Ints.asList(foundGene.getRnaExpData()));
-					double[] preTargetGeneRna = Doubles.toArray(Ints.asList(gene.getRnaExpData()));
-
-					double[] foundGeneRna = new double[selectedExpressionIndices.size()];
-					double[] targetGeneRna = new double[selectedExpressionIndices.size()];
-
-					/*
-					 * Fill array with values that were selected
-					 */
-					int counter = 0;
-					for (Integer index : selectedExpressionIndices) {
-						foundGeneRna[counter] = preFoundGeneRna[index];
-						targetGeneRna[counter] = preTargetGeneRna[index];
-						counter++;
-					}
-					/*
-					 * Expression Stage Selection TODO: This method is starting
-					 * to be less cohesive. Need to refactor
-					 */
-
-					double[][] data = { foundGeneRna, targetGeneRna };
-					RealMatrix matrix = MatrixUtils.createRealMatrix(data).transpose();
-
-					/*
-					 * Conduct Pearson's correlation analysis
-					 */
-					PearsonsCorrelation correlator = new PearsonsCorrelation(matrix);
-					double rVal = correlator.getCorrelationMatrix().getColumn(0)[1];
-					// double zVal = 0.5 * Math.log((1 + rVal)/(1 - rVal));
-					double seVal = correlator.getCorrelationStandardErrors().getColumn(0)[1];
-					double ciVal = CI_ZVAL_95 * seVal;
-					double pVal = correlator.getCorrelationPValues().getColumn(0)[1];
-
-					if (!Double.isNaN(rVal)) {
-						GeneCorrelatedResult resultGene = new GeneCorrelatedResult();
-						CorrelationResult corrResult = new CorrelationResult(rVal, seVal, ciVal, CI_ZVAL_95, pVal,
-								new MathContext(SIGNIFICANT_FIGURES));
-
-						Gene geneClone = new Gene(gene); // Cloning to prevent
-															// manipulating
-															// genome data
-						geneClone.setRnaExpData(Ints.toArray(Doubles.asList(targetGeneRna)));
-						resultGene.setGene(geneClone);
-						resultGene.setCorrResult(corrResult);
-						queue.add(resultGene);
+					final ListIterator<String> li = inputGeneOfInterestList.listIterator();
+					while (li.hasNext()) {
+						Gene potentialGeneOfInterest = determineGeneIdentifierMatch(resultGene.getGene(), li.next());
 
 						/*
-						 * TODO: Need to compare gene names based on all
-						 * identifiers Will need to modularize the compare logic
-						 * from above, and use here.
+						 * If potentialGeneOfInterest found: - add found gene to
+						 * geneOfInterestList - remove found gene from
+						 * inputGeneOfInterestList - break, and proceed with
+						 * execution
 						 * 
-						 * TODO: Determine if potentialGeneOfInterest is in
-						 * optimized scope
-						 * 
-						 * scaled logic to iterate through the geneOfInterest
-						 * list. If found, remove item from list
+						 * TODO: Rename inputGeneOfInterestList and
+						 * genesOfInterestList (ambigious names)
 						 */
-						final ListIterator<String> li = inputGeneOfInterestList.listIterator();
-						while (li.hasNext()) {
-							Gene potentialGeneOfInterest = determineGeneIdentifierMatch(resultGene.getGene(),
-									li.next());
-
-							/*
-							 * If potentialGeneOfInterest found: - add found
-							 * gene to geneOfInterestList - remove found gene
-							 * from inputGeneOfInterestList - break, and proceed
-							 * with execution
-							 * 
-							 * TODO: Rename inputGeneOfInterestList and
-							 * genesOfInterestList (ambigious names)
-							 */
-							if (potentialGeneOfInterest != null) {
-								genesOfInterestList.add(resultGene);
-								li.remove();
-								break;
-							}
+						if (potentialGeneOfInterest != null) {
+							genesOfInterestList.add(resultGene);
+							li.remove();
+							break;
 						}
+					}
 
-						if (finalFoundGene == null) {
-							finalFoundGene = new Gene(foundGene); // Cloning to
-																	// prevent
-																	// manipulating
-																	// genome
-																	// data
-							finalFoundGene.setRnaExpData(Ints.toArray(Doubles.asList(foundGeneRna)));
-						}
+					if (finalFoundGene == null) {
+						finalFoundGene = new Gene(foundGene); // Cloning to
+																// prevent
+																// manipulating
+																// genome
+																// data
+						finalFoundGene.setRnaExpData(Ints.toArray(Doubles.asList(foundGeneRna)));
 					}
 				}
 			}
+		}
 
-			FinalResponseCorrelationResult result = new FinalResponseCorrelationResult();
-			result.setInputGene(finalFoundGene);
-			result.setCorrelationResults(
-					new LinkedList<GeneCorrelatedResult>(queue).subList(0, Math.min(queue.size(), geneResultCount)));
-			result.setCorrelationResultsForGenesOfInterest(genesOfInterestList);
-			return result;
-		}
-		/*
-		 * The user entered a false gene, return null
-		 */
-		else {
-			return null;
-		}
+		FinalResponseCorrelationResult result = new FinalResponseCorrelationResult();
+		result.setInputGene(finalFoundGene);
+		result.setCorrelationResults(
+				new LinkedList<GeneCorrelatedResult>(queue).subList(0, Math.min(queue.size(), geneResultCount)));
+		result.setCorrelationResultsForGenesOfInterest(genesOfInterestList);
+		return result;
 	}
 
 	private Gene findGeneInGenome(String inputIdentifier) {

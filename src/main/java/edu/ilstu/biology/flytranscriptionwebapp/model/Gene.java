@@ -2,6 +2,7 @@ package edu.ilstu.biology.flytranscriptionwebapp.model;
 
 import java.util.List;
 
+// TODO: Add field for the user input gene identifier
 public class Gene {
 	private String dbIdentifier;
 	private String secondaryIdentifier;
