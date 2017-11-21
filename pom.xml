@@ -118,8 +118,7 @@
 						<web>java $JAVA_OPTS -cp target/classes:target/dependency/*
 							FlyTranscriptionWebappApplication</web>
 					</processTypes>
-					<!-- TODO: Determine app name when deploying -->
-					<appName>fly-tran-web</appName>
+					<appName>flycage</appName>
 				</configuration>
 			</plugin>
 		</plugins>
