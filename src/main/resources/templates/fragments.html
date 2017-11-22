@@ -7,7 +7,8 @@
 	<div th:fragment="exception">
 		<div th:if="${exception}">
 			<div class="alert alert-warning">
-				<strong>Invalid Input! </strong> <span th:text="'ERROR CODE ' +  ${exception.error.code} + ' - ' + ${exception.error.message}"></span>
+				<strong>Invalid Input! </strong> <span
+					th:text="'ERROR CODE ' +  ${exception.error.code} + ' - ' + ${exception.error.message}"></span>
 			</div>
 		</div>
 	</div>
@@ -28,26 +29,26 @@
 										class="form-control" id="select-species"
 										th:field="*{geneSpecies}">
 										<option value="D. melanogaster">D. melanogaster</option>
-									</select> <small id="species-help" class="form-text text-muted">All
-										genetic information will be searched within this species</small>
+									</select> <small id="species-help" class="form-text text-muted">Select
+										species</small>
 								</div>
 								<div class="form-group">
-									<label for="insert-gene">Gene Name</label> <input type="text"
-										th:field="*{inputIdentifier}" class="form-control"
+									<label for="insert-gene">Target Gene Name</label> <input
+										type="text" th:field="*{inputIdentifier}" class="form-control"
 										id="insert-gene" aria-describedby="gene-help"
-										placeholder="i.e. eve | FBgn0000606 | CG2328" /> <small
-										id="gene-help" class="form-text text-muted">We will
-										compare the data from this gene to every other gene in the
-										database</small>
+										placeholder="Example: ubx" /> <small id="gene-help"
+										class="form-text text-muted">Enter a gene. Format:
+										FlyBase ID, CG ID, formal gene name, gene synonyms</small>
 								</div>
 								<div class="form-group">
 									<label for="insert-gene">Genes of Interest</label> <input
 										type="text" th:field="*{genesOfInterest}" class="form-control"
 										id="genes-of-interest"
 										aria-describedby="genes-of-interest-help"
-										placeholder="i.e. eve | FBgn0000606 | CG2328" /> <small
-										id="genes-of-interest-help" class="form-text text-muted">TODO:
-										Insert description</small>
+										placeholder="Example: grh, en, salm, tsh, antp" /> <small
+										id="genes-of-interest-help" class="form-text text-muted">Enter
+										genes to see how they correlate with the target gene. Format:
+										Comma delimited list of genes</small>
 								</div>
 								<div class="form-group">
 									<label for="result-count">Choose gene result count</label>
@@ -67,8 +68,8 @@
 									</div>
 									<small id="result-count-help" class="form-text text-muted">Choose
 										the amount of genes that will display on the results page.
-										NOTE: Large amounts will take significantly longer to process
-										and load results</small>
+										Large amounts will take significantly longer to process and
+										load results</small>
 								</div>
 
 
