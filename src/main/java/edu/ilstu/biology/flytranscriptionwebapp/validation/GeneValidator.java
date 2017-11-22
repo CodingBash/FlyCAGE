@@ -20,8 +20,20 @@ public class GeneValidator {
 			 * correlation to work?
 			 */
 		} else if (foundGene.getRnaExpData().length == 0) {
-			Error error = new Error(ErrorConstants.GENE_WITH_NO_RNA_CODE, StringUtils.replace(ErrorConstants.GENE_WITH_NO_RNA_MESSAGE, "{}", foundGene.getDbIdentifier()));
+			Error error = new Error(ErrorConstants.GENE_WITH_NO_RNA_CODE,
+					StringUtils.replace(ErrorConstants.GENE_WITH_NO_RNA_MESSAGE, "{}", foundGene.getDbIdentifier()));
 			throw new InvalidGeneException(error, error.getMessage());
 		}
+	}
+
+	/**
+	 * Ensure that the dimensions of the RNA data in both genes are equal
+	 * 
+	 * @param firstGene
+	 * @param secondGene
+	 * @return
+	 */
+	public boolean compareGeneRnaDataLength(Gene firstGene, Gene secondGene) {
+		return firstGene.getRnaExpData().length == secondGene.getRnaExpData().length;
 	}
 }

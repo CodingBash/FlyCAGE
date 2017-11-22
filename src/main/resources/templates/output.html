@@ -498,7 +498,7 @@ tr.shown td.details-control {
 		                return (data.length > 25) ? data.substr( 0, 25 ) + "..." : data;
 		            }
 		        }],
-				aaSorting : [ [ 5, 'des' ] ],
+				aaSorting : [ [ 1, 'asc' ] ],
 				"pageLength" : 25,
 				dom: 'Bfrtip',
 				buttons: [
@@ -528,7 +528,7 @@ tr.shown td.details-control {
 			                return (data.length > 25) ? data.substr( 0, 25 ) + "..." : data;
 			            }
 			        }],
-					aaSorting : [ [ 5, 'des' ] ],
+					aaSorting : [ [ 1, 'asc' ] ],
 					"pageLength" : 25,
 					dom: 'Bfrtip',
 					buttons: [
@@ -832,6 +832,9 @@ tr.shown td.details-control {
 	</script>
 	<script>
 		/*<![CDATA[*/
+			/*
+			 * TODO: Aren't these lists already sorted?
+			 */
 			finalResponseCorrelationResult.correlationResults.sort(function(a,b) {
 	  			if (a.corrResult.rVal < b.corrResult.rVal){
 	     			return 1;
@@ -860,7 +863,7 @@ tr.shown td.details-control {
 				buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '"' + dataToggle +'>FlyMine</button>';
 				// Append any other buttons
 				
-				t.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
+				t.row.add([null, correlationResult.rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
 				rank++;
 			});
 			// Now that buttons are added, activate tooltip for all of them
@@ -880,7 +883,7 @@ tr.shown td.details-control {
 				buttonHtml += '<button type="button" class="btn btn-primary flymine-button" value="' + correlationResult.gene.dbIdentifier + '"' + dataToggle +'>FlyMine</button>';
 				// Append any other buttons
 				
-				t2.row.add([null, rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
+				t2.row.add([null, correlationResult.rank, correlationResult.gene.dbIdentifier, correlationResult.gene.secondaryIdentifier, correlationResult.gene.geneName, correlationResult.corrResult.rValueString, correlationResult.corrResult.pValSigFigs, buttonHtml]).draw(false);
 				rank++;
 			});
 			// Now that buttons are added, activate tooltip for all of them
