@@ -24,40 +24,51 @@
 						<div class="col-sm-12">
 							<form action="#" th:action="@{/}" th:object="${geneForm}"
 								method="POST">
-								<div class="form-group">
-									<label for="select-species">Select Species</label> <select
-										class="form-control" id="select-species"
+								<div class="form-group required">
+									<label class="control-label" for="select-species">Select
+										Species</label> <select class="form-control" id="select-species"
 										th:field="*{geneSpecies}">
-										<option value="D. melanogaster">D. melanogaster</option>
+										<option value="D. melanogaster" required="required">D.
+											melanogaster</option>
 									</select> <small id="species-help" class="form-text text-muted">Select
-										species</small>
+										the species.</small><br /> <small id="species-help-description"
+										class="form-text text-muted">Genes compared will only
+										be from the selected species.</small><br />
 								</div>
-								<div class="form-group">
-									<label for="insert-gene">Target Gene Name</label> <input
-										type="text" th:field="*{inputIdentifier}" class="form-control"
-										id="insert-gene" aria-describedby="gene-help"
-										placeholder="Example: ubx" /> <small id="gene-help"
+								<div class="form-group required">
+									<label class="control-label" for="insert-gene">Target
+										Gene Name</label> <input type="text" th:field="*{inputIdentifier}"
+										class="form-control" id="insert-gene"
+										aria-describedby="gene-help" placeholder="e.g. ubx"
+										required="required" /> <small id="gene-help"
 										class="form-text text-muted">Enter a gene. Format:
-										FlyBase ID, CG ID, formal gene name, gene synonyms</small>
+										FlyBase ID, CG ID, formal gene name, gene synonyms.</small><br /> <small
+										id="gene-help-description" class="form-text text-muted">The
+										target gene will be compared to the genome-wide dataset and
+										the genes of interest.</small><br />
 								</div>
 								<div class="form-group">
-									<label for="insert-gene">Genes of Interest</label> <input
-										type="text" th:field="*{genesOfInterest}" class="form-control"
-										id="genes-of-interest"
+									<label class="control-label" for="insert-gene">Genes of
+										Interest</label> <input type="text" th:field="*{genesOfInterest}"
+										class="form-control" id="genes-of-interest"
 										aria-describedby="genes-of-interest-help"
-										placeholder="Example: grh, en, salm, tsh, antp" /> <small
+										placeholder="e.g. grh, en, salm, tsh, antp" /> <small
 										id="genes-of-interest-help" class="form-text text-muted">Enter
-										genes to see how they correlate with the target gene. Format:
-										Comma delimited list of genes</small>
+										genes of interest <u>(optional)</u>. Format: Comma delimited
+										list of genes.
+									</small><br /> <small id="genes-of-interest-help-description"
+										class="form-text text-muted">Each gene in the genes of
+										interest list will be directly compared to the target gene.</small><br />
 								</div>
-								<div class="form-group">
-									<label for="result-count">Choose gene result count</label>
+								<div class="form-group required">
+									<label class="control-label" for="result-count">Choose
+										gene result count</label>
 									<div class="row">
 										<div class="col-sm-3">
 											<input type="number" min="2" max="25000"
 												th:field="*{geneResultCount} " class="form-control"
 												id="result-count" aria-describedby="result-count-help"
-												placeholder="100" />
+												placeholder="100" required="required" />
 											<!-- TODO: Max needs to be retrieved from back-end (should be total number of genes to be analyzed), back end needs to ensure no errors occur in validation and processing -->
 										</div>
 										<div class="col-sm-9">
@@ -69,13 +80,16 @@
 									<small id="result-count-help" class="form-text text-muted">Choose
 										the amount of genes that will display on the results page.
 										Large amounts will take significantly longer to process and
-										load results</small>
+										load results.</small><br />
 								</div>
 
 
-								<div class="text-left">
-									<div class="form-group">
-										<div id="accordion" role="tablist" aria-multiselectable="true">
+								<div>
+									<div class="form-group required">
+										<label class="control-label"
+											for="expression-stages">Choose Expression Stages</label>
+										<div id="expression-stages" role="tablist"
+											aria-multiselectable="true" class="text-left">
 											<div class="card form-card"
 												th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
 												<div class="card-header form-card-header" role="tab"
@@ -86,7 +100,7 @@
 															th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-main-checkbox'" />
 															<span class="custom-control-indicator"></span> <span
 															class="custom-control-description"><a
-																data-toggle="collapse" data-parent="#accordion"
+																data-toggle="collapse" data-parent="#expression-stages"
 																th:href="'#collapse-' + ${expressionStageGroup.groupTitle}"
 																aria-expanded="true"
 																th:aria-controls="'collapse-' + ${expressionStageGroup.groupTitle}"
@@ -118,6 +132,16 @@
 												</div>
 											</div>
 										</div>
+										<small id="expression-stages-help"
+											class="form-text text-muted text-center">Choose
+											expression stages.</small><br /> <small
+											id="expression-stages-help-description"
+											class="form-text text-muted text-center">Comparison
+											between genes will be performed only on selected expression
+											stages. Click the category text to show corresponding
+											expression stages. Click the expression stage checkbox to
+											select/deselect stage. Click the category checkbox to
+											select/deselect all corresponding expression stages.</small><br />
 									</div>
 								</div>
 								<div class="form-group">
