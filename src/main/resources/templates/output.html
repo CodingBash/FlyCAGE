@@ -233,50 +233,40 @@ tr.shown td.details-control {
 							</div>
 							<div class="card-body panel-block">
 
-								<div>
 
-									<!-- Button trigger modal -->
-									<button type="button" class="btn btn-primary"
-										data-toggle="modal" data-target="#exampleModalLong">
-										Launch demo modal</button>
-
-									<!-- Modal -->
-									<div class="modal fade" id="exampleModalLong" tabindex="-1"
-										role="dialog" aria-labelledby="exampleModalLongTitle"
-										aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLongTitle">Modal
-														title</h5>
-													<button type="button" class="close" data-dismiss="modal"
-														aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-													</button>
-												</div>
-												<div class="modal-body">
-													<table border="1" width="100%" cellpadding="5">
+								<!-- Modal -->
+								<!-- TODO: rename IDs to be more case-specific  -->
+								<div class="modal fade" id="exampleModalLong" tabindex="-1"
+									role="dialog" aria-labelledby="exampleModalLongTitle"
+									aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title text-center"
+													id="exampleModalLongTitle">Expression Stage List</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<table border="1" width="100%" cellpadding="5">
+													<tr>
+														<th>Numerical ID</th>
+														<th>Expression Stage Label</th>
+													</tr>
+													<th:block
+														th:each="selectedExpressionStageLabel, iter : ${selectedExpressionStageLabels}">
 														<tr>
-															<th>Numerical ID</th>
-															<th>Expression Stage Label</th>
+															<td th:text="${iter.count}"></td>
+															<td th:text="${selectedExpressionStageLabel}"></td>
 														</tr>
-														<th:block
-															th:each="selectedExpressionStageLabel, iter : ${selectedExpressionStageLabels}">
-															<tr>
-																<td th:text="${iter.count}"></td>
-																<td th:text="${selectedExpressionStageLabel}"></td>
-															</tr>
-														</th:block>
-													</table>
-												</div>
+													</th:block>
+												</table>
 											</div>
 										</div>
 									</div>
-
-
 								</div>
-
-
 
 								<div class="row extra-space"></div>
 								<h3 class="text-center">Correlated Genes Table</h3>
@@ -612,34 +602,19 @@ tr.shown td.details-control {
 				var plotDivId= pairwiseCorrelationDataAjaxRequestBody.inputGene + '-' + pairwiseCorrelationDataAjaxRequestBody.targetGene + '-graph';
 		        var tableIdExtender = pairwiseCorrelationDataAjaxRequestBody.inputGene + '-' + pairwiseCorrelationDataAjaxRequestBody.targetGene;
 		    	
-		    	var expressionStageMapping = '<div id="accordion-' + tableIdExtender+ '" role="tablist" aria-multiselectable="true">' +
-				  '<div class="card">' +
-				    '<div class="card-header" role="tab" id="heading-'+tableIdExtender+'">' +
-				      '<h6 class="mb-0">' +
-				        '<a class="collapsed" data-toggle="collapse" data-parent="#accordion-'+tableIdExtender+'" href="#collapse-'+tableIdExtender+'" aria-expanded="true" aria-controls="collapse-'+tableIdExtender+'">' +
-				          'View Expression Stage Mapping' +
-				        '</a>' +
-				      '</h6>' +
-				    '</div>' +
-				    '<div id="collapse-'+tableIdExtender+'" class="collapse" role="tabpanel" aria-labelledby="heading-'+tableIdExtender+'">' +
-				      '<div class="card-body">' +
-				        'Anim pariatur cliche reprehenderit, enim eiusmod high sustainable VHS.' +
-				      '</div>' +
-				    '</div>' +
-				  '</div>' +
-				'</div>';
+		    	var expressionStageMapping = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">' +
+						'See Expression Stage Mapping' +
+						'</button>';
 		    	
 				/*
 				 * HTML for the correlation-graph normalize button. Will be attached to the result string
 				 */
-				var normalizationButtonHtml = '<div class="text-center">'  +
-		    	'<button type="button" class="btn btn-primary normalization-btn text-center">Normalize</button>' +
-			    '</div>';
+				var normalizationButtonHtml = '<button type="button" class="btn btn-primary normalization-btn text-center">Normalize</button>';
 				/*
 					TODO: Add Datatable - do this after adding sorting to the plotly
 					TODO: May want to do this after the selective expression stage too (since I will need logic to make the table dynamic instead of static)
 				*/
-				return '<div id="' + plotDivId + '" class ="custom-plotly-plot"></div>' + normalizationButtonHtml +  expressionStageMapping;
+				return '<div id="' + plotDivId + '" class ="custom-plotly-plot"></div>' + '<div class="text-center">' + normalizationButtonHtml +  expressionStageMapping + '</div>';
 		    }
 			
 			/*
