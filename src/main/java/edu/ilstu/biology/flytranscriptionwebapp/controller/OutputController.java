@@ -44,6 +44,7 @@ public class OutputController {
 	@Autowired
 	private ExpressionStageOptionsGenerator expressionStageOptionsGenerator;
 
+	// TODO: Remove business logic from controller method
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm) {
 		ModelAndView mav = new ModelAndView();
@@ -52,6 +53,12 @@ public class OutputController {
 		List<Integer> selectedExpressionIndices = selectedExpressionStageIndices(geneForm.getExpressionStages(),
 				allExpressionStages);
 
+		// TODO: See if we can refactor how this logic is done. There may be a
+		// more optimized way to get all relevant expression stage information
+		List<String> selectedExpressionStageLabels = selectedExpressionStageLabels(selectedExpressionIndices,
+				allExpressionStages);
+		mav.addObject("selectedExpressionStageLabels", selectedExpressionStageLabels);
+		
 		// TODO: Input and security validation
 		List<String> geneOfInterestList = new ArrayList<String>(
 				Arrays.asList(StringUtils.delimitedListToStringArray(geneForm.getGenesOfInterest(), ",")));
@@ -71,7 +78,8 @@ public class OutputController {
 			result = correlationAnalysis.retrieveMrnaCorrelationResults(geneForm.getInputIdentifier(),
 					selectedExpressionIndices, geneOfInterestList, geneForm.getGeneResultCount());
 		} catch (InvalidGeneException ige) {
-			// TODO: Consider a redirect to "GET /" w/ redirectattributes (to switch the URL)
+			// TODO: Consider a redirect to "GET /" w/ redirectattributes (to
+			// switch the URL)
 			mav.addObject("exception", ige);
 			ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator
 					.generateExpressionStageOptions(); // TODO: Duplicate
@@ -80,7 +88,7 @@ public class OutputController {
 														// and use only one for
 														// both results
 			mav.addObject("expressionStageOptions", expressionStageOptions);
-			mav.setViewName("input"); 
+			mav.setViewName("input");
 			return mav;
 		}
 		mav.addObject("result", result);
@@ -91,6 +99,22 @@ public class OutputController {
 		mav.addObject("geneForm", geneForm);
 		mav.setViewName("output");
 		return mav;
+	}
+
+	/**
+	 * Retrieves the selected expression stage labels
+	 * 
+	 * @param selectedExpressionIndices
+	 * @param allExpressionStages
+	 * @return
+	 */
+	private List<String> selectedExpressionStageLabels(List<Integer> selectedExpressionIndices,
+			List<String> allExpressionStages) {
+		List<String> selectedExpressionStageLabels = new LinkedList<String>();
+		for(Integer index: selectedExpressionIndices){
+			selectedExpressionStageLabels.add(allExpressionStages.get(index));
+		}
+		return selectedExpressionStageLabels;
 	}
 
 	/*

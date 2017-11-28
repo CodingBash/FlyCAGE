@@ -477,6 +477,7 @@ tr.shown td.details-control {
 	/*<![CDATA[*/
 	    var finalResponseCorrelationResult = [[${result}]];
 	    var expressionStages = [[${geneForm.expressionStages}]];
+	    var selectedExpressionStageLabels = [[${selectedExpressionStageLabels}]]
 
 	/*]]>*/
 	</script>
@@ -733,6 +734,7 @@ tr.shown td.details-control {
 					name : pairwiseCorrelationDataAjaxRequestBody.inputGene,
 					y : pairwiseGeneCorrelationData.inputGeneData,
 					mode : 'lines+markers',
+					text : selectedExpressionStageLabels,
 					marker : {
 						color : 'blue',
 						size : 8
@@ -743,6 +745,7 @@ tr.shown td.details-control {
 				}, {
 					name : pairwiseCorrelationDataAjaxRequestBody.targetGene,
 					y : pairwiseGeneCorrelationData.targetGeneData,
+					text : selectedExpressionStageLabels,
 					mode : 'lines+markers',
 					marker : {
 						color : 'red',
