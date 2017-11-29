@@ -149,6 +149,12 @@ tr.shown td.details-control {
 	content: "*";
 	color: red;
 }
+
+
+/* For modal table width */
+#expressionStageMappingTable {
+	width="100%";
+}
 </style>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
@@ -242,7 +248,7 @@ tr.shown td.details-control {
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h5 class="modal-title text-center"
+												<h5 class="modal-title"
 													id="exampleModalLongTitle">Expression Stage List</h5>
 												<button type="button" class="close" data-dismiss="modal"
 													aria-label="Close">
@@ -250,7 +256,8 @@ tr.shown td.details-control {
 												</button>
 											</div>
 											<div class="modal-body">
-												<table border="1" width="100%" cellpadding="5">
+												<!-- TODO: Refactor width implementation -->
+												<table id="expressionStageMappingTable" width="100%" border="1" cellpadding="5">
 													<tr>
 														<th>Numerical ID</th>
 														<th>Expression Stage Label</th>
@@ -809,7 +816,7 @@ tr.shown td.details-control {
 		            
 		            // Apply width and height to two divs that are created by 
 		            // Plotly. Fixed some issueswith hidden overfull elements.
-		            $("table").css({
+		            $("table[id$=-results]").css({
 		                "width": newTableWidth + "px",
 		            });
 		            
