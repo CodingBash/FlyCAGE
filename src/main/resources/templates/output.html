@@ -155,6 +155,15 @@ tr.shown td.details-control {
 #expressionStageMappingTable {
 	width="100%";
 }
+
+/* For styling and spacing between normalize and expression stage button */
+.normalize-btn {
+	margin-right: 5px;
+}
+
+.expression-btn {
+	margin-left: 5px;
+}
 </style>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
@@ -265,7 +274,7 @@ tr.shown td.details-control {
 													<th:block
 														th:each="selectedExpressionStageLabel, iter : ${selectedExpressionStageLabels}">
 														<tr>
-															<td th:text="${iter.count}"></td>
+															<td th:text="${iter.count - 1}"></td>
 															<td th:text="${selectedExpressionStageLabel}"></td>
 														</tr>
 													</th:block>
@@ -602,15 +611,18 @@ tr.shown td.details-control {
 				});
 				
 			
-		
+			/*
+			 * TODO: Somehow move the HTML code to Thymeleaf tempalte? Very messy to attach too much HTML from javascript
+			 *
+			 */
 			/* Formatting function for row details - modify as you need */
 		    function attachPlotHtml(pairwiseCorrelationDataAjaxRequestBody) {
 		    	// TODO: Modularize these two variables
 				var plotDivId= pairwiseCorrelationDataAjaxRequestBody.inputGene + '-' + pairwiseCorrelationDataAjaxRequestBody.targetGene + '-graph';
 		        var tableIdExtender = pairwiseCorrelationDataAjaxRequestBody.inputGene + '-' + pairwiseCorrelationDataAjaxRequestBody.targetGene;
 		    	
-		    	var expressionStageMapping = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">' +
-						'See Expression Stage Mapping' +
+		    	var expressionStageMapping = '<button type="button" class="btn btn-primary expression-btn" data-toggle="modal" data-target="#exampleModalLong">' +
+						'See Stage Mapping' +
 						'</button>';
 		    	
 				/*
