@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Basheer Becerra's personal website." />
+<meta name="keywords"
+	content="Basheer, Becerra, Bash, developer, entrepreneur, researcher" />
+<meta name="author" content="Basheer Becerra" />
+
+<!-- Facebook and Twitter integration -->
+<meta property="og:title" content="" />
+<meta property="og:image" content="" />
+<meta property="og:url" content="" />
+<meta property="og:site_name" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:title" content="" />
+<meta name="twitter:image" content="" />
+<meta name="twitter:url" content="" />
+<meta name="twitter:card" content="" />
+
+<title>FlyCorr</title>
+
+<!-- Google Fonts -->
+<link
+	href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700'
+	rel='stylesheet' type='text/css'></link>
+<link
+	href='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css'
+	rel='stylesheet' type='text/css'></link>
+
+<!-- Latest compiled and minified CSS -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+	crossorigin="anonymous"></link>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" />
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+</head>
+<style>
+body {
+	background-color: #E4E4E4
+}
+
+.table-wrapper {
+	width: 95% !important;
+	margin: auto;
+}
+
+#query-comment {
+	width: 100%;
+	height: 200px;
+}
+
+.extra-space {
+	margin-top: 25px;
+}
+
+.query-inputs {
+	width: 100% !important;
+	margin: auto;
+}
+
+/* TODO: Quick Workaround to differentiate between main panels, and expression stage panels. Same with the other psuedopanel stylers Make more organized */
+.panel-header {
+	height: 10em;
+}
+
+/* For Plotlyjs CSS */
+div[id*="-graph"] {
+	width: 100%;
+}
+</style>
+<style>
+.panel {
+	border: 1px solid #5C0075;
+	border-radius: 0;
+	transition: box-shadow 0.5s;
+	border-radius: 0;
+}
+
+.panel-block {
+	background-color: #fff !important;
+}
+
+.panel-header {
+	color: #fff !important;
+	background-color: #5C0075 !important;
+	padding: 25px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom: 1px solid transparent;
+}
+
+.row {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+</style>
+
+<style th:inline="text">
+td.details-control {
+	background: url([[@{/images/details_open.png}]]) no-repeat center center;
+	cursor: pointer;
+}
+
+tr.shown td.details-control {
+	background: url([[@{/images/details_close.png}]]) no-repeat center
+		center;
+}
+</style>
+<style>
+/* Style the accordion checkboxes */
+.sub-checkbox-div {
+	padding-left: 50px !important;
+}
+</style>
+<style>
+/* For jQuery UI slider */
+#custom-handle {
+	width: 3em;
+	height: 1.6em;
+	top: 50%;
+	margin-top: -.8em;
+	text-align: center;
+	line-height: 1.6em;
+}
+
+/* For required astrick, add to external css */
+.form-group.required .control-label:after {
+	content: "*";
+	color: red;
+}
+
+/* For modal table width */
+#expressionStageMappingTable {width ="100%";
+	
+}
+
+/* For styling and spacing between normalize and expression stage button */
+.normalize-btn {
+	margin-right: 5px;
+}
+
+.expression-btn {
+	margin-left: 5px;
+}
+</style>
+<body>
+	<div th:include="fragments :: versioning"></div>
+	<div class="container-fluid">
+		<div class="card panel">
+			<div class="card-header panel-header text-center">
+				<h2>Help</h2>
+				<h4>Help description and simple walkthrough</h4>
+			</div>
+			<div class="card-body panel-block">
+				<div class="container-fluid">
+					<h5>What is FlyCAGE?</h5>
+					<p style="margin-left: 40px">FlyCAGE is a web-accessible
+						application that conducts integrative analysis of Drosophila
+						melanogaster mRNA expression data to discover genes with
+						correlated spatiotemporal expression. We would predict that genes
+						showing this correlation may be co-regulated or share similar
+						biological functions. FlyCAGE therefore allows us to identify
+						candidate genes involved in a given process, to discover
+						regulatory interactions in genetic networks, and to verify the
+						quality of gene clustering techniques. The general analysis of
+						FlyCAGE goes as the following: 1) submit an input target gene, 2)
+						conduct Pearson’s Correlation on every available gene in
+						Drosophila melanogaster, relative to the input target gene, 3)
+						Rank each gene based on the correlation coefficient.</p>
+					<h5>How to Submit a Request</h5>
+					<p style="margin-left: 40px">
+						We will begin to submit an analysis request.<br />
+						<br />The first input field (required) is “Select Species”.
+						Currently, the only option available is “D. melanogaster”.
+						Potentially in the future, we hope to expand CAGE to other
+						species. <br />
+						<br />The second input field (required) is “Target Gene Name”. In
+						this field, input the gene that you want the strongly correlated
+						gene results to be based on. The format of the input can be the
+						full gene name (i.e. “ultrabithorax”), gene synonym (i.e. “ubx”),
+						FlyBase ID (i.e. “FBgn0003944”), or CG annotation symbol (i.e.
+						“CG10388”).<br />
+						<br />The third input field (optional) is “Genes of Interest”. In
+						this field, input a list of genes with an interest in seeing how
+						they correlate with the target gene. The format of the input is a
+						comma-delimited list of genes with the same format as the “Target
+						Gene Name” field above (i.e. “grh, FBgn0000577, spalt major,
+						CG1374”). The gene identification type does not need to be
+						synonymous between each gene entry.<br />
+						<br />The fourth input field (required) is “Choose gene result
+						count”. In this field, input the amount of correlated genes to
+						display on the results page. By default, the input is set to 100.
+						Larger inputs may slow down page rendering.<br />
+						<br />The fifth input field (required) is “Choose Expression
+						Stages”. In this field, select the stages that you want to be
+						compared between the target gene and the genes in the selected
+						genome. The expression stages are organized by category:
+						Embryogenesis, Development, Tissue, Treatment, and Cell Line.
+						Clicking the checkbox next to the category text will check/uncheck
+						all expression stages corresponding to that category. To view the
+						specific expression stages, click the desired category text.
+						Clicking the checkbox next to the expression stage will
+						check/uncheck only that expression stage.<br />
+						<br />Note that the expression stages in each category are not
+						mutually exclusive; there exists some expression stages that
+						belong to multiple categories. For example, unchecking the
+						“Development” category will also uncheck the “Embryogenesis”
+						category since all expression stages from “Embryogenesis” exists
+						in “Development” Example: If you are only interested in
+						discovering genes with similar expression in development stages,
+						then only have the “Development” category selected.<br />
+						<br />Example: If you are only interested in discovering genes
+						with similar expression in development stages, then only have the
+						“Development” category selected.
+					</p>
+					<h5>How to Submit a Request</h5>
+					<p>
+						
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
