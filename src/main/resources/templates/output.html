@@ -150,10 +150,9 @@ tr.shown td.details-control {
 	color: red;
 }
 
-
 /* For modal table width */
-#expressionStageMappingTable {
-	width="100%";
+#expressionStageMappingTable {width ="100%";
+	
 }
 
 /* For styling and spacing between normalize and expression stage button */
@@ -167,6 +166,7 @@ tr.shown td.details-control {
 </style>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
+	<div th:include="fragments :: versioning"></div>
 	<div class="container-fluid">
 		<div class="text-xs-center"></div>
 		<div class="row">
@@ -257,8 +257,8 @@ tr.shown td.details-control {
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h5 class="modal-title"
-													id="exampleModalLongTitle">Expression Stage List</h5>
+												<h5 class="modal-title" id="exampleModalLongTitle">Expression
+													Stage List</h5>
 												<button type="button" class="close" data-dismiss="modal"
 													aria-label="Close">
 													<span aria-hidden="true">&times;</span>
@@ -266,7 +266,8 @@ tr.shown td.details-control {
 											</div>
 											<div class="modal-body">
 												<!-- TODO: Refactor width implementation -->
-												<table id="expressionStageMappingTable" width="100%" border="1" cellpadding="5">
+												<table id="expressionStageMappingTable" width="100%"
+													border="1" cellpadding="5">
 													<tr>
 														<th>Numerical ID</th>
 														<th>Expression Stage Label</th>
