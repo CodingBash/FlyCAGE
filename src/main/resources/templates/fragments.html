@@ -4,12 +4,30 @@
 <title>Thymeleaf Fragments</title>
 </head>
 <body>
-	<div th:fragment="versioning">
-		<div class="container-fluid">
-			<div class="row">
-				<span style="margin: auto">in-alpha V0.0.21</span>
+	<div th:fragment="navbar">
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<a class="navbar-brand" href="#">FlyCAGE</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="input.html" th:href="@{/}">Analyze
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link disabled" href="#">What's New?</a></li>
+					<li class="nav-item"><a class="nav-link disabled" href="#">APIs</a></li>
+					<li class="nav-item"><a class="nav-link disabled" href="#">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="help.html"
+						th:href="@{/help}">Help</a></li>
+				</ul>
+				<span class="navbar-text"> in-alpha V0.0.21 </span>
 			</div>
-		</div>
+		</nav>
 	</div>
 	<div th:fragment="exception">
 		<div th:if="${exception}">

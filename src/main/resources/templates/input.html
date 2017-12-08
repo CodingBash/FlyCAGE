@@ -106,7 +106,6 @@ div[id*="-graph"] {
 
 .form-card-header {
 	background-color: #fff !important;
-	border-bottom: 1px solid #000 !important;
 }
 
 .row {
@@ -148,11 +147,15 @@ tr.shown td.details-control {
 	content: "*";
 	color: red;
 }
+
+/*For navbar */
+nav {
+	background-color: #E4E4E4 !important;
+}
 </style>
 </head>
 <body>
-
-	<div th:include="fragments :: versioning"></div>
+	<div th:include="fragments :: navbar"></div>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
