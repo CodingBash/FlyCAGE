@@ -172,6 +172,10 @@ tr.shown td.details-control {
 	height: auto;
 	margin: 0 auto;
 }
+
+.indent {
+	margin-left: 40px;
+}
 </style>
 <body>
 	<div th:include="fragments :: versioning"></div>
@@ -184,76 +188,83 @@ tr.shown td.details-control {
 			<div class="card-body panel-block">
 				<div class="container-fluid">
 					<h5>What is FlyCAGE?</h5>
-					<p style="margin-left: 40px">FlyCAGE is a web-accessible
-						application that conducts integrative analysis of Drosophila
-						melanogaster mRNA expression data to discover genes with
-						correlated spatiotemporal expression. We would predict that genes
-						showing this correlation may be co-regulated or share similar
-						biological functions. FlyCAGE therefore allows us to identify
-						candidate genes involved in a given process, to discover
-						regulatory interactions in genetic networks, and to verify the
-						quality of gene clustering techniques. The general analysis of
-						FlyCAGE goes as the following: 1) submit an input target gene, 2)
-						conduct Pearson’s Correlation on every available gene in
-						Drosophila melanogaster, relative to the input target gene, 3)
-						Rank each gene based on the correlation coefficient.</p>
+					<p class="indent">FlyCAGE is a web-accessible application that
+						conducts integrative analysis of Drosophila melanogaster mRNA
+						expression data to discover genes with correlated spatiotemporal
+						expression. We would predict that genes showing this correlation
+						may be co-regulated or share similar biological functions. FlyCAGE
+						therefore allows us to identify candidate genes involved in a
+						given process, to discover regulatory interactions in genetic
+						networks, and to verify the quality of gene clustering techniques.
+						The general analysis of FlyCAGE goes as the following: 1) submit
+						an input target gene, 2) conduct Pearson’s Correlation on every
+						available gene in Drosophila melanogaster, relative to the input
+						target gene, 3) Rank each gene based on the correlation
+						coefficient.</p>
 					<h5>How to Submit a Request</h5>
-					<p style="margin-left: 40px">
-						We will begin to submit an analysis request.<br /> <br /> The
-						first input field (required) is “Select Species”. Currently, the
-						only option available is “D. melanogaster”. Potentially in the
-						future, we hope to expand CAGE to other species. <br /> <img
-							th:src="@{images/species-inp.jpg}"
-							src="../static/images/species-inp.jpg"
-							class="img-format"></img> <br /> The second
-						input field (required) is “Target Gene Name”. In this field, input
-						the gene that you want the strongly correlated gene results to be
-						based on. The format of the input can be the full gene name (i.e.
-						“ultrabithorax”), gene synonym (i.e. “ubx”), FlyBase ID (i.e.
-						“FBgn0003944”), or CG annotation symbol (i.e. “CG10388”).<br /> <img
-							th:src="@{images/target-inp.jpg}"
-							src="../static/images/target-inp.jpg"
-							class="img-format"></img> <br />The
-						third input field (optional) is “Genes of Interest”. In this
-						field, input a list of genes with an interest in seeing how they
-						correlate with the target gene. The format of the input is a
-						comma-delimited list of genes with the same format as the “Target
-						Gene Name” field above (i.e. “grh, FBgn0000577, spalt major,
-						CG1374”). The gene identification type does not need to be
-						synonymous between each gene entry.<br /><img
-							th:src="@{images/goi-inp.jpg}"
-							src="../static/images/goi-inp.jpg"
-							class="img-format"></img>  <br />The fourth input
-						field (required) is “Choose gene result count”. In this field,
-						input the amount of correlated genes to display on the results
-						page. By default, the input is set to 100. Larger inputs may slow
-						down page rendering.<br /><img
-							th:src="@{images/count-inp.jpg}"
-							src="../static/images/count-inp.jpg"
-							class="img-format"></img> <br />The fifth input field
-						(required) is “Choose Expression Stages”. In this field, select
-						the stages that you want to be compared between the target gene
-						and the genes in the selected genome. The expression stages are
-						organized by category: Embryogenesis, Development, Tissue,
-						Treatment, and Cell Line. Clicking the checkbox next to the
-						category text will check/uncheck all expression stages
-						corresponding to that category. To view the specific expression
-						stages, click the desired category text. Clicking the checkbox
-						next to the expression stage will check/uncheck only that
-						expression stage.<br /><img
-							th:src="@{images/exp-stage-inp.jpg}"
-							src="../static/images/exp-stage-inp.jpg"
-							class="img-format"></img> <br />Note that the expression stages in
-						each category are not mutually exclusive; there exists some
-						expression stages that belong to multiple categories. For example,
-						unchecking the “Development” category will also uncheck the
-						“Embryogenesis” category since all expression stages from
-						“Embryogenesis” exists in “Development” Example: If you are only
-						interested in discovering genes with similar expression in
+					<p class="indent">We will begin to submit an analysis request.
+					</p>
+					<h6 class="indent">Input: Select Species</h6>
+					<p class="indent">The first input field (required) is “Select
+						Species”. Currently, the only option available is “D.
+						melanogaster”. Potentially in the future, we hope to expand CAGE
+						to other species.</p>
+					<img th:src="@{images/species-inp.jpg}"
+						src="../static/images/species-inp.jpg" class="img-format"></img>
+					<h6 class="indent">Input: Target Gene Name</h6>
+					<p class="indent">The second input field (required) is “Target
+						Gene Name”. In this field, input the gene that you want the
+						strongly correlated gene results to be based on. The format of the
+						input can be the full gene name (i.e. “ultrabithorax”), gene
+						synonym (i.e. “ubx”), FlyBase ID (i.e. “FBgn0003944”), or CG
+						annotation symbol (i.e. “CG10388”).</p>
+					<img th:src="@{images/target-inp.jpg}"
+						src="../static/images/target-inp.jpg" class="img-format"></img>
+					<h6 class="indent">Input: Genes of Interest</h6>
+					<p class="indent">The third input field (optional) is “Genes of
+						Interest”. In this field, input a list of genes with an interest
+						in seeing how they correlate with the target gene. The format of
+						the input is a comma-delimited list of genes with the same format
+						as the “Target Gene Name” field above (i.e. “grh, FBgn0000577,
+						spalt major, CG1374”). The gene identification type does not need
+						to be synonymous between each gene entry.</p>
+					<img th:src="@{images/goi-inp.jpg}"
+						src="../static/images/goi-inp.jpg" class="img-format"></img>
+					<h6 class="indent">Input: Choose gene result count</h6>
+					<p class="indent">The fourth input field (required) is “Choose
+						gene result count”. In this field, input the amount of correlated
+						genes to display on the results page. By default, the input is set
+						to 100. Larger inputs may slow down page rendering.</p>
+					<img th:src="@{images/count-inp.jpg}"
+						src="../static/images/count-inp.jpg" class="img-format"></img>
+					<h6 class="indent">Input: Choose Expression Stages</h6>
+					<p class="indent">The fifth input field (required) is “Choose
+						Expression Stages”. In this field, select the stages that you want
+						to be compared between the target gene and the genes in the
+						selected genome. The expression stages are organized by category:
+						Embryogenesis, Development, Tissue, Treatment, and Cell Line.
+						Clicking the checkbox next to the category text will check/uncheck
+						all expression stages corresponding to that category. To view the
+						specific expression stages, click the desired category text.
+						Clicking the checkbox next to the expression stage will
+						check/uncheck only that expression stage.</p>
+					<img th:src="@{images/exp-stage-inp.jpg}"
+						src="../static/images/exp-stage-inp.jpg" class="img-format"></img>
+					<img th:src="@{images/exp-stage-expanded-inp.jpg}"
+						src="../static/images/exp-stage-expanded-inp.jpg"
+						class="img-format"></img>
+					<p class="indent">
+						Note that the expression stages in each category are not mutually
+						exclusive; there exists some expression stages that belong to
+						multiple categories. For example, unchecking the “Development”
+						category will also uncheck the “Embryogenesis” category since all
+						expression stages from “Embryogenesis” exists in “Development”
+						Example: If you are only interested in discovering genes with
+						similar expression in development stages, then only have the
+						“Development” category selected.<br /> <br />Example: If you are
+						only interested in discovering genes with similar expression in
 						development stages, then only have the “Development” category
-						selected.<br /> <br />Example: If you are only interested in
-						discovering genes with similar expression in development stages,
-						then only have the “Development” category selected.
+						selected.
 					</p>
 					<h5>How to Submit a Request</h5>
 					<p></p>

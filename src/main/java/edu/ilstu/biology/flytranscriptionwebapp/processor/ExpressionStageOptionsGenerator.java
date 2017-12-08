@@ -33,7 +33,7 @@ public class ExpressionStageOptionsGenerator {
 		 * Add embryology expressionStageGroup
 		 */
 		ExpressionStageGroup embryologyExpressionStageGroup = new ExpressionStageGroup();
-		embryologyExpressionStageGroup.setGroupTitle("embryology");
+		embryologyExpressionStageGroup.setGroupTitle("embryogenesis");
 		List<String> embryologyExpressionStageList = new LinkedList<String>();
 		// Add embryo stages
 		for(int i = 56; i <= 67; i++){
@@ -113,7 +113,7 @@ public class ExpressionStageOptionsGenerator {
 		 * Add cell-line expressionStageGroup
 		 */
 		ExpressionStageGroup cellLineExpressionStageGroup = new ExpressionStageGroup();
-		cellLineExpressionStageGroup.setGroupTitle("cellline");
+		cellLineExpressionStageGroup.setGroupTitle("cell-line");
 		List<String> cellLineExpressionStageList = new LinkedList<String>();
 		// Add embryo stages
 		for(int i = 98; i <= 103; i++){

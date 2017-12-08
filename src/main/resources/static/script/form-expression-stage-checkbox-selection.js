@@ -8,6 +8,10 @@
 	 * "group"-master-checkbox *indeterminate*
 	 */
 	var adjustMasterCheckboxes = function(subCheckbox) {
+		/*
+		 * Retrieve the target class name
+		 * (i.e. embryogenesis-sub-checkbox
+		 */
 		allClassNames = $(subCheckbox).prop('class').split(" ");
 		checkboxClassName = "";
 		$.each(allClassNames, function(i) {
@@ -16,8 +20,12 @@
 				return false; // break
 			}
 		});
+		
+		/*
+		 * Get the expression stage group name
+		 */
 		groupName = checkboxClassName.substring(0, checkboxClassName
-				.indexOf('-'));
+				.indexOf('-sub-checkbox'));
 
 		var oneChecked = false;
 		var allTrue = true;
