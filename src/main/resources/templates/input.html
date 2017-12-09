@@ -261,5 +261,66 @@ nav {
 			});
 		});
 	</script>
+	<script th:inline="javascript">
+		/* for custom data sliders */
+		/*<![CDATA[*/
+		var expressionStageOptions = /*[[${expressionStageOptions}]]*/[];
+		/*]]>*/
+		var DEFAULT_CUSTOM_DATA = 0;
+
+		expressionStageOptions.expressionStageGroupList.forEach(function(expressionStageGroup){
+			expressionStageGroup.expressionStageList.forEach(function(expressionStage){
+				$(function() {
+					var handleId = "#" + expressionStage + "-custom-handle";
+					var sliderId = "#" + expressionStage + "-slider";
+					var inputId  = "#" + expressionStage + "-custom-input";
+					
+					var handle = $(handleId);
+
+					var createEvent = function(sliderElement) {
+						/*
+						 * If input = default (meaning the form is fresh)
+						 * Do the initial createSlider event
+						 */
+						$(sliderId).slider("option", "value", DEFAULT_CUSTOM_DATA); // Value set to default TODO: must be in sync with input box
+						handle.text(DEFAULT_CUSTOM_DATA); // Set default value to handle
+					};
+
+					var slideEvent = function(value) {
+						handle.text(value);
+
+						var value = $(sliderId).slider("option", "value");
+						$(inputId).val(value);
+					};
+
+					var changeEvent = function() {
+						var value = $(sliderId).slider("option", "value");
+						$(inputId).val(value);
+					};
+
+					$(sliderId).slider({
+						create : function() {
+							createEvent(this)
+						},
+						slide : function(event, ui) {
+							slideEvent(ui.value);
+						},
+						change : function(event, ui) {
+							changeEvent();
+						}
+					});
+					$(sliderId).slider("option", "min", 0); 
+					$(sliderId).slider("option", "max", 1); 
+
+					$(inputId).on('change', function() {
+						var val = $(inputId).val();
+						$(sliderId).slider("option", "value", val);
+						slideEvent(val);
+					});
+				});
+			});
+		});
+
+	</script>
 </body>
 </html>
