@@ -16,10 +16,11 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="input.html" th:href="@{/}">Analyze
-							<span class="sr-only">(current)</span>
+					<li class="nav-item active"><a class="nav-link"
+						href="input.html" th:href="@{/}">Analyze <span class="sr-only">(current)</span>
 					</a></li>
-					<li class="nav-item"><a class="nav-link disabled" href="#">What's New?</a></li>
+					<li class="nav-item"><a class="nav-link disabled" href="#">What's
+							New?</a></li>
 					<li class="nav-item"><a class="nav-link disabled" href="#">APIs</a></li>
 					<li class="nav-item"><a class="nav-link disabled" href="#">About</a></li>
 					<li class="nav-item"><a class="nav-link" href="help.html"
@@ -72,6 +73,37 @@
 										target gene will be compared to the genome-wide dataset and
 										the genes of interest.</small><br />
 								</div>
+
+
+
+								<div class="form-group">
+									<div
+										th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
+										<div
+											th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
+											<div class="row">
+												<div class="col-sm-3">
+													<label class="control-label" for=""
+														th:text="${expressionStage}">expression-stage</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="number" min="0" max="1"
+														th:field="*{customExpression[__${expressionStage}__]}"
+														class="form-control" id="" aria-describedby=""
+														placeholder="0" />
+												</div>
+												<div class="col-sm-6">
+													<div id="slider">
+														<div id="custom-handle" class="ui-slider-handle"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+
 								<div class="form-group">
 									<label class="control-label" for="insert-gene">Genes of
 										Interest</label> <input type="text" th:field="*{genesOfInterest}"

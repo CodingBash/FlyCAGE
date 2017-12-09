@@ -16,6 +16,8 @@ public class GeneForm {
 
 	private Map<String, Boolean> expressionStages;
 
+	private Map<String, Double> customExpression;
+
 	public String getGeneSpecies() {
 		return geneSpecies;
 	}
@@ -62,6 +64,14 @@ public class GeneForm {
 
 	public void setExpressionStages(Map<String, Boolean> expressionStages) {
 		this.expressionStages = expressionStages;
+	}
+
+	public Map<String, Double> getCustomExpression() {
+		return customExpression;
+	}
+
+	public void setCustomExpression(Map<String, Double> customExpression) {
+		this.customExpression = customExpression;
 	}
 
 }
