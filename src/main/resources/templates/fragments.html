@@ -77,31 +77,51 @@
 
 
 								<div class="form-group">
-									<div
-										th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
-										<div
-											th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
-											<div class="row">
-												<div class="col-sm-3">
-													<label class="control-label" for=""
-														th:text="${expressionStage}">expression-stage</label>
-												</div>
-												<div class="col-sm-3">
-													<input type="number" min="0" max="1"
-														th:field="*{customExpression[__${expressionStage}__]}"
-														class="form-control" id="custom-input" th:id="${expressionStage} + '-custom-input'" aria-describedby=""
-														placeholder="0" />
-												</div>
-												<div class="col-sm-6">
-													<div id="slider" th:id="${expressionStage} + '-slider'">
-														<div id="custom-handle" th:id="${expressionStage} + '-custom-handle'" class="ui-slider-handle"></div>
+									<div id="expression-stages" role="tablist"
+										aria-multiselectable="true" class="text-left">
+										<div class="card form-card"
+											th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
+											<div class="card-header form-card-header" role="tab"
+												th:id="'heading-'+${expressionStageGroup.groupTitle}">
+												<h5 class="mb-0">
+													<span class="custom-control-description"><a
+														data-toggle="collapse" data-parent="#expression-stages"
+														th:href="'#collapse-' + ${expressionStageGroup.groupTitle}"
+														aria-expanded="true"
+														th:aria-controls="'collapse-' + ${expressionStageGroup.groupTitle}"
+														th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">GroupTitle</a></span>
+												</h5>
+											</div>
+											<div th:id="'collapse-' + ${expressionStageGroup.groupTitle}"
+												class="collapse" role="tabpanel"
+												th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupTitle}">
+												<div class="card-body">
+													<div class="row"
+														th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
+														<div class="col-sm-3">
+															<label class="control-label" for=""
+																th:text="${expressionStage}">||||expression-stage-text||||</label>
+														</div>
+														<div class="col-sm-3">
+															<input type="number" min="0" max="1"
+																th:field="*{customExpression[__${expressionStage}__]}"
+																class="form-control" id="custom-input"
+																th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage} + '-custom-input'"
+																aria-describedby="" placeholder="0" />
+														</div>
+														<div class="col-sm-6">
+															<div id="slider" th:id="${expressionStage} + '-slider'">
+																<div id="custom-handle"
+																	th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage} + '-custom-handle'"
+																	class="ui-slider-handle"></div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-
 
 
 								<div class="form-group">

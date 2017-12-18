@@ -271,9 +271,9 @@ nav {
 		expressionStageOptions.expressionStageGroupList.forEach(function(expressionStageGroup){
 			expressionStageGroup.expressionStageList.forEach(function(expressionStage){
 				$(function() {
-					var handleId = "#" + expressionStage + "-custom-handle";
-					var sliderId = "#" + expressionStage + "-slider";
-					var inputId  = "#" + expressionStage + "-custom-input";
+					var handleId = "#" + expressionStageGroup.groupTitle + '-' + expressionStage + "-custom-handle";
+					var sliderId = "#" + expressionStageGroup.groupTitle + '-' + expressionStage + "-slider";
+					var inputId  = "#" + expressionStageGroup.groupTitle + '-' + expressionStage + "-custom-input";
 					
 					var handle = $(handleId);
 
