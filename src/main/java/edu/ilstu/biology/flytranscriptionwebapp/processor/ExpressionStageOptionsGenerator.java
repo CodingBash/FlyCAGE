@@ -1,11 +1,13 @@
 package edu.ilstu.biology.flytranscriptionwebapp.processor;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import edu.ilstu.biology.flytranscriptionwebapp.model.ExpressionStage;
 import edu.ilstu.biology.flytranscriptionwebapp.model.ExpressionStageGroup;
 import edu.ilstu.biology.flytranscriptionwebapp.model.ExpressionStageOptions;
 
@@ -22,19 +24,32 @@ public class ExpressionStageOptionsGenerator {
 	/*
 	 * TODO: At a production level, accept an enum of species with predefined
 	 * groups, and map with corresponding options
+	 * 
+	 * TODO: Cleaner way of adding titles and ids 
 	 */
 	public ExpressionStageOptions generateExpressionStageOptions() {
 		
-		List<String> allExpressionStages = retrieveExpressionStages.getDmelanogasterExpressionStages();
+		List<String> allExpressionStagesRaw = retrieveExpressionStages.getDmelanogasterExpressionStages();
 		ExpressionStageOptions expressionStageOptions = new ExpressionStageOptions();
 		List<ExpressionStageGroup> expressionStageGroupList = new LinkedList<ExpressionStageGroup>();
+		List<ExpressionStage> allExpressionStages = new ArrayList<ExpressionStage>(allExpressionStagesRaw.size());
+		
+		int idCounter = 0;
+		for(String expressionStageString : allExpressionStagesRaw){
+			ExpressionStage expressionStage = new ExpressionStage();
+			expressionStage.setExpressionStageTitle(expressionStageString);
+			expressionStage.setExpressionStageId("stage" + idCounter);
+			allExpressionStages.add(expressionStage);
+			idCounter++;
+		}
 		
 		/*
-		 * Add embryology expressionStageGroup
+		 * Add embryogenesis expressionStageGroup
 		 */
 		ExpressionStageGroup embryologyExpressionStageGroup = new ExpressionStageGroup();
 		embryologyExpressionStageGroup.setGroupTitle("embryogenesis");
-		List<String> embryologyExpressionStageList = new LinkedList<String>();
+		embryologyExpressionStageGroup.setGroupId("group" + 0);
+		List<ExpressionStage> embryologyExpressionStageList = new LinkedList<ExpressionStage>();
 		// Add embryo stages
 		for(int i = 56; i <= 67; i++){
 			embryologyExpressionStageList.add(allExpressionStages.get(i));
@@ -47,7 +62,8 @@ public class ExpressionStageOptionsGenerator {
 		 */
 		ExpressionStageGroup developmentExpressionStageGroup = new ExpressionStageGroup();
 		developmentExpressionStageGroup.setGroupTitle("development");
-		List<String> developmentExpressionStageList = new LinkedList<String>();
+		developmentExpressionStageGroup.setGroupId("group" + 1);
+		List<ExpressionStage> developmentExpressionStageList = new LinkedList<ExpressionStage>();
 		// Add embryo stages
 		for(int i = 56; i <= 67; i++){
 			developmentExpressionStageList.add(allExpressionStages.get(i));
@@ -73,7 +89,8 @@ public class ExpressionStageOptionsGenerator {
 		 */
 		ExpressionStageGroup tissueExpressionStageGroup = new ExpressionStageGroup();
 		tissueExpressionStageGroup.setGroupTitle("tissue");
-		List<String> tissueExpressionStageList = new LinkedList<String>();
+		tissueExpressionStageGroup.setGroupId("group" + 2);
+		List<ExpressionStage> tissueExpressionStageList = new LinkedList<ExpressionStage>();
 		// A Mate stages
 		for(int i = 11; i <= 29; i++){
 			tissueExpressionStageList.add(allExpressionStages.get(i));
@@ -98,7 +115,8 @@ public class ExpressionStageOptionsGenerator {
 		 */
 		ExpressionStageGroup treatmentExpressionStageGroup = new ExpressionStageGroup();
 		treatmentExpressionStageGroup.setGroupTitle("treatment");
-		List<String> treatmentExpressionStageList = new LinkedList<String>();
+		treatmentExpressionStageGroup.setGroupId("group" + 3);
+		List<ExpressionStage> treatmentExpressionStageList = new LinkedList<ExpressionStage>();
 		// larva stages
 		for(int i = 82; i <= 90; i++){
 			treatmentExpressionStageList.add(allExpressionStages.get(i));
@@ -114,7 +132,8 @@ public class ExpressionStageOptionsGenerator {
 		 */
 		ExpressionStageGroup cellLineExpressionStageGroup = new ExpressionStageGroup();
 		cellLineExpressionStageGroup.setGroupTitle("cell-line");
-		List<String> cellLineExpressionStageList = new LinkedList<String>();
+		cellLineExpressionStageGroup.setGroupId("group" + 4);
+		List<ExpressionStage> cellLineExpressionStageList = new LinkedList<ExpressionStage>();
 		// Add embryo stages
 		for(int i = 98; i <= 103; i++){
 			cellLineExpressionStageList.add(allExpressionStages.get(i));

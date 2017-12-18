@@ -4,7 +4,8 @@ import java.util.List;
 
 public class ExpressionStageGroup {
 	private String groupTitle;
-	private List<String> expressionStageList;
+	private String groupId;
+	private List<ExpressionStage> expressionStageList;
 
 	public String getGroupTitle() {
 		return groupTitle;
@@ -14,11 +15,19 @@ public class ExpressionStageGroup {
 		this.groupTitle = groupTitle;
 	}
 
-	public List<String> getExpressionStageList() {
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	public List<ExpressionStage> getExpressionStageList() {
 		return expressionStageList;
 	}
 
-	public void setExpressionStageList(List<String> expressionStageList) {
+	public void setExpressionStageList(List<ExpressionStage> expressionStageList) {
 		this.expressionStageList = expressionStageList;
 	}
 
