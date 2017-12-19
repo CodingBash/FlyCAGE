@@ -154,9 +154,6 @@ public class ExpressionStageOptionsGenerator {
 		for (int i = 30; i <= 31; i++) {
 			cellLineExpressionStageList.add(allExpressionStages.get(i));
 		}
-		for (int i = 91; i <= 96; i++) {
-			cellLineExpressionStageList.add(allExpressionStages.get(i));
-		}
 		cellLineExpressionStageList.add(allExpressionStages.get(55));
 
 		// TODO: Add the others
