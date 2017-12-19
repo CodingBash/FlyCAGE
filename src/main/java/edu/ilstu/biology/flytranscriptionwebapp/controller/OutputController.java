@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.ilstu.biology.flytranscriptionwebapp.model.ExpressionStageOptions;
 import edu.ilstu.biology.flytranscriptionwebapp.model.FinalResponseCorrelationResult;
+import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneForm;
 import edu.ilstu.biology.flytranscriptionwebapp.model.PairwiseCorrelationDataAjaxRequestBody;
 import edu.ilstu.biology.flytranscriptionwebapp.model.PairwiseGeneCorrelationData;
@@ -46,7 +49,7 @@ public class OutputController {
 
 	// TODO: Remove business logic from controller method
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
-	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm) {
+	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		List<String> allExpressionStages = retrieveExpressionStages.getDmelanogasterExpressionStages();
 
@@ -58,7 +61,46 @@ public class OutputController {
 		List<String> selectedExpressionStageLabels = selectedExpressionStageLabels(selectedExpressionIndices,
 				allExpressionStages);
 		mav.addObject("selectedExpressionStageLabels", selectedExpressionStageLabels);
-		
+
+		Gene customGene = null;
+		// TODO: Custom gene expression
+		boolean customExpressionFormPosted = false;
+		/*
+		 * TODO: Need to handle scenarios where all 0s are sent in form,
+		 * although I am sure this would break the correlation analysis (need to
+		 * restrict identical value submission)
+		 */
+		Map<String, Double> customExpressionMap = geneForm.getCustomExpression();
+		for (Map.Entry<String, Double> entry : customExpressionMap.entrySet()) {
+			if (entry.getValue() != 0d) {
+				customExpressionFormPosted = true;
+				break;
+			}
+		}
+		if (customExpressionFormPosted) {
+			// CREATE RNAEXP
+			// TODO: RNAEXP is an integer array, thus the form needs to be from
+			// 1 to 100 instead. For now, will just multiple by 100
+			int[] rnaExpData = new int[allExpressionStages.size()];
+			// TODO: SET NO GAURANTEE OF SORTNESS, need to do string mapping
+			// between expressionStageMap and customExpressionMap
+			for (int i = 0; i < allExpressionStages.size(); i++) {
+				System.out.println(i);
+				rnaExpData[i] = (int) (customExpressionMap.get(allExpressionStages.get(i)) * 100);
+			}
+
+			// CREATE GENE
+			customGene = new Gene();
+			customGene.setGeneName("INPUT GENE");
+			customGene.setDbIdentifier("INPUT GENE");
+			customGene.setSecondaryIdentifier("INPUT GENE");
+			customGene.setRnaExpData(rnaExpData);
+			
+			// TODO: I dont like session solution, change to request solution
+			session.setAttribute("customGene", customGene);
+
+		}
+
 		// TODO: Input and security validation
 		List<String> geneOfInterestList = new ArrayList<String>(
 				Arrays.asList(StringUtils.delimitedListToStringArray(geneForm.getGenesOfInterest(), ",")));
@@ -75,7 +117,11 @@ public class OutputController {
 
 		FinalResponseCorrelationResult result = null;
 		try {
-			result = correlationAnalysis.retrieveMrnaCorrelationResults(geneForm.getInputIdentifier(),
+			/*
+			 * Bad method invoking design (for custom gene), overload these
+			 * methods
+			 */
+			result = correlationAnalysis.retrieveMrnaCorrelationResults(customGene, geneForm.getInputIdentifier(),
 					selectedExpressionIndices, geneOfInterestList, geneForm.getGeneResultCount());
 		} catch (InvalidGeneException ige) {
 			// TODO: Consider a redirect to "GET /" w/ redirectattributes (to
@@ -111,7 +157,7 @@ public class OutputController {
 	private List<String> selectedExpressionStageLabels(List<Integer> selectedExpressionIndices,
 			List<String> allExpressionStages) {
 		List<String> selectedExpressionStageLabels = new LinkedList<String>();
-		for(Integer index: selectedExpressionIndices){
+		for (Integer index : selectedExpressionIndices) {
 			selectedExpressionStageLabels.add(allExpressionStages.get(index));
 		}
 		return selectedExpressionStageLabels;
@@ -125,11 +171,19 @@ public class OutputController {
 	 */
 	@PostMapping("/pairwise-correlation-data")
 	public ResponseEntity<PairwiseGeneCorrelationData> getSearchResultViaAjax(
-			@RequestBody PairwiseCorrelationDataAjaxRequestBody body) {
+			@RequestBody PairwiseCorrelationDataAjaxRequestBody body, HttpSession session) {
 		PairwiseGeneCorrelationData pData = new PairwiseGeneCorrelationData();
 		List<Integer> selectedIndices = selectedExpressionStageIndices(body.getSelectedExpressionStages(),
 				retrieveExpressionStages.getDmelanogasterExpressionStages());
-		pData.setInputGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getInputGene(), selectedIndices));
+		// TODO: Make "INPUT GENE" a constant
+		if (body.getInputGene().equals("INPUT GENE")) {
+			pData.setInputGeneData(
+					// TODO: Need to have better typecase and nullcheck handling on session.get
+					retrieveCorrelationData.retrieveCorrelationData((Gene) session.getAttribute("customGene"), selectedIndices));
+		} else {
+			pData.setInputGeneData(
+					retrieveCorrelationData.retrieveCorrelationData(body.getInputGene(), selectedIndices));
+		}
 		pData.setTargetGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getTargetGene(), selectedIndices));
 		return ResponseEntity.ok(pData);
 	}

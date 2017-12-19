@@ -75,6 +75,7 @@ public class ExpressionStageOptionsGenerator {
 		for (int i = 75; i <= 81; i++) {
 			developmentExpressionStageList.add(allExpressionStages.get(i));
 		}
+		developmentExpressionStageList.add(allExpressionStages.get(97));
 		for (int i = 49; i <= 54; i++) {
 			developmentExpressionStageList.add(allExpressionStages.get(i));
 		}

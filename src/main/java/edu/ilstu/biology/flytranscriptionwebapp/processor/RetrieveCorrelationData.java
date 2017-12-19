@@ -19,6 +19,22 @@ public class RetrieveCorrelationData {
 	@Qualifier("genomeData")
 	private List<Gene> genomeData;
 
+	// TODO: Remove duplicate code, add modularity
+	public List<Integer> retrieveCorrelationData(Gene customGene, List<Integer> selectedIndices) {
+		List<Integer> correlationData = Ints.asList(customGene.getRnaExpData());
+
+		/*
+		 * Now only keep indices that were selected
+		 */
+		List<Integer> finalCorrelationData = new ArrayList<Integer>(selectedIndices.size());
+		for(Integer index : selectedIndices){
+			finalCorrelationData.add(correlationData.get(index));
+		}
+		
+		// Find out the better way of creating empty lists
+		return finalCorrelationData;
+	}
+	
 	public List<Integer> retrieveCorrelationData(String inputIdentifier, List<Integer> selectedIndices) {
 		List<Integer> correlationData = null;
 		/*

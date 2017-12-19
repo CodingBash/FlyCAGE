@@ -49,9 +49,12 @@ public class GenomicCorrelationAnalysis {
 	 * Handler method: retrieves and validates gene, and retrieves the
 	 * correlation result
 	 */
-	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(String inputIdentifier,
+	// TODO: Bad method design with custom gene, overload instead
+	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(Gene customGene, String inputIdentifier,
 			List<Integer> selectedExpressionIndices, List<String> inputGeneOfInterestList, Integer geneResultCount) {
-		Gene inputGene = findGeneInGenome(inputIdentifier);
+		
+		// TODO: I like this ternary, maybe not overloading is fine, take more thought on this
+		Gene inputGene = (customGene == null) ? findGeneInGenome(inputIdentifier) : customGene;
 
 		geneValidator.validateFoundGene(inputGene); // throws unchecked
 													// InvalidGeneException
