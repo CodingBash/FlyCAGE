@@ -58,7 +58,7 @@ var changeIdenticalCheckboxes = function(subCheckbox, form_group) {
 	identicalCheckboxes.prop('checked', subCheckbox.checked);
 
 	identicalCheckboxes.each(function(index, currentCheckbox) {
-		adjustMasterCheckboxes(currentCheckbox);
+		adjustMasterCheckboxes(currentCheckbox, form_group);
 	});
 
 }
