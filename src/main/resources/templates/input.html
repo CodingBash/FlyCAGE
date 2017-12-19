@@ -309,6 +309,7 @@ nav {
 
 						var value = sliderObject.slider("option", "value");
 						inputObject.val(value);
+						programmaticallyChangeSubCheckbox(sliderObject.parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
 					};
 
 					var changeEvent = function() {

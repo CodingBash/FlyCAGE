@@ -83,8 +83,13 @@ $.each(form_group, function(k) {
 		$('.' + groups[i] + form_group[k] + 'sub-checkbox').change(function() {
 			adjustMasterCheckboxes(this, form_group[k]);
 			changeIdenticalCheckboxes(this, form_group[k]);
-
 		});
 
 	});
 })
+
+function programmaticallyChangeSubCheckbox(subCheckbox, form_group, value){
+	subCheckbox.prop("checked", value);
+	adjustMasterCheckboxes(subCheckbox, form_group);
+	changeIdenticalCheckboxes(subCheckbox, form_group);
+}
