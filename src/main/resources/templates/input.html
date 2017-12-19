@@ -133,13 +133,21 @@ tr.shown td.details-control {
 </style>
 <style>
 /* For jQuery UI slider */
-#custom-handle {
-	width: 3em;
-	height: 1.6em;
-	top: 50%;
+div[id*="custom-handle"] {
+	width: 3em !important;
+	height: 1.6em !important;
+	top: 50% !important;
 	margin-top: -.8em;
 	text-align: center;
 	line-height: 1.6em;
+}
+
+div[id*="slider"] .ui-slider-range {
+	background: #5C0075 !important;
+}
+
+div[id*="slider"] .ui-slider-handle {
+	border-color: #5C0075 !important;
 }
 
 /* For required astrick, add to external css */
@@ -153,6 +161,7 @@ nav {
 	background-color: #E4E4E4 !important;
 }
 </style>
+
 </head>
 <body>
 	<div th:include="fragments :: navbar"></div>
@@ -241,6 +250,8 @@ nav {
 			};
 
 			$("#slider").slider({
+				orientation : "horizontal",
+				range: "min",
 				create : function() {
 					createEvent(this)
 				},
@@ -268,37 +279,46 @@ nav {
 		/*]]>*/
 		var DEFAULT_CUSTOM_DATA = 0;
 
-		expressionStageOptions.expressionStageGroupList.forEach(function(expressionStageGroup){
-			expressionStageGroup.expressionStageList.forEach(function(expressionStage){
+		expressionStageOptions.expressionStageGroupList.forEach(function(
+				expressionStageGroup) {
+			expressionStageGroup.expressionStageList.forEach(function(
+					expressionStage) {
 				$(function() {
-					var handleId = "#" + expressionStageGroup.groupTitle + '-' + expressionStage.expressionStageTitle + "-custom-handle";
-					var sliderId = "#" + expressionStageGroup.groupTitle + '-' + expressionStage.expressionStageTitle + "-slider";
-					var inputId  = "#" + expressionStageGroup.groupTitle + '-' + expressionStage.expressionStageTitle + "-custom-input";
-					
-					var handle = $(handleId);
+					var sliderObject = $("#" + expressionStageGroup.groupId
+							+ '-' + expressionStage.expressionStageId
+							+ "-slider");
+					var handleObject = $("#" + expressionStageGroup.groupId
+							+ '-' + expressionStage.expressionStageId
+							+ "-custom-handle");
+					var inputObject = $("#" + expressionStageGroup.groupId
+							+ '-' + expressionStage.expressionStageId
+							+ "-custom-input");
 
 					var createEvent = function(sliderElement) {
 						/*
 						 * If input = default (meaning the form is fresh)
 						 * Do the initial createSlider event
 						 */
-						$(sliderId).slider("option", "value", DEFAULT_CUSTOM_DATA); // Value set to default TODO: must be in sync with input box
-						handle.text(DEFAULT_CUSTOM_DATA); // Set default value to handle
+						sliderObject.slider("option", "value",
+								DEFAULT_CUSTOM_DATA); // Value set to default TODO: must be in sync with input box
+						handleObject.text(DEFAULT_CUSTOM_DATA); // Set default value to handle
 					};
 
 					var slideEvent = function(value) {
-						handle.text(value);
+						handleObject.text(value);
 
-						var value = $(sliderId).slider("option", "value");
-						$(inputId).val(value);
+						var value = sliderObject.slider("option", "value");
+						inputObject.val(value);
 					};
 
 					var changeEvent = function() {
-						var value = $(sliderId).slider("option", "value");
-						$(inputId).val(value);
+						var value = sliderObject.slider("option", "value");
+						inputObject.val(value);
 					};
 
-					$(sliderId).slider({
+					sliderObject.slider({
+						orientation : "horizontal",
+						range: "min",
 						create : function() {
 							createEvent(this)
 						},
@@ -309,18 +329,18 @@ nav {
 							changeEvent();
 						}
 					});
-					$(sliderId).slider("option", "min", 0); 
-					$(sliderId).slider("option", "max", 1); 
+					sliderObject.slider("option", "min", 0);
+					sliderObject.slider("option", "max", 1);
+					sliderObject.slider("option", "step", 0.01);
 
-					$(inputId).on('change', function() {
-						var val = $(inputId).val();
-						$(sliderId).slider("option", "value", val);
+					inputObject.on('change', function() {
+						var val = inputObject.val();
+						sliderObject.slider("option", "value", val);
 						slideEvent(val);
 					});
 				});
 			});
 		});
-
 	</script>
 </body>
 </html>
