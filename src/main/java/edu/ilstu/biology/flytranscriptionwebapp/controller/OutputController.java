@@ -70,8 +70,8 @@ public class OutputController {
 		 * although I am sure this would break the correlation analysis (need to
 		 * restrict identical value submission)
 		 */
-		Map<String, Double> customExpressionMap = geneForm.getCustomExpression();
-		for (Map.Entry<String, Double> entry : customExpressionMap.entrySet()) {
+		Map<String, Integer> customExpressionMap = geneForm.getCustomExpression();
+		for (Map.Entry<String, Integer> entry : customExpressionMap.entrySet()) {
 			if (entry.getValue() != 0d) {
 				customExpressionFormPosted = true;
 				break;
@@ -85,8 +85,7 @@ public class OutputController {
 			// TODO: SET NO GAURANTEE OF SORTNESS, need to do string mapping
 			// between expressionStageMap and customExpressionMap
 			for (int i = 0; i < allExpressionStages.size(); i++) {
-				System.out.println(i);
-				rnaExpData[i] = (int) (customExpressionMap.get(allExpressionStages.get(i)) * 100);
+				rnaExpData[i] = customExpressionMap.get(allExpressionStages.get(i));
 			}
 
 			// CREATE GENE
