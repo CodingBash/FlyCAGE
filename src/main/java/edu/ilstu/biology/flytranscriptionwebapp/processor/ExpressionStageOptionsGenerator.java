@@ -39,6 +39,7 @@ public class ExpressionStageOptionsGenerator {
 			ExpressionStage expressionStage = new ExpressionStage();
 			expressionStage.setExpressionStageTitle(expressionStageString);
 			expressionStage.setExpressionStageId("stage" + idCounter);
+			expressionStage.setExpressionStageNumericalId(idCounter);
 			allExpressionStages.add(expressionStage);
 			idCounter++;
 		}
@@ -52,6 +53,7 @@ public class ExpressionStageOptionsGenerator {
 		ExpressionStageGroup embryologyExpressionStageGroup = new ExpressionStageGroup();
 		embryologyExpressionStageGroup.setGroupTitle("embryogenesis");
 		embryologyExpressionStageGroup.setGroupId("group" + 0);
+		embryologyExpressionStageGroup.setGroupNumericalId(0);
 		List<ExpressionStage> embryologyExpressionStageList = new LinkedList<ExpressionStage>();
 		// Add embryo stages
 		for (int i = 56; i <= 67; i++) {
@@ -66,6 +68,7 @@ public class ExpressionStageOptionsGenerator {
 		ExpressionStageGroup developmentExpressionStageGroup = new ExpressionStageGroup();
 		developmentExpressionStageGroup.setGroupTitle("development");
 		developmentExpressionStageGroup.setGroupId("group" + 1);
+		developmentExpressionStageGroup.setGroupNumericalId(1);
 		List<ExpressionStage> developmentExpressionStageList = new LinkedList<ExpressionStage>();
 		// Add embryo stages
 		for (int i = 56; i <= 67; i++) {
@@ -94,6 +97,7 @@ public class ExpressionStageOptionsGenerator {
 		ExpressionStageGroup tissueExpressionStageGroup = new ExpressionStageGroup();
 		tissueExpressionStageGroup.setGroupTitle("tissue");
 		tissueExpressionStageGroup.setGroupId("group" + 2);
+		tissueExpressionStageGroup.setGroupNumericalId(2);
 		List<ExpressionStage> tissueExpressionStageList = new LinkedList<ExpressionStage>();
 		// A Mate stages
 		for (int i = 11; i <= 29; i++) {
@@ -120,6 +124,7 @@ public class ExpressionStageOptionsGenerator {
 		ExpressionStageGroup treatmentExpressionStageGroup = new ExpressionStageGroup();
 		treatmentExpressionStageGroup.setGroupTitle("treatment");
 		treatmentExpressionStageGroup.setGroupId("group" + 3);
+		treatmentExpressionStageGroup.setGroupNumericalId(3);
 		List<ExpressionStage> treatmentExpressionStageList = new LinkedList<ExpressionStage>();
 		// larva stages
 		for (int i = 82; i <= 90; i++) {
@@ -137,6 +142,7 @@ public class ExpressionStageOptionsGenerator {
 		ExpressionStageGroup cellLineExpressionStageGroup = new ExpressionStageGroup();
 		cellLineExpressionStageGroup.setGroupTitle("cell-line");
 		cellLineExpressionStageGroup.setGroupId("group" + 4);
+		cellLineExpressionStageGroup.setGroupNumericalId(4);
 		List<ExpressionStage> cellLineExpressionStageList = new LinkedList<ExpressionStage>();
 		// Add embryo stages
 		for (int i = 98; i <= 103; i++) {

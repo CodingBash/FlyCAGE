@@ -5,6 +5,7 @@ import java.util.List;
 public class ExpressionStageGroup {
 	private String groupTitle;
 	private String groupId;
+	private Integer groupNumericalId; // TODO: Move away from groupId:String
 	private List<ExpressionStage> expressionStageList;
 
 	public String getGroupTitle() {
@@ -21,6 +22,14 @@ public class ExpressionStageGroup {
 
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
+	}
+
+	public Integer getGroupNumericalId() {
+		return groupNumericalId;
+	}
+
+	public void setGroupNumericalId(Integer groupNumericalId) {
+		this.groupNumericalId = groupNumericalId;
 	}
 
 	public List<ExpressionStage> getExpressionStageList() {

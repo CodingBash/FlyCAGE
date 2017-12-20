@@ -116,70 +116,79 @@
 														id="custom-data-form">
 														<label class="control-label">Custom Gene
 															Expression Data</label>
-														<div id="expression-stages" role="tablist"
-															aria-multiselectable="true" class="text-left">
-															<div class="card form-card"
-																th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
-																<div class="card-header form-card-header" role="tab"
-																	th:id="'heading-'+${expressionStageGroup.groupId}">
-																	<h5 class="mb-0">
-																		<label class="custom-control custom-checkbox">
-																			<input type="checkbox"
-																			th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'"
-																			th:id="${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'" />
-																			<span class="custom-control-indicator"></span> <span
-																			class="custom-control-description"><a
-																				data-toggle="collapse"
-																				data-parent="#expression-stages"
-																				th:href="'#collapse-' + ${expressionStageGroup.groupId}"
-																				aria-expanded="true"
-																				th:aria-controls="'collapse-' + ${expressionStageGroup.groupId}"
-																				th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">GroupTitle</a></span>
-																		</label>
-																	</h5>
-																</div>
-																<div
-																	th:id="'collapse-' + ${expressionStageGroup.groupId}"
-																	class="collapse" role="tabpanel"
-																	th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupId}">
-																	<div class="card-body">
-																		<div class="row custom-data-entry"
-																			th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
-																			<div class="col-sm-4">
-																				<div class="sub-checkbox-div">
-																					<label class="custom-control custom-checkbox">
-																						<input type="checkbox"
-																						th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
-																						value="true"
-																						th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-sub-checkbox'"
-																						th:name="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
-																						th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle} + '-custom-data-sub-checkbox'" />
-																						<span class="custom-control-indicator"></span> <span
-																						class="custom-control-description"
-																						th:text="${expressionStage.expressionStageTitle}">Expression
-																							Stage</span>
-																					</label>
-																				</div>
-																			</div>
-																			<div class="col-sm-2">
-																				<!-- MAKE SURE STEP IS SAME AS SLIDER STEP -->
-																				<input type="number" min="0" max="100" step="1"
-																					th:field="*{customExpression[__${expressionStage.expressionStageTitle}__]}"
-																					class="form-control" id="custom-input"
-																					th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-input'"
-																					aria-describedby="" placeholder="0" />
-																			</div>
-																			<div class="col-sm-6">
-																				<div
-																					th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-slider'">
-																					<div id="custom-handle"
-																						th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-handle'"
-																						class="ui-slider-handle"></div>
+
+
+														<div class="row">
+															<div class="col-md-6">
+																<div id="expression-stages" role="tablist"
+																	aria-multiselectable="true" class="text-left">
+																	<div class="card form-card"
+																		th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
+																		<div class="card-header form-card-header" role="tab"
+																			th:id="'heading-'+${expressionStageGroup.groupId}">
+																			<h5 class="mb-0">
+																				<label class="custom-control custom-checkbox">
+																					<input type="checkbox"
+																					th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'"
+																					th:id="${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'" />
+																					<span class="custom-control-indicator"></span> <span
+																					class="custom-control-description"><a
+																						data-toggle="collapse"
+																						data-parent="#expression-stages"
+																						th:href="'#collapse-' + ${expressionStageGroup.groupId}"
+																						aria-expanded="true"
+																						th:aria-controls="'collapse-' + ${expressionStageGroup.groupId}"
+																						th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">GroupTitle</a></span>
+																				</label>
+																			</h5>
+																		</div>
+																		<div
+																			th:id="'collapse-' + ${expressionStageGroup.groupId}"
+																			class="collapse" role="tabpanel"
+																			th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupId}">
+																			<div class="card-body">
+																				<div class="row custom-data-entry"
+																					th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
+																					<div class="col-sm-4">
+																						<div class="sub-checkbox-div">
+																							<label class="custom-control custom-checkbox">
+																								<input type="checkbox"
+																								th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
+																								value="true"
+																								th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-sub-checkbox'"
+																								th:name="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
+																								th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle} + '-custom-data-sub-checkbox'" />
+																								<span class="custom-control-indicator"></span> <span
+																								class="custom-control-description"
+																								th:text="${expressionStage.expressionStageTitle}">Expression
+																									Stage</span>
+																							</label>
+																						</div>
+																					</div>
+																					<div class="col-sm-2">
+																						<!-- MAKE SURE STEP IS SAME AS SLIDER STEP -->
+																						<input type="number" min="0" max="100" step="1"
+																							th:field="*{customExpression[__${expressionStage.expressionStageTitle}__]}"
+																							class="form-control" id="custom-input"
+																							th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-input'"
+																							aria-describedby="" placeholder="0" />
+																					</div>
+																					<div class="col-sm-6">
+																						<div
+																							th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-slider'">
+																							<div id="custom-handle"
+																								th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-handle'"
+																								class="ui-slider-handle"></div>
+																						</div>
+																					</div>
 																				</div>
 																			</div>
 																		</div>
 																	</div>
 																</div>
+															</div>
+															<div class="col-md-6" id="plot-container">
+																<div id="custom-data-plot" class="custom-plotly-plot"></div>
 															</div>
 														</div>
 														<small id="custom-gene-help" class="form-text text-muted">Manually
