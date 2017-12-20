@@ -251,7 +251,7 @@ nav {
 
 			$("#slider").slider({
 				orientation : "horizontal",
-				range: "min",
+				range : "min",
 				create : function() {
 					createEvent(this)
 				},
@@ -284,9 +284,9 @@ nav {
 			expressionStageGroup.expressionStageList.forEach(function(
 					expressionStage) {
 				$(function() {
-					var sliderObject = $("#" + expressionStageGroup.groupId
-							+ '-' + expressionStage.expressionStageId
-							+ "-slider");
+					var sliderId = "#" + expressionStageGroup.groupId + '-'
+							+ expressionStage.expressionStageId + "-slider"
+					var sliderObject = $(sliderId);
 					var handleObject = $("#" + expressionStageGroup.groupId
 							+ '-' + expressionStage.expressionStageId
 							+ "-custom-handle");
@@ -306,20 +306,24 @@ nav {
 
 					var slideEvent = function(value) {
 						handleObject.text(value);
-
-						var value = sliderObject.slider("option", "value");
 						inputObject.val(value);
-						programmaticallyChangeSubCheckbox(sliderObject.parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
+						programmaticallyChangeSubCheckbox(sliderObject.parent().parent().find("input[type='checkbox']:checkbox"),"-custom-data-", true);
+						$("div[id$='" + '-' + expressionStage.expressionStageId + "-slider']").not(sliderId).slider("option", "value", value);
 					};
 
-					var changeEvent = function() {
-						var value = sliderObject.slider("option", "value");
+					var changeEvent = function(value) {
 						inputObject.val(value);
+						handleObject.text(value);
+						
+						// Condition prevents change on pageload
+						if(value != 0){
+							programmaticallyChangeSubCheckbox(sliderObject.parent().parent().find("input[type='checkbox']:checkbox"),"-custom-data-", true);
+						}
 					};
 
 					sliderObject.slider({
 						orientation : "horizontal",
-						range: "min",
+						range : "min",
 						create : function() {
 							createEvent(this)
 						},
@@ -327,13 +331,13 @@ nav {
 							slideEvent(ui.value);
 						},
 						change : function(event, ui) {
-							changeEvent();
+							changeEvent(ui.value);
 						}
 					});
 					sliderObject.slider("option", "min", 0);
 					sliderObject.slider("option", "max", 1);
 					// MAKE SURE STEP IS SAME AS NUMBER INPUT ELEMENT
-					sliderObject.slider("option", "step", 0.01); 
+					sliderObject.slider("option", "step", 0.01);
 
 					inputObject.on('change', function() {
 						var val = inputObject.val();
@@ -345,10 +349,11 @@ nav {
 		});
 	</script>
 	<script>
-	/*
-	 * Custom Data Checkbox custom logic
-	 */
-	$("input[type='checkbox'][class*='custom-data']:checkbox").prop('checked', false);
+		/*
+		 * Custom Data Checkbox custom logic
+		 */
+		$("input[type='checkbox'][class*='custom-data']:checkbox").prop(
+				'checked', false);
 	</script>
 </body>
 </html>
