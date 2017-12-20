@@ -26,7 +26,7 @@
 					<li class="nav-item"><a class="nav-link" href="help.html"
 						th:href="@{/help}">Help</a></li>
 				</ul>
-				<span class="navbar-text"> in-alpha V0.0.22 </span>
+				<span class="navbar-text"> in-alpha V0.0.23 </span>
 			</div>
 		</nav>
 	</div>
@@ -52,7 +52,8 @@
 								method="POST">
 								<div class="form-group required">
 									<label class="control-label" for="select-species">Select
-										Species</label> <select class="form-control" id="select-species"
+										Species <i>(required)</i>
+									</label> <select class="form-control" id="select-species"
 										th:field="*{geneSpecies}">
 										<option value="D. melanogaster" required="required">D.
 											melanogaster</option>
@@ -61,97 +62,151 @@
 										class="form-text text-muted">Genes compared will only
 										be from the selected species.</small><br />
 								</div>
+
 								<div class="form-group required">
-									<label class="control-label" for="insert-gene">Target
-										Gene Name</label> <input type="text" th:field="*{inputIdentifier}"
-										class="form-control" id="insert-gene"
-										aria-describedby="gene-help" placeholder="e.g. ubx"
-										required="required"/> <small id="gene-help"
-										class="form-text text-muted">Enter a gene. Format:
-										FlyBase ID, CG ID, formal gene name, gene synonyms.</small><br /> <small
-										id="gene-help-description" class="form-text text-muted">The
-										target gene will be compared to the genome-wide dataset and
-										the genes of interest.</small><br />
-								</div>
-
-
-
-								<div class="form-group">
-									<label class="control-label">Custom Gene Expression
-										Data</label>
-									<div id="expression-stages" role="tablist"
+									<label class="control-label" for="gene-accordion">Target
+										Gene Information</label>
+									<div id="gene-accordion" role="tablist"
 										aria-multiselectable="true" class="text-left">
-										<div class="card form-card"
-											th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
+										<div class="card form-card">
 											<div class="card-header form-card-header" role="tab"
-												th:id="'heading-'+${expressionStageGroup.groupId}">
+												id="heading-target-gene-form">
 												<h5 class="mb-0">
-													<label class="custom-control custom-checkbox"> <input
-														type="checkbox"
-														th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'"
-														th:id="${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'" />
-														<span class="custom-control-indicator"></span> <span
-														class="custom-control-description"><a
-															data-toggle="collapse" data-parent="#expression-stages"
-															th:href="'#collapse-' + ${expressionStageGroup.groupId}"
-															aria-expanded="true"
-															th:aria-controls="'collapse-' + ${expressionStageGroup.groupId}"
-															th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">GroupTitle</a></span>
-													</label>
+													<span class="custom-control-description"><a
+														data-toggle="collapse" data-parent="#gene-accordion"
+														href="#collapse-target-gene-form" aria-expanded="true"
+														aria-controls="collapse-target-gene-form">Existing
+															Gene Form</a></span>
 												</h5>
 											</div>
-											<div th:id="'collapse-' + ${expressionStageGroup.groupId}"
-												class="collapse" role="tabpanel"
-												th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupId}">
+											<div id="collapse-target-gene-form" class="collapse show"
+												role="tabpanel" aria-labelledby="heading-target-gene-form">
 												<div class="card-body">
-													<div class="row custom-data-entry"
-														th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
-														<div class="col-sm-4">
-															<div class="sub-checkbox-div">
-																<label class="custom-control custom-checkbox"> <input
-																	type="checkbox"
-																	th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
-																	value="true"
-																	th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-sub-checkbox'"
-																	th:name="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
-																	th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle} + '-custom-data-sub-checkbox'" />
-																	<span class="custom-control-indicator"></span> <span
-																	class="custom-control-description"
-																	th:text="${expressionStage.expressionStageTitle}">Expression
-																		Stage</span>
-																</label>
+													<div class="form-group required text-center">
+														<label class="control-label" for="insert-gene">Existing
+															Gene Name</label> <input type="text"
+															th:field="*{inputIdentifier}" class="form-control"
+															id="insert-gene" aria-describedby="gene-help"
+															placeholder="e.g. ubx" required="required" /> <small
+															id="gene-help" class="form-text text-muted">Enter
+															a gene. Format: FlyBase ID, CG ID, formal gene name, gene
+															synonyms.</small><br /> <small id="gene-help-description"
+															class="form-text text-muted">The target gene will
+															be compared to the genome-wide dataset and the genes of
+															interest.</small><br />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card form-card">
+											<div class="card-header form-card-header" role="tab"
+												id="heading-custom-gene-form">
+												<h5 class="mb-0">
+													<span class="custom-control-description"><a
+														data-toggle="collapse" data-parent="#gene-accordion"
+														href="#collapse-custom-gene-form"
+														aria-controls="collapse-custom-gene-form">Custom Gene
+															Form</a></span>
+												</h5>
+											</div>
+											<div id="collapse-custom-gene-form" class="collapse"
+												role="tabpanel" aria-labelledby="heading-custom-gene-form">
+												<div class="card-body">
+													<div class="form-group required text-center"
+														id="custom-data-form">
+														<label class="control-label">Custom Gene
+															Expression Data</label>
+														<div id="expression-stages" role="tablist"
+															aria-multiselectable="true" class="text-left">
+															<div class="card form-card"
+																th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
+																<div class="card-header form-card-header" role="tab"
+																	th:id="'heading-'+${expressionStageGroup.groupId}">
+																	<h5 class="mb-0">
+																		<label class="custom-control custom-checkbox">
+																			<input type="checkbox"
+																			th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'"
+																			th:id="${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'" />
+																			<span class="custom-control-indicator"></span> <span
+																			class="custom-control-description"><a
+																				data-toggle="collapse"
+																				data-parent="#expression-stages"
+																				th:href="'#collapse-' + ${expressionStageGroup.groupId}"
+																				aria-expanded="true"
+																				th:aria-controls="'collapse-' + ${expressionStageGroup.groupId}"
+																				th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">GroupTitle</a></span>
+																		</label>
+																	</h5>
+																</div>
+																<div
+																	th:id="'collapse-' + ${expressionStageGroup.groupId}"
+																	class="collapse" role="tabpanel"
+																	th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupId}">
+																	<div class="card-body">
+																		<div class="row custom-data-entry"
+																			th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
+																			<div class="col-sm-4">
+																				<div class="sub-checkbox-div">
+																					<label class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																						th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
+																						value="true"
+																						th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-sub-checkbox'"
+																						th:name="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
+																						th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle} + '-custom-data-sub-checkbox'" />
+																						<span class="custom-control-indicator"></span> <span
+																						class="custom-control-description"
+																						th:text="${expressionStage.expressionStageTitle}">Expression
+																							Stage</span>
+																					</label>
+																				</div>
+																			</div>
+																			<div class="col-sm-2">
+																				<!-- MAKE SURE STEP IS SAME AS SLIDER STEP -->
+																				<input type="number" min="0" max="100" step="1"
+																					th:field="*{customExpression[__${expressionStage.expressionStageTitle}__]}"
+																					class="form-control" id="custom-input"
+																					th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-input'"
+																					aria-describedby="" placeholder="0" />
+																			</div>
+																			<div class="col-sm-6">
+																				<div
+																					th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-slider'">
+																					<div id="custom-handle"
+																						th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-handle'"
+																						class="ui-slider-handle"></div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
 															</div>
 														</div>
-														<div class="col-sm-2">
-															<!-- MAKE SURE STEP IS SAME AS SLIDER STEP -->
-															<input type="number" min="0" max="100" step="1"
-																th:field="*{customExpression[__${expressionStage.expressionStageTitle}__]}"
-																class="form-control" id="custom-input"
-																th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-input'"
-																aria-describedby="" placeholder="0" />
-														</div>
-														<div class="col-sm-6">
-															<div
-																th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-slider'">
-																<div id="custom-handle"
-																	th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-handle'"
-																	class="ui-slider-handle"></div>
-															</div>
-														</div>
+														<small id="custom-gene-help" class="form-text text-muted">Manually
+															enter custom gene expression data.</small><br /> <small
+															id="custom-gene-help-description"
+															class="form-text text-muted">The custom
+															expression pattern entered will be used to find other
+															known genes with similar patterns. Click the category
+															text to show corresponding expression stages. Click the
+															expression stage checkbox to include/exclude the stage.
+															Click the category checkbox to include/exclude all
+															corresponding expression stages. Use the slider or
+															textbox to determine the value for the corresponding
+															stage.</small><br />
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<small id="custom-gene-help" class="form-text text-muted">Manually
-										enter custom gene expression data</small><br /> <small
-										id="custom-gene-help-description" class="form-text text-muted">The
-										custom expression pattern entered will be used to find other
-										known genes with similar patterns. Use the slider or textbox
-										to determine the value. Check the checkbox to include an
-										expression stage.</small><br />
+									<small id="custom-gene-help" class="form-text text-muted">This
+										is the form to specify the target gene information.</small><br /> <small
+										id="gene-accordion-help-description"
+										class="form-text text-muted">You can either enter an
+										existing gene name (by clicking "Existing Gene Form"), or you
+										may enter custom gene expression data (by clicking "Custom
+										Gene Form").</small><br />
 								</div>
-
 
 								<div class="form-group">
 									<label class="control-label" for="insert-gene">Genes of
@@ -188,7 +243,6 @@
 										Large amounts will take significantly longer to process and
 										load results.</small><br />
 								</div>
-
 
 								<div>
 									<div class="form-group required">
