@@ -157,7 +157,7 @@
 																								<input type="checkbox"
 																								th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
 																								value="true"
-																								th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-sub-checkbox'"
+																								th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-custom-data-sub-checkbox'"
 																								th:attr="data-stage=${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
 																								th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-data-sub-checkbox'" />
 																								<span class="custom-control-indicator"></span> <span
@@ -336,10 +336,11 @@
 			//<![CDATA[
 			var expressionStageOptions = /*[[${expressionStageOptions}]]*/'ERROR: Unable to import expressionStageOptions';
 			var groups = [];
-			$.each(expressionStageOptions.expressionStageGroupList, function(i,
-					currentElement) {
-				groups.push(currentElement.groupTitle);
+			expressionStageOptions.expressionStageGroupList
+				.forEach(function(expressionStageGroup) {
+					groups.push(expressionStageGroup.groupId);
 			});
+			
 			console.log(expressionStageOptions);
 			//]]>
 		</script>
