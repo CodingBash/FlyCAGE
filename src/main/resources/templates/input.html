@@ -78,6 +78,7 @@ body {
 div[id*="-graph"] {
 	width: 100%;
 }
+
 </style>
 <style>
 .card {
@@ -324,12 +325,8 @@ nav {
 														+ "-slider']").not(
 												sliderId).slider("option",
 												"value", value);
-									};
-
-									var changeEvent = function(value) {
-										inputObject.val(value);
-										handleObject.text(value);
-
+										
+										// TODO: Modularize this
 										// Condition prevents change on pageload. Maybe wrap around all method calls
 										if (value != 0) {
 											// Change identical subcheckboxes
@@ -358,7 +355,20 @@ nav {
 											$("#insert-gene").prop("required",
 													!oneChecked);
 										}
+
 									};
+
+									// TODO: this event is called on pageLoad for all sliders, thus reducing performance. Optimize
+									var changeEvent = function(value) {
+										inputObject.val(value);
+										handleObject.text(value);
+									};
+									
+									// TODO: Move more logic to this event
+									var stopEvent = function(value) {
+										// Update Plotlyjs
+										updatePlotly(expressionStageGroup.groupId, expressionStage.expressionStageId);
+									}
 
 									sliderObject.slider({
 										orientation : "horizontal",
@@ -371,6 +381,9 @@ nav {
 										},
 										change : function(event, ui) {
 											changeEvent(ui.value);
+										},
+										stop : function(event, ui) {
+											stopEvent(ui.value);
 										}
 									});
 									sliderObject.slider("option", "min", 0);
@@ -407,22 +420,18 @@ nav {
 							$("#insert-gene").prop("required", !oneChecked);
 						});
 		
-		// Update plotly when checkbox updates
-		$("input[id$='-custom-data-sub-checkbox']").on("change",
-				function() {
-			// UPDATE PLOTLY
-			// TODO
-			var checked = this.checked;
-			var id = this.id;
-			var name = $("#" + id).attr("data-stage");
+		function updatePlotly(groupId, expressionStageId){
+			// Get jQuery element objects
+			var checkBox = $("#" + groupId + "-" + expressionStageId + "-custom-data-sub-checkbox");
+			var inputField = $("#" + groupId + "-" + expressionStageId + "-custom-input");
+			
+			// TODO: Not sure why I need ["0"] to access checked, but it works
+			var checked = checkBox["0"].checked;
+			var name = checkBox.attr("data-stage");
 			if(checked == true){
-				var expressionId = id.substring(0, id.indexOf("-custom-data-sub-checkbox"));
 				var expressionTitle = name.substring(name.indexOf('-') + 1);
-				var inputId = expressionId + '-custom-input';
-				var value = $("#" + inputId).val();
+				var value = inputField.val();
 				var allExpressionStages = expressionStageOptions.expressionStageList;
-				
-
 				
 				// TODO: Find way to increase performance instead of linear search
 				var findIndex = function(title){
@@ -474,6 +483,14 @@ nav {
 			} else {
 				
 			}
+		}
+		// Update plotly when checkbox updates
+		$("input[id$='-custom-data-sub-checkbox']").on("change",
+				function() {
+			var combinedId = this.id.substring(0, this.id.indexOf("-custom-data-sub-checkbox"));
+			var groupId = combinedId.substring(0, combinedId.indexOf("-"));
+			var expressionStageId = combinedId.substring(combinedId.indexOf("-") + 1);
+			updatePlotly(groupId, expressionStageId);
 		});
 		
 		
@@ -516,10 +533,10 @@ nav {
 			title : 'Custom Expression Data',
 			xaxis : {
 				title : "Expression Stage"
-			// range : [0, 104]
 			},
 			yaxis : {
 				title : "Expression Score",
+				range : [0, 100]
 			},
 			width : $('#plot-container').innerWidth() * .80
 		});
