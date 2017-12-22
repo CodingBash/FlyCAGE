@@ -131,6 +131,7 @@
 																				<label class="custom-control custom-checkbox">
 																					<input type="checkbox"
 																					th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-custom-data-main-checkbox'"
+																					th:attr="data-stage=${expressionStageGroup.groupId}"
 																					th:id="${expressionStageGroup.groupId} + '-custom-data-main-checkbox'" />
 																					<span class="custom-control-indicator"></span> <span
 																					class="custom-control-description"><a
@@ -157,7 +158,7 @@
 																								th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
 																								value="true"
 																								th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-sub-checkbox'"
-																								th:name="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId}"
+																								th:attr="data-stage=${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
 																								th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-data-sub-checkbox'" />
 																								<span class="custom-control-indicator"></span> <span
 																								class="custom-control-description"
@@ -267,6 +268,7 @@
 														<label class="custom-control custom-checkbox"> <input
 															type="checkbox"
 															th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'"
+															th:attr="data-stage=${expressionStageGroup.groupTitle}"
 															th:id="${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'" />
 															<span class="custom-control-indicator"></span> <span
 															class="custom-control-description"><a
@@ -291,7 +293,7 @@
 																th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
 																value="true"
 																th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-stage-selection-sub-checkbox'"
-																th:name="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId}"
+																th:attr="data-stage=${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
 																th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-stage-selection-sub-checkbox'" />
 																<span class="custom-control-indicator"></span> <span
 																class="custom-control-description"

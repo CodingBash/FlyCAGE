@@ -414,10 +414,10 @@ nav {
 			// TODO
 			var checked = this.checked;
 			var id = this.id;
-			if(checked = true){
+			var name = $("#" + id).attr("data-stage");
+			if(checked == true){
 				var expressionId = id.substring(0, id.indexOf("-custom-data-sub-checkbox"));
-				// TODO: If ID format changes, so will this logic
-				var expressionTitle = expressionId.substring(expressionId.indexOf('-') + 1, expressionId.length);
+				var expressionTitle = name.substring(name.indexOf('-') + 1);
 				var inputId = expressionId + '-custom-input';
 				var value = $("#" + inputId).val();
 				var allExpressionStages = expressionStageOptions.expressionStageList;
@@ -426,7 +426,7 @@ nav {
 				
 				// TODO: Find way to increase performance instead of linear search
 				var findIndex = function(title){
-					for(var i = 0; i < allExpressionStages; i++){
+					for(var i = 0; i < allExpressionStages.length; i++){
 						// TODO: If title is changed to id, this condition will always fail, and never update plot					
 						if(allExpressionStages[i].expressionStageTitle == title){
 							return allExpressionStages[i].expressionStageNumericalId;
@@ -453,7 +453,7 @@ nav {
 					var insertionFlag = false;
 					for(var i = 0; i < expressionTexts.length; i++){
 						// TODO: Handle equal cases if need be
-						if(findIndex(expressionTexts[i] > index)){
+						if(findIndex(expressionTexts[i]) > index){
 							insertionFlag = true;
 							newExpressionData.splice(i, 0, value);
 							newExpressionTexts.splice(i, 0, expressionTitle);
