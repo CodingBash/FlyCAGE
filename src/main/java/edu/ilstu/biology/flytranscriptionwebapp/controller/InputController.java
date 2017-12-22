@@ -25,7 +25,6 @@ public class InputController {
 	public ModelAndView showInputPage() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("geneForm", new GeneForm());
-		
 		ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator.generateExpressionStageOptions();
 		mav.addObject("expressionStageOptions", expressionStageOptions);
 		mav.setViewName("input");

@@ -279,7 +279,7 @@ nav {
 		/* for custom data sliders */
 		/*<![CDATA[*/
 		var expressionStageOptions = /*[[${expressionStageOptions}]]*/[];
-		/*]]>*/
+		
 		var DEFAULT_CUSTOM_DATA = 0;
 
 		expressionStageOptions.expressionStageGroupList
@@ -412,33 +412,64 @@ nav {
 				function() {
 			// UPDATE PLOTLY
 			// TODO
-			var checked = $(this).checked;
-			var id = $(this).id;
+			var checked = this.checked;
+			var id = this.id;
 			if(checked = true){
-				var expressionId = id.subtring(0, id.indexOf("-custom-data-sub-checkbox"));
+				var expressionId = id.substring(0, id.indexOf("-custom-data-sub-checkbox"));
 				// TODO: If ID format changes, so will this logic
 				var expressionTitle = expressionId.substring(expressionId.indexOf('-') + 1, expressionId.length);
 				var inputId = expressionId + '-custom-input';
 				var value = $("#" + inputId).val();
 				var allExpressionStages = expressionStageOptions.expressionStageList;
 				
+
+				
+				// TODO: Find way to increase performance instead of linear search
+				var findIndex = function(title){
+					for(var i = 0; i < allExpressionStages; i++){
+						// TODO: If title is changed to id, this condition will always fail, and never update plot					
+						if(allExpressionStages[i].expressionStageTitle == title){
+							return allExpressionStages[i].expressionStageNumericalId;
+						}
+					}	
+					return -1;
+				};
+
 				// Find index of selected stage
-				var index = -1;
-				for(int i = 0; i < allExpressionStages; i++){
-					// TODO: If title is changed to id, this condition will always fail, and never update plot					
-					if(allExpressionStages[i].expressionStageTitle == expressionTitle){
-						index = allExpressionStages[i].expressionStageNumericalId;
-					}
-				}
+				var index = findIndex(expressionTitle);
+				
 				if (index != -1){
 					var plotDivId = "custom-data-plot";
 					var plotDiv = document.getElementById(plotDivId);
 					var plotData = plotDiv.data;
 					var expressionData = plotData[0].y;
-					var expressionTexts = plotData[0].title;
+					var expressionTexts = plotData[0].text;
 					var newExpressionData = expressionData.slice(0); // clone
 					var newExpressionTexts  = expressionTexts.slice(0); // clone
-					// TODO: Continue
+					
+					/*
+					 * Improve expression insertion algorithm
+					 */
+					var insertionFlag = false;
+					for(var i = 0; i < expressionTexts.length; i++){
+						// TODO: Handle equal cases if need be
+						if(findIndex(expressionTexts[i] > index)){
+							insertionFlag = true;
+							newExpressionData.splice(i, 0, value);
+							newExpressionTexts.splice(i, 0, expressionTitle);
+							break;
+						}		
+					}
+					if(insertionFlag == false){
+						newExpressionData.push(value);
+						newExpressionTexts.push(expressionTitle);
+					}
+					
+					var update = {
+							y: [newExpressionData],
+							text: [newExpressionTexts]
+					};
+					Plotly.restyle(plotDiv, update);
 				}
 			} else {
 				
@@ -450,6 +481,7 @@ nav {
 			$("#custom-data-form").slideDown("fast", function() {
 			});
 		});
+		/*]]>*/
 	</script>
 	<script>
 		/*

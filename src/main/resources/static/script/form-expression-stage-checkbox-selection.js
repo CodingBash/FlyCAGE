@@ -23,12 +23,12 @@ var adjustMasterCheckboxes = function(subCheckbox, form_group) {
 	/*
 	 * Get the expression stage group name
 	 */
-	groupName = checkboxClassName.substring(0, checkboxClassName
+	groupId = checkboxClassName.substring(0, checkboxClassName
 			.indexOf(form_group + 'sub-checkbox'));
 
 	var oneChecked = false;
 	var allTrue = true;
-	$('.' + groupName + form_group + 'sub-checkbox').each(
+	$('.' + groupId + form_group + 'sub-checkbox').each(
 			function(index, currentElement) {
 				if (currentElement.checked == true) {
 					oneChecked = true;
@@ -37,19 +37,19 @@ var adjustMasterCheckboxes = function(subCheckbox, form_group) {
 				}
 			});
 	if (oneChecked && !allTrue) {
-		$('.' + groupName + form_group + 'main-checkbox').prop('indeterminate',
+		$('.' + groupId + form_group + 'main-checkbox').prop('indeterminate',
 				true);
 	} else if (allTrue) {
-		$('.' + groupName + form_group + 'main-checkbox').prop('indeterminate',
+		$('.' + groupId + form_group + 'main-checkbox').prop('indeterminate',
 				false);
-		$('.' + groupName + form_group + 'main-checkbox').prop('checked', true);
+		$('.' + groupId + form_group + 'main-checkbox').prop('checked', true);
 	} else if (!oneChecked) {
-		$('.' + groupName + form_group + 'main-checkbox').prop('indeterminate',
+		$('.' + groupId + form_group + 'main-checkbox').prop('indeterminate',
 				false);
-		$('.' + groupName + form_group + 'main-checkbox')
+		$('.' + groupId + form_group + 'main-checkbox')
 				.prop('checked', false);
 	} else {
-		$('.' + groupName + form_group + 'main-checkbox').prop('indeterminate',
+		$('.' + groupId + form_group + 'main-checkbox').prop('indeterminate',
 				false);
 	}
 }
@@ -83,12 +83,6 @@ var changeFormDisability = function(subCheckbox, form_group, target_form_group) 
 			return false; // break
 		}
 	});
-
-	/*
-	 * Get the expression stage group name
-	 */
-	groupName = checkboxClassName.substring(0, checkboxClassName
-			.indexOf(form_group + 'sub-checkbox'));
 
 	var oneChecked = false;
 	var allTrue = true;

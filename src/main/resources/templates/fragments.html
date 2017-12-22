@@ -26,6 +26,7 @@
 					<li class="nav-item"><a class="nav-link" href="help.html"
 						th:href="@{/help}">Help</a></li>
 				</ul>
+				<!-- TODO: Get version from back-end through Heroku environment variable -->
 				<span class="navbar-text"> in-alpha V0.0.23 </span>
 			</div>
 		</nav>
@@ -125,27 +126,27 @@
 																	<div class="card form-card"
 																		th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
 																		<div class="card-header form-card-header" role="tab"
-																			th:id="'heading-'+${expressionStageGroup.groupId}">
+																			th:id="'heading-custom-data-'+${expressionStageGroup.groupId}">
 																			<h5 class="mb-0">
 																				<label class="custom-control custom-checkbox">
 																					<input type="checkbox"
-																					th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'"
-																					th:id="${expressionStageGroup.groupTitle} + '-custom-data-main-checkbox'" />
+																					th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-custom-data-main-checkbox'"
+																					th:id="${expressionStageGroup.groupId} + '-custom-data-main-checkbox'" />
 																					<span class="custom-control-indicator"></span> <span
 																					class="custom-control-description"><a
 																						data-toggle="collapse"
 																						data-parent="#expression-stages"
-																						th:href="'#collapse-' + ${expressionStageGroup.groupId}"
+																						th:href="'#collapse-custom-data-' + ${expressionStageGroup.groupId}"
 																						aria-expanded="true"
-																						th:aria-controls="'collapse-' + ${expressionStageGroup.groupId}"
-																						th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">GroupTitle</a></span>
+																						th:aria-controls="'collapse-custom-data-' + ${expressionStageGroup.groupId}"
+																						th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">${#strings.capitalize(expressionStageGroup.groupTitle)}</a></span>
 																				</label>
 																			</h5>
 																		</div>
 																		<div
-																			th:id="'collapse-' + ${expressionStageGroup.groupId}"
+																			th:id="'collapse-custom-data-' + ${expressionStageGroup.groupId}"
 																			class="collapse" role="tabpanel"
-																			th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupId}">
+																			th:attr="aria-labelledby='heading-custom-data-' + ${expressionStageGroup.groupId}">
 																			<div class="card-body">
 																				<div class="row custom-data-entry"
 																					th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
@@ -156,12 +157,11 @@
 																								th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
 																								value="true"
 																								th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-custom-data-sub-checkbox'"
-																								th:name="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
-																								th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle} + '-custom-data-sub-checkbox'" />
+																								th:name="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId}"
+																								th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-data-sub-checkbox'" />
 																								<span class="custom-control-indicator"></span> <span
 																								class="custom-control-description"
-																								th:text="${expressionStage.expressionStageTitle}">Expression
-																									Stage</span>
+																								th:text="${expressionStage.expressionStageTitle}">${expressionStage.expressionStageTitle}</span>
 																							</label>
 																						</div>
 																					</div>
@@ -262,26 +262,26 @@
 											<div class="card form-card"
 												th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
 												<div class="card-header form-card-header" role="tab"
-													th:id="'heading-'+${expressionStageGroup.groupTitle}">
+													th:id="'heading-stage-selection-'+${expressionStageGroup.groupId}">
 													<h5 class="mb-0">
 														<label class="custom-control custom-checkbox"> <input
 															type="checkbox"
-															th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-stage-selection-main-checkbox'"
-															th:id="${expressionStageGroup.groupTitle} + '-stage-selection-main-checkbox'" />
+															th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'"
+															th:id="${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'" />
 															<span class="custom-control-indicator"></span> <span
 															class="custom-control-description"><a
 																data-toggle="collapse" data-parent="#expression-stages"
-																th:href="'#collapse-' + ${expressionStageGroup.groupTitle}"
+																th:href="'#collapse-stage-selection-' + ${expressionStageGroup.groupId}"
 																aria-expanded="true"
-																th:aria-controls="'collapse-' + ${expressionStageGroup.groupTitle}"
-																th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">GroupTitle</a></span>
+																th:aria-controls="'collapse-stage-selection-' + ${expressionStageGroup.groupId}"
+																th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">${#strings.capitalize(expressionStageGroup.groupTitle)}</a></span>
 														</label>
 													</h5>
 												</div>
 												<div
-													th:id="'collapse-' + ${expressionStageGroup.groupTitle}"
+													th:id="'collapse-stage-selection-' + ${expressionStageGroup.groupId}"
 													class="collapse" role="tabpanel"
-													th:attr="aria-labelledby='heading-' + ${expressionStageGroup.groupTitle}">
+													th:attr="aria-labelledby='heading-stage-selection-' + ${expressionStageGroup.groupId}">
 													<div class="card-body">
 														<div
 															th:each="expressionStage : ${expressionStageGroup.expressionStageList}"
@@ -290,13 +290,12 @@
 																type="checkbox"
 																th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
 																value="true"
-																th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupTitle} + '-stage-selection-sub-checkbox'"
-																th:name="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
-																th:id="${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle} + '-stage-selection-sub-checkbox'" />
+																th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-stage-selection-sub-checkbox'"
+																th:name="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId}"
+																th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-stage-selection-sub-checkbox'" />
 																<span class="custom-control-indicator"></span> <span
 																class="custom-control-description"
-																th:text="${expressionStage.expressionStageTitle}">Expression
-																	Stage</span>
+																th:text="${expressionStage.expressionStageTitle}">${expressionStage.expressionStageTitle}</span>
 															</label> <br />
 														</div>
 													</div>
