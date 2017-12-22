@@ -428,22 +428,23 @@ nav {
 			// TODO: Not sure why I need ["0"] to access checked, but it works
 			var checked = checkBox["0"].checked;
 			var name = checkBox.attr("data-stage");
+			
+			// TODO: Find way to increase performance instead of linear search 
+			var findIndex = function(title){
+				for(var i = 0; i < allExpressionStages.length; i++){
+					// TODO: If title is changed to id, this condition will always fail, and never update plot					
+					if(allExpressionStages[i].expressionStageTitle == title){
+						return allExpressionStages[i].expressionStageNumericalId;
+					}
+				}	
+				return -1;
+			};
+			
+			var expressionTitle = name.substring(name.indexOf('-') + 1);
+			var allExpressionStages = expressionStageOptions.expressionStageList;
 			if(checked == true){
-				var expressionTitle = name.substring(name.indexOf('-') + 1);
-				var value = inputField.val();
-				var allExpressionStages = expressionStageOptions.expressionStageList;
 				
-				// TODO: Find way to increase performance instead of linear search
-				var findIndex = function(title){
-					for(var i = 0; i < allExpressionStages.length; i++){
-						// TODO: If title is changed to id, this condition will always fail, and never update plot					
-						if(allExpressionStages[i].expressionStageTitle == title){
-							return allExpressionStages[i].expressionStageNumericalId;
-						}
-					}	
-					return -1;
-				};
-
+				var value = inputField.val();
 				// Find index of selected stage
 				var index = findIndex(expressionTitle);
 				
@@ -480,8 +481,38 @@ nav {
 					};
 					Plotly.restyle(plotDiv, update);
 				}
-			} else {
+			} else { 
+				// Remove from plot
 				
+				// TODO: Modularize below (in both conditions)
+				// Find index of selected stage
+				var index = findIndex(expressionTitle);
+				
+				if (index != -1){
+					var plotDivId = "custom-data-plot";
+					var plotDiv = document.getElementById(plotDivId);
+					var plotData = plotDiv.data;
+					var expressionData = plotData[0].y;
+					var expressionTexts = plotData[0].text;
+					var newExpressionData = expressionData.slice(0); // clone
+					var newExpressionTexts  = expressionTexts.slice(0); // clone
+					
+					/*
+					 * Improve expression removal algorithm
+					 */
+					for(var i = 0; i < expressionTexts.length; i++){
+						if(findIndex(expressionTexts[i]) == index){
+							newExpressionData.splice(i, 1);
+							newExpressionTexts.splice(i, 1);
+							break;
+						}		
+					}
+					var update = {
+							y: [newExpressionData],
+							text: [newExpressionTexts]
+					};
+					Plotly.restyle(plotDiv, update);
+				}
 			}
 		}
 		// Update plotly when checkbox updates
