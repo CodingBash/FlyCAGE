@@ -161,6 +161,7 @@ div[id*="slider"] .ui-slider-handle {
 nav {
 	background-color: #E4E4E4 !important;
 }
+
 </style>
 
 </head>
@@ -583,14 +584,10 @@ nav {
 		// TODO: Expected conflict when resizing plots with different purposes
 		function plotsResize() {
 			// Getting the width of .content
-			var newTableWidth = $('#plot-container').innerWidth() * .95;
-			var newPlotWidth = $('#plot-container').innerWidth() * .85;
-
-			// Apply width and height to two divs that are created by 
-			// Plotly. Fixed some issue swith hidden overfull elements.
-			$("table[id$=-results]").css({
-				"width" : newTableWidth + "px",
-			});
+			/*
+			 * TODO: Avoid getting innerWidth of panel. For some reason, the gene-accordion show.bs.collapse calls event before #plot-container is resized. Figure out a way to do after
+			 */
+			var newPlotWidth = $('#heading-custom-gene-form').innerWidth() * .45;
 
 			$(".js-plotly-plot").css({
 				"width" : newPlotWidth + "px",
@@ -612,6 +609,10 @@ nav {
 			plotsResize();
 		});
 
+		$('#gene-accordion').on('show.bs.collapse', function () {
+			plotsResize(); 
+		});
+		
 		plotsResize();
 	</script>
 
