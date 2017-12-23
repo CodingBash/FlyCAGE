@@ -318,6 +318,8 @@ nav {
 									var slideEvent = function(value) {
 										handleObject.text(value);
 										inputObject.val(value);
+										
+										// Change identical sliders
 										$(
 												"div[id$='"
 														+ '-'
@@ -325,7 +327,18 @@ nav {
 														+ "-slider']").not(
 												sliderId).slider("option",
 												"value", value);
-										
+									};
+
+									// TODO: this event is called on pageLoad for all sliders, thus reducing performance. Optimize
+									var changeEvent = function(value) {
+										inputObject.val(value);
+										handleObject.text(value);
+									};
+									
+									// TODO: Move more logic to this event
+									var stopEvent = function(value) {
+										// Update Plotlyjs. Commenting out since checkbox event fixed
+										//updatePlotly(expressionStageGroup.groupId, expressionStage.expressionStageId);
 										// TODO: Modularize this
 										// Condition prevents change on pageload. Maybe wrap around all method calls
 										if (value != 0) {
@@ -356,18 +369,6 @@ nav {
 													!oneChecked);
 										}
 
-									};
-
-									// TODO: this event is called on pageLoad for all sliders, thus reducing performance. Optimize
-									var changeEvent = function(value) {
-										inputObject.val(value);
-										handleObject.text(value);
-									};
-									
-									// TODO: Move more logic to this event
-									var stopEvent = function(value) {
-										// Update Plotlyjs
-										updatePlotly(expressionStageGroup.groupId, expressionStage.expressionStageId);
 									}
 
 									sliderObject.slider({
@@ -461,14 +462,18 @@ nav {
 					 * Improve expression insertion algorithm
 					 */
 					var insertionFlag = false;
-					for(var i = 0; i < expressionTexts.length; i++){
+					for(var i = 0; i < expressionTexts.length && insertionFlag != true; i++){
 						// TODO: Handle equal cases if need be
-						if(findIndex(expressionTexts[i]) > index){
+						var currentIndex = findIndex(expressionTexts[i]);
+						if(currentIndex == index){
+							// If stage is already in plot -> update value
+							newExpressionData[i] = value;
 							insertionFlag = true;
+						} else if(findIndex(expressionTexts[i]) > index){
 							newExpressionData.splice(i, 0, value);
 							newExpressionTexts.splice(i, 0, expressionTitle);
-							break;
-						}		
+							insertionFlag = true;
+						}
 					}
 					if(insertionFlag == false){
 						newExpressionData.push(value);
@@ -536,7 +541,7 @@ nav {
 		 * Custom Data Checkbox custom logic
 		 */
 		$("input[type='checkbox'][class*='custom-data']:checkbox").prop(
-				'checked', false);
+				'checked', false).trigger("change");
 	</script>
 	<script>
 		// TODO: Using expressionStageOptions from selection form script. Organize better

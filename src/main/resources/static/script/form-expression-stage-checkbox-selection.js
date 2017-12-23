@@ -104,11 +104,11 @@ $.each(form_group, function(k) {
 		/*
 		 * Event for main-checkbox change
 		 */
-		$('.' + groups[i] + form_group[k] + 'main-checkbox').change(
+		$('.' + groups[i] + form_group[k] + 'main-checkbox').on("change", 
 				function() {
 					checkboxesToChange = $('.' + groups[i] + form_group[k]
 							+ 'sub-checkbox');
-					checkboxesToChange.prop("checked", this.checked);
+					checkboxesToChange.prop("checked", this.checked).trigger("change");
 					checkboxesToChange.each(function(index, currentCheckbox) {
 						changeIdenticalCheckboxes(currentCheckbox,
 								form_group[k]);
@@ -123,7 +123,7 @@ $.each(form_group, function(k) {
 		/*
 		 * Event for sub-checkbox change
 		 */
-		$('.' + groups[i] + form_group[k] + 'sub-checkbox').change(function() {
+		$('.' + groups[i] + form_group[k] + 'sub-checkbox').on("change", function() {
 			adjustMasterCheckboxes(this, form_group[k]);
 			changeIdenticalCheckboxes(this, form_group[k]);
 			if (form_group[k] == "-custom-data-") {
@@ -135,7 +135,7 @@ $.each(form_group, function(k) {
 })
 
 function programmaticallyChangeSubCheckbox(subCheckbox, form_group, value) {
-	subCheckbox.prop("checked", value);
+	subCheckbox.prop("checked", value).trigger("change");
 	adjustMasterCheckboxes(subCheckbox, form_group);
 	changeIdenticalCheckboxes(subCheckbox, form_group);
 	if (form_group == "-custom-data-") {
