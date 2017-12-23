@@ -172,7 +172,8 @@
 																							th:field="*{customExpression[__${expressionStage.expressionStageTitle}__]}"
 																							class="form-control" id="custom-input"
 																							th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-input'"
-																							aria-describedby="" placeholder="0" />
+																							aria-describedby="" placeholder="0"
+																							onkeydown="if (event.keyCode == 13) return false" />
 																					</div>
 																					<div class="col-sm-6">
 																						<div
