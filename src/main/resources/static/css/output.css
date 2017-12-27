@@ -33,3 +33,17 @@
 div[id*="-graph"] {
 	width: 100%;
 }
+
+/* For modal table width */
+#expressionStageMappingTable {width ="100%";
+	
+}
+
+/* For styling and spacing between normalize and expression stage button */
+.normalize-btn {
+	margin-right: 5px;
+}
+
+.expression-btn {
+	margin-left: 5px;
+}
