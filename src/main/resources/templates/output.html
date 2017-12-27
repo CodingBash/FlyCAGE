@@ -9,40 +9,25 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Basheer Becerra's personal website." />
+<meta name="description"
+	content="CAGE: Correlation Analysis on Gene Expression - a webapp that allows the user to input a gene ID and retrieve a list of correlated genes based on gene properties (i.e. mRNA exprression by stage, expression by tissue, gene ontology, corresponding TFs, etc). Currently for D. melanogaster." />
 <meta name="keywords"
-	content="Basheer, Becerra, Bash, developer, entrepreneur, researcher" />
-<meta name="author" content="Basheer Becerra" />
-
-<!-- Facebook and Twitter integration -->
-<meta property="og:title" content="" />
-<meta property="og:image" content="" />
-<meta property="og:url" content="" />
-<meta property="og:site_name" content="" />
-<meta property="og:description" content="" />
-<meta name="twitter:title" content="" />
-<meta name="twitter:image" content="" />
-<meta name="twitter:url" content="" />
-<meta name="twitter:card" content="" />
+	content="FlyCAGE, CAGE, gene expression, mRNA expression, similar genes, transcription factor identification, correlation analysis" />
+<meta name="author" content="Mortimer Lab @ Illinois State University" />
 
 <title>FlyCAGE</title>
 
-<!-- Google Fonts -->
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700'
 	rel='stylesheet' type='text/css'></link>
 <link
 	href='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css'
 	rel='stylesheet' type='text/css'></link>
-
-<!-- Latest compiled and minified CSS -->
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
 	crossorigin="anonymous"></link>
-
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
 <link rel="stylesheet"
@@ -51,119 +36,12 @@
 	href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+
+<link rel="stylesheet" th:href="@{/css/base.css}" />
+<link rel="stylesheet" th:href="@{/css/input.css}" />
+<link rel="stylesheet" th:href="@{/css/output.css}" />
+<style th:replace="style-fragments :: datatable-expand-style"></style>
 </head>
-<style>
-body {
-	background-color: #E4E4E4
-}
-
-.table-wrapper {
-	width: 95% !important;
-	margin: auto;
-}
-
-#query-comment {
-	width: 100%;
-	height: 200px;
-}
-
-.extra-space {
-	margin-top: 25px;
-}
-
-.query-inputs {
-	width: 100% !important;
-	margin: auto;
-}
-
-/* TODO: Quick Workaround to differentiate between main panels, and expression stage panels. Same with the other psuedopanel stylers Make more organized */
-.panel-header {
-	height: 10em;
-}
-
-/* For Plotlyjs CSS */
-div[id*="-graph"] {
-	width: 100%;
-}
-</style>
-<style>
-.panel {
-	border: 1px solid #5C0075;
-	border-radius: 0;
-	transition: box-shadow 0.5s;
-	border-radius: 0;
-}
-
-.panel-block {
-	background-color: #fff !important;
-}
-
-.panel-header {
-	color: #fff !important;
-	background-color: #5C0075 !important;
-	padding: 25px;
-	border-bottom: 1px solid transparent;
-	border-top-left-radius: 0px;
-	border-top-right-radius: 0px;
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
-	border-bottom: 1px solid transparent;
-}
-
-.row {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-</style>
-
-<style th:inline="text">
-td.details-control {
-	background: url([[@{/images/details_open.png}]]) no-repeat center center;
-	cursor: pointer;
-}
-
-tr.shown td.details-control {
-	background: url([[@{/images/details_close.png}]]) no-repeat center
-		center;
-}
-</style>
-<style>
-/* Style the accordion checkboxes */
-.sub-checkbox-div {
-	padding-left: 50px !important;
-}
-</style>
-<style>
-/* For jQuery UI slider */
-#custom-handle {
-	width: 3em;
-	height: 1.6em;
-	top: 50%;
-	margin-top: -.8em;
-	text-align: center;
-	line-height: 1.6em;
-}
-
-/* For required astrick, add to external css */
-.form-group.required .control-label:after {
-	content: "*";
-	color: red;
-}
-
-/* For modal table width */
-#expressionStageMappingTable {width ="100%";
-	
-}
-
-/* For styling and spacing between normalize and expression stage button */
-.normalize-btn {
-	margin-right: 5px;
-}
-
-.expression-btn {
-	margin-left: 5px;
-}
-</style>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
 	<div th:include="fragments :: navbar"></div>
