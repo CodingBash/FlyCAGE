@@ -1,0 +1,35 @@
+@CHARSET "ISO-8859-1";
+
+
+.extra-space {
+	margin-top: 25px;
+}
+ 
+
+/*
+ * Style query comment output panel 
+ */
+#query-comment {
+	width: 100%;
+	height: 200px;
+}
+.query-inputs {
+	width: 100% !important;
+	margin: auto;
+}
+
+
+/*
+ * Results table styling
+ */
+.table-wrapper {
+	width: 95% !important;
+	margin: auto;
+}
+
+/*
+ * Plot styling
+ */
+div[id*="-graph"] {
+	width: 100%;
+}

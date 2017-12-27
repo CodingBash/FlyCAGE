@@ -1,0 +1,47 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	background-color: #E4E4E4
+}
+
+.row {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+/*For navbar */
+nav {
+	background-color: #E4E4E4 !important;
+}
+
+/* TODO: Quick Workaround to differentiate between main panels, and expression stage panels. Make more organized */
+.panel-header {
+	height: 10em;
+}
+
+/*
+ * Card styling
+ */
+.card {
+	border-radius: 0;
+	transition: box-shadow 0.5s;
+}
+
+.card-body {
+	background-color: #fff !important;
+}
+
+.card-header {
+	color: #fff !important;
+	background-color: #5C0075 !important;
+	padding: 25px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+/*
+ * END: Card styling
+ */

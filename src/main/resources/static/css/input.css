@@ -1,0 +1,38 @@
+@CHARSET "ISO-8859-1";
+
+.form-card {
+	
+}
+
+.form-card-header {
+	background-color: #fff !important;
+}
+
+/* Style the accordion checkboxes */
+.sub-checkbox-div {
+	padding-left: 50px !important;
+}
+
+/* For jQuery UI slider */
+div[id*="custom-handle"] {
+	width: 3em !important;
+	height: 1.6em !important;
+	top: 50% !important;
+	margin-top: -.8em;
+	text-align: center;
+	line-height: 1.6em;
+}
+
+div[id*="slider"] .ui-slider-range {
+	background: #5C0075 !important;
+}
+
+div[id*="slider"] .ui-slider-handle {
+	border-color: #5C0075 !important;
+}
+
+/* For required astrick, add to external css */
+.form-group.required .control-label:after {
+	content: "*";
+	color: red;
+}

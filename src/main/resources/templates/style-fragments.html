@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+
+<style th:inline="text" th:fragment="datatable-expand-style">
+td.details-control {
+	background: url([[@{/images/details_open.png}]]) no-repeat center center;
+	cursor: pointer;
+}
+
+tr.shown td.details-control {
+	background: url([[@{/images/details_close.png}]]) no-repeat center
+		center;
+}
+</style>
+
+
+
+
+</head>
+</html>

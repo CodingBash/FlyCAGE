@@ -9,21 +9,11 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Basheer Becerra's personal website." />
+<meta name="description"
+	content="CAGE: Correlation Analysis on Gene Expression - a webapp that allows the user to input a gene ID and retrieve a list of correlated genes based on gene properties (i.e. mRNA exprression by stage, expression by tissue, gene ontology, corresponding TFs, etc). Currently for D. melanogaster." />
 <meta name="keywords"
-	content="Basheer, Becerra, Bash, developer, entrepreneur, researcher" />
-<meta name="author" content="Basheer Becerra" />
-
-<!-- Facebook and Twitter integration -->
-<meta property="og:title" content="" />
-<meta property="og:image" content="" />
-<meta property="og:url" content="" />
-<meta property="og:site_name" content="" />
-<meta property="og:description" content="" />
-<meta name="twitter:title" content="" />
-<meta name="twitter:image" content="" />
-<meta name="twitter:url" content="" />
-<meta name="twitter:card" content="" />
+	content="FlyCAGE, CAGE, gene expression, mRNA expression, similar genes, transcription factor identification, correlation analysis" />
+<meta name="author" content="Mortimer Lab @ Illinois State University" />
 
 <title>FlyCAGE</title>
 
@@ -44,126 +34,9 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.min.css"></link>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
-<!-- Externalize CSS -->
-<style>
-body {
-	background-color: #E4E4E4
-}
 
-.table-wrapper {
-	width: 95% !important;
-	margin: auto;
-}
-
-#query-comment {
-	width: 100%;
-	height: 200px;
-}
-
-.extra-space {
-	margin-top: 25px;
-}
-
-.query-inputs {
-	width: 100% !important;
-	margin: auto;
-}
-
-/* TODO: Quick Workaround to differentiate between main panels, and expression stage panels. Make more organized */
-.panel-header {
-	height: 10em;
-}
-
-/* For Plotlyjs CSS */
-div[id*="-graph"] {
-	width: 100%;
-}
-
-</style>
-<style>
-.card {
-	border-radius: 0;
-	transition: box-shadow 0.5s;
-}
-
-.card-body {
-	background-color: #fff !important;
-}
-
-.card-header {
-	color: #fff !important;
-	background-color: #5C0075 !important;
-	padding: 25px;
-	border-bottom: 1px solid transparent;
-	border-top-left-radius: 0px;
-	border-top-right-radius: 0px;
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
-}
-
-.form-card {
-	
-}
-
-.form-card-header {
-	background-color: #fff !important;
-}
-
-.row {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-</style>
-
-<style th:inline="text">
-td.details-control {
-	background: url([[@{/images/details_open.png}]]) no-repeat center center;
-	cursor: pointer;
-}
-
-tr.shown td.details-control {
-	background: url([[@{/images/details_close.png}]]) no-repeat center
-		center;
-}
-</style>
-<style>
-/* Style the accordion checkboxes */
-.sub-checkbox-div {
-	padding-left: 50px !important;
-}
-</style>
-<style>
-/* For jQuery UI slider */
-div[id*="custom-handle"] {
-	width: 3em !important;
-	height: 1.6em !important;
-	top: 50% !important;
-	margin-top: -.8em;
-	text-align: center;
-	line-height: 1.6em;
-}
-
-div[id*="slider"] .ui-slider-range {
-	background: #5C0075 !important;
-}
-
-div[id*="slider"] .ui-slider-handle {
-	border-color: #5C0075 !important;
-}
-
-/* For required astrick, add to external css */
-.form-group.required .control-label:after {
-	content: "*";
-	color: red;
-}
-
-/*For navbar */
-nav {
-	background-color: #E4E4E4 !important;
-}
-
-</style>
-
+<link rel="stylesheet" th:href="@{/css/base.css}" />
+<link rel="stylesheet" th:href="@{/css/input.css}" />
 </head>
 <body>
 	<div th:include="fragments :: navbar"></div>
@@ -281,7 +154,7 @@ nav {
 		/* for custom data sliders */
 		/*<![CDATA[*/
 		var expressionStageOptions = /*[[${expressionStageOptions}]]*/[];
-		
+
 		var DEFAULT_CUSTOM_DATA = 0;
 
 		expressionStageOptions.expressionStageGroupList
@@ -319,7 +192,7 @@ nav {
 									var slideEvent = function(value) {
 										handleObject.text(value);
 										inputObject.val(value);
-										
+
 										// Change identical sliders
 										$(
 												"div[id$='"
@@ -335,7 +208,7 @@ nav {
 										inputObject.val(value);
 										handleObject.text(value);
 									};
-									
+
 									// TODO: Move more logic to this event
 									var stopEvent = function(value) {
 										// Update Plotlyjs. Commenting out since checkbox event fixed
@@ -404,7 +277,10 @@ nav {
 				});
 
 		// If custom-data form being used, remove target gene form requirement
-		$("input[id$='-custom-data-sub-checkbox'], input[id$='-custom-data-main-checkbox']").on("change",
+		$(
+				"input[id$='-custom-data-sub-checkbox'], input[id$='-custom-data-main-checkbox']")
+				.on(
+						"change",
 						function() {
 							// TODO: Modularize this logic (although they are slightly different
 							// REMOVE TARGET GENE FORM REQUIREMENT
@@ -421,116 +297,122 @@ nav {
 											});
 							$("#insert-gene").prop("required", !oneChecked);
 						});
-		
-		function updatePlotly(groupId, expressionStageId){
+
+		function updatePlotly(groupId, expressionStageId) {
 			// Get jQuery element objects
-			var checkBox = $("#" + groupId + "-" + expressionStageId + "-custom-data-sub-checkbox");
-			var inputField = $("#" + groupId + "-" + expressionStageId + "-custom-input");
-			
+			var checkBox = $("#" + groupId + "-" + expressionStageId
+					+ "-custom-data-sub-checkbox");
+			var inputField = $("#" + groupId + "-" + expressionStageId
+					+ "-custom-input");
+
 			// TODO: Not sure why I need ["0"] to access checked, but it works
 			var checked = checkBox["0"].checked;
 			var name = checkBox.attr("data-stage");
-			
+
 			// TODO: Find way to increase performance instead of linear search 
-			var findIndex = function(title){
-				for(var i = 0; i < allExpressionStages.length; i++){
+			var findIndex = function(title) {
+				for (var i = 0; i < allExpressionStages.length; i++) {
 					// TODO: If title is changed to id, this condition will always fail, and never update plot					
-					if(allExpressionStages[i].expressionStageTitle == title){
+					if (allExpressionStages[i].expressionStageTitle == title) {
 						return allExpressionStages[i].expressionStageNumericalId;
 					}
-				}	
+				}
 				return -1;
 			};
-			
+
 			var expressionTitle = name.substring(name.indexOf('-') + 1);
 			var allExpressionStages = expressionStageOptions.expressionStageList;
-			if(checked == true){
-				
+			if (checked == true) {
+
 				var value = inputField.val();
 				// Find index of selected stage
 				var index = findIndex(expressionTitle);
-				
-				if (index != -1){
+
+				if (index != -1) {
 					var plotDivId = "custom-data-plot";
 					var plotDiv = document.getElementById(plotDivId);
 					var plotData = plotDiv.data;
 					var expressionData = plotData[0].y;
 					var expressionTexts = plotData[0].text;
 					var newExpressionData = expressionData.slice(0); // clone
-					var newExpressionTexts  = expressionTexts.slice(0); // clone
-					
+					var newExpressionTexts = expressionTexts.slice(0); // clone
+
 					/*
 					 * Improve expression insertion algorithm
 					 */
 					var insertionFlag = false;
-					for(var i = 0; i < expressionTexts.length && insertionFlag != true; i++){
+					for (var i = 0; i < expressionTexts.length
+							&& insertionFlag != true; i++) {
 						// TODO: Handle equal cases if need be
 						var currentIndex = findIndex(expressionTexts[i]);
-						if(currentIndex == index){
+						if (currentIndex == index) {
 							// If stage is already in plot -> update value
 							newExpressionData[i] = value;
 							insertionFlag = true;
-						} else if(findIndex(expressionTexts[i]) > index){
+						} else if (findIndex(expressionTexts[i]) > index) {
 							newExpressionData.splice(i, 0, value);
 							newExpressionTexts.splice(i, 0, expressionTitle);
 							insertionFlag = true;
 						}
 					}
-					if(insertionFlag == false){
+					if (insertionFlag == false) {
 						newExpressionData.push(value);
 						newExpressionTexts.push(expressionTitle);
 					}
-					
+
 					var update = {
-							y: [newExpressionData],
-							text: [newExpressionTexts]
+						y : [ newExpressionData ],
+						text : [ newExpressionTexts ]
 					};
 					Plotly.restyle(plotDiv, update);
 				}
-			} else { 
+			} else {
 				// Remove from plot
-				
+
 				// TODO: Modularize below (in both conditions)
 				// Find index of selected stage
 				var index = findIndex(expressionTitle);
-				
-				if (index != -1){
+
+				if (index != -1) {
 					var plotDivId = "custom-data-plot";
 					var plotDiv = document.getElementById(plotDivId);
 					var plotData = plotDiv.data;
 					var expressionData = plotData[0].y;
 					var expressionTexts = plotData[0].text;
 					var newExpressionData = expressionData.slice(0); // clone
-					var newExpressionTexts  = expressionTexts.slice(0); // clone
-					
+					var newExpressionTexts = expressionTexts.slice(0); // clone
+
 					/*
 					 * Improve expression removal algorithm
 					 */
-					for(var i = 0; i < expressionTexts.length; i++){
-						if(findIndex(expressionTexts[i]) == index){
+					for (var i = 0; i < expressionTexts.length; i++) {
+						if (findIndex(expressionTexts[i]) == index) {
 							newExpressionData.splice(i, 1);
 							newExpressionTexts.splice(i, 1);
 							break;
-						}		
+						}
 					}
 					var update = {
-							y: [newExpressionData],
-							text: [newExpressionTexts]
+						y : [ newExpressionData ],
+						text : [ newExpressionTexts ]
 					};
 					Plotly.restyle(plotDiv, update);
 				}
 			}
 		}
 		// Update plotly when checkbox updates
-		$("input[id$='-custom-data-sub-checkbox']").on("change",
+		$("input[id$='-custom-data-sub-checkbox']").on(
+				"change",
 				function() {
-			var combinedId = this.id.substring(0, this.id.indexOf("-custom-data-sub-checkbox"));
-			var groupId = combinedId.substring(0, combinedId.indexOf("-"));
-			var expressionStageId = combinedId.substring(combinedId.indexOf("-") + 1);
-			updatePlotly(groupId, expressionStageId);
-		});
-		
-		
+					var combinedId = this.id.substring(0, this.id
+							.indexOf("-custom-data-sub-checkbox"));
+					var groupId = combinedId.substring(0, combinedId
+							.indexOf("-"));
+					var expressionStageId = combinedId.substring(combinedId
+							.indexOf("-") + 1);
+					updatePlotly(groupId, expressionStageId);
+				});
+
 		$("#show-form-link").on("click", function() {
 			$("#custom-data-form").slideDown("fast", function() {
 			});
@@ -546,7 +428,7 @@ nav {
 	</script>
 	<script>
 		// TODO: Using expressionStageOptions from selection form script. Organize better
-		
+
 		/*
 		 * TODO: MODULARIZE THIS JAVASCRIPT. Same as #attachPlotGraphic on output page
 		 */
@@ -573,7 +455,7 @@ nav {
 			},
 			yaxis : {
 				title : "Expression Score",
-				range : [0, 100]
+				range : [ 0, 100 ]
 			},
 			width : $('#plot-container').innerWidth() * .80
 		});
@@ -609,10 +491,10 @@ nav {
 			plotsResize();
 		});
 
-		$('#gene-accordion').on('show.bs.collapse', function () {
-			plotsResize(); 
+		$('#gene-accordion').on('show.bs.collapse', function() {
+			plotsResize();
 		});
-		
+
 		plotsResize();
 	</script>
 
