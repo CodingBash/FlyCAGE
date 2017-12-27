@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
 <head>
+<!-- ENSURE FRAGMENTS ARE INCLUDED BASED ON ORDER BELOW -->
 </head>
 <body>
-	<th:block th:fragment="jquery">
+	<th:block th:fragment="import-jquery">
 		<!-- jQuery Scripts -->
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js"
 			integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -13,7 +14,7 @@
 			crossorigin="anonymous"></script>
 		<!-- END: jQuery Scripts -->
 	</th:block>
-	<th:block th:fragment="bootstrap">
+	<th:block th:fragment="import-bootstrap">
 		<!-- Bootstrap Scripts -->
 		<!-- TODO: May not need Tether.js for bootstrap 4-beta -->
 		<script
@@ -32,13 +33,13 @@
 			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
 		<!-- END: Bootstrap Scripts -->
 	</th:block>
-	<th:block th:fragment="plotlyjs">
+	<th:block th:fragment="import-plotlyjs">
 		<!-- Plotly.js Scripts -->
 		<script src="https://d3js.org/d3.v3.min.js"></script>
 		<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
 		<!-- END: Plotly.js Scripts -->
 	</th:block>
-	<th:block th:fragment="datatables">
+	<th:block th:fragment="import-datatables">
 		<!-- Datatables Scripts -->
 		<script
 			src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
@@ -55,6 +56,42 @@
 		<script
 			src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 		<!-- END: Datatables Scripts -->
+	</th:block>
+	<th:block th:fragment="custom-script-input-select-stages">
+		<!-- Select Stages Scripts -->
+		<script th:inline="javascript">
+	    //<![CDATA[
+	    // TODO: Determine strategy to remove duplicate variable definitions
+	    var expressionStageOptions = /*[[${expressionStageOptions}]]*/[];
+	    //]]>
+	</script>
+		<script th:src="@{/script/input-select-stages-script.js}"></script>
+		<!-- END: Select Stages Scripts -->
+	</th:block>
+
+	<th:block th:fragment="custom-script-input-result-count">
+		<!-- Input Result Count Scripts -->
+		<script th:inline="javascript">
+	    /* <![CDATA[ */
+		const DEFAULT_COUNT_VALUE = 100;
+	    var geneResultCount = /*[[${geneForm.geneResultCount}]]*/ DEFAULT_COUNT_VALUE;
+	    geneResultCount = geneResultCount ? geneResultCount : DEFAULT_COUNT_VALUE; 
+	    /* ]]> */
+	</script>
+		<script th:src="@{/script/input-result-count-script.js}"></script>
+		<!-- END: Input Result Count Scripts -->
+	</th:block>
+	<th:block th:fragment="custom-script-input-custom-data">
+		<!-- Input Custom Data Scripts -->
+		<script th:inline="javascript">
+	    /*<![CDATA[*/
+	    // TODO: Determine strategy to remove duplicate variable definitions
+	    var expressionStageOptions = /*[[${expressionStageOptions}]]*/[];
+	    /*]]>*/
+	</script>
+		<script th:src="@{/script/input-custom-data-script.js}"></script>
+		<script th:src="@{/script/input-custom-data-plotly-script.js}"></script>
+		<!-- END: Input Custom Data Scripts -->
 	</th:block>
 </body>
 </html>

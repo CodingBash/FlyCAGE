@@ -16,31 +16,14 @@
 <meta name="author" content="Mortimer Lab @ Illinois State University" />
 
 <title>FlyCAGE</title>
-
-<link
-	href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Monsterrat:400,700|Merriweather:400,300italic,700'
-	rel='stylesheet' type='text/css'></link>
-<link
-	href='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css'
-	rel='stylesheet' type='text/css'></link>
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
-	crossorigin="anonymous"></link>
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" />
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
-
-<link rel="stylesheet" th:href="@{/css/base.css}" />
-<link rel="stylesheet" th:href="@{/css/input.css}" />
-<link rel="stylesheet" th:href="@{/css/output.css}" />
-<style th:replace="style-fragments :: datatable-expand-style"></style>
+<th:block th:replace="style-fragments :: import-google-fonts"></th:block>
+<th:block th:replace="style-fragments :: import-bootstrap"></th:block>
+<th:block th:replace="style-fragments :: import-datatables"></th:block>
+<th:block th:replace="style-fragments :: import-jquery"></th:block>
+<th:block th:replace="style-fragments :: custom-style-base"></th:block>
+<th:block th:replace="style-fragments :: custom-style-input"></th:block>
+<th:block th:replace="style-fragments :: custom-style-output"></th:block>
+<th:block th:replace="style-fragments :: custom-style-datatables-expand"></th:block>
 </head>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
@@ -311,66 +294,16 @@
 		</div>
 	</div>
 
-	<div th:replace="script-fragments :: jquery"></div>
-	<div th:replace="script-fragments :: bootstrap"></div>
-	<div th:replace="script-fragments :: plotlyjs"></div>
-	<div th:replace="script-fragments :: datatables"></div>
-	<div th:include="fragments :: form-expression-stage-checkbox-selection"></div>
-	<script th:inline="javascript">
-		var DEFAULT_VALUE = 100;
-		/*<![CDATA[*/
-		var geneResultCount = /*[[${geneForm.geneResultCount}]]*/-1;
-
-		geneResultCount = (geneResultCount == null ? DEFAULT_VALUE : geneResultCount);
-
-		/*]]>*/
-
-		$(function() {
-			var handle = $("#custom-handle");
-
-			var createEvent = function(sliderElement) {
-				/*
-				 * If input = default (meaning the form is fresh)
-				 * Do the initial createSlider event
-				 */
-				$("#slider").slider("option", "value", geneResultCount); // Value set to default TODO: must be in sync with input box
-				handle.text(geneResultCount); // Set default value to handle
-				$('#result-count').val(geneResultCount);
-			};
-
-			var slideEvent = function(value) {
-				handle.text(value);
-
-				var value = $("#slider").slider("option", "value");
-				$('#result-count').val(value);
-			};
-
-			var changeEvent = function() {
-				var value = $("#slider").slider("option", "value");
-				$('#result-count').val(value);
-			};
-
-			$("#slider").slider({
-				create : function() {
-					createEvent(this)
-				},
-				slide : function(event, ui) {
-					slideEvent(ui.value);
-				},
-				change : function(event, ui) {
-					changeEvent();
-				}
-			});
-			$("#slider").slider("option", "min", 2); // Min for correlation to work
-			$("#slider").slider("option", "max", 500); // Max genes recommended (may be overrided by input number box)
-
-			$('#result-count').on('change', function() {
-				var val = $('#result-count').val();
-				$("#slider").slider("option", "value", val);
-				slideEvent(val);
-			});
-		});
-	</script>
+	<th:block th:replace="script-fragments :: import-jquery"></th:block>
+	<th:block th:replace="script-fragments :: import-bootstrap"></th:block>
+	<th:block th:replace="script-fragments :: import-plotlyjs"></th:block>
+	<th:block th:replace="script-fragments :: import-datatables"></th:block>
+	<th:block
+		th:replace="script-fragments :: custom-script-input-select-stages"></th:block>
+	<th:block
+		th:replace="script-fragments :: custom-script-input-result-count"></th:block>
+	<th:block
+		th:replace="script-fragments :: custom-script-input-custom-data"></th:block>
 	<script th:inline="javascript">
 	$('#exampleModalLong').on('shown.bs.modal', function () {
 		  $('#myInput').focus()

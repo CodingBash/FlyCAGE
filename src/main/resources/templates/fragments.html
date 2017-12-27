@@ -332,38 +332,5 @@
 			</div>
 		</div>
 	</div>
-	<div th:fragment="form-expression-stage-checkbox-selection">
-		<script th:inline="javascript">
-			//<![CDATA[
-			var expressionStageOptions = /*[[${expressionStageOptions}]]*/'ERROR: Unable to import expressionStageOptions';
-			var groups = [];
-			expressionStageOptions.expressionStageGroupList
-				.forEach(function(expressionStageGroup) {
-					groups.push(expressionStageGroup.groupId);
-			});
-			
-			console.log(expressionStageOptions);
-			//]]>
-		</script>
-		<script
-			th:src="@{/script/form-expression-stage-checkbox-selection.js}"></script>
-		<script>
-			/*
-			 * If no checkboxes are checked (meaning that the form is fresh, and does not have any values saved from previous query)
-			 */
-			if ($('.expression-stage-checkbox:checked').length == 0) {
-				/*
-				 * Check every checkbox by default
-				 */
-				$('.expression-stage-checkbox').prop('checked', true);
-			}
-		</script>
-		<script>
-			$("input[class$='sub-checkbox']").each(
-					function(index, currentElement) {
-						adjustMasterCheckboxes($(currentElement));
-					});
-		</script>
-	</div>
 </body>
 </html>
