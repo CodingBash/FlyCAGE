@@ -73,9 +73,10 @@
 		<!-- Input Result Count Scripts -->
 		<script th:inline="javascript">
 	    /* <![CDATA[ */
-		const DEFAULT_COUNT_VALUE = 100;
-	    var geneResultCount = /*[[${geneForm.geneResultCount}]]*/ DEFAULT_COUNT_VALUE;
-	    geneResultCount = geneResultCount ? geneResultCount : DEFAULT_COUNT_VALUE; 
+	    const
+	    DEFAULT_COUNT_VALUE = 100;
+	    var geneResultCount = /*[[${geneForm.geneResultCount}]]*/DEFAULT_COUNT_VALUE;
+	    geneResultCount = geneResultCount ? geneResultCount : DEFAULT_COUNT_VALUE;
 	    /* ]]> */
 	</script>
 		<script th:src="@{/script/input-result-count-script.js}"></script>
@@ -92,6 +93,23 @@
 		<script th:src="@{/script/input-custom-data-script.js}"></script>
 		<script th:src="@{/script/input-custom-data-plotly-script.js}"></script>
 		<!-- END: Input Custom Data Scripts -->
+	</th:block>
+	<th:block th:fragment="custom-script-output-modal">
+		<!-- Output Modal Scripts -->
+		<script th:src="@{/script/output-modal-script.js}"></script>
+		<!-- END: Output Modal Scripts -->
+	</th:block>
+	<th:block th:fragment="custom-script-output-result-tables">
+		<!-- Output Result Tables Scripts -->
+		<script th:inline="javascript">
+	    /*<![CDATA[*/
+	    var finalResponseCorrelationResult = /*[[${result}]]*/[];
+	    var expressionStages = /*[[${geneForm.expressionStages}]]*/[];
+	    var selectedExpressionStageLabels = /*[[${selectedExpressionStageLabels}]]*/[];
+	    /*]]>*/
+	</script>
+		<script th:src="@{/script/output-result-tables-script.js}"></script>
+		<!-- END: Output Result Tables Scripts -->
 	</th:block>
 </body>
 </html>
