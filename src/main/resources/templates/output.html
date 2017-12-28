@@ -6,16 +6,8 @@
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
 <!--<![endif]-->
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description"
-	content="CAGE: Correlation Analysis on Gene Expression - a webapp that allows the user to input a gene ID and retrieve a list of correlated genes based on gene properties (i.e. mRNA exprression by stage, expression by tissue, gene ontology, corresponding TFs, etc). Currently for D. melanogaster." />
-<meta name="keywords"
-	content="FlyCAGE, CAGE, gene expression, mRNA expression, similar genes, transcription factor identification, correlation analysis" />
-<meta name="author" content="Mortimer Lab @ Illinois State University" />
+<th:block th:replace="base-fragments :: meta"></th:block>
 
-<title>FlyCAGE</title>
 <th:block th:replace="style-fragments :: import-google-fonts"></th:block>
 <th:block th:replace="style-fragments :: import-bootstrap"></th:block>
 <th:block th:replace="style-fragments :: import-datatables"></th:block>
@@ -27,7 +19,7 @@
 </head>
 <!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
 <body>
-	<div th:include="fragments :: navbar"></div>
+	<div th:include="base-fragments :: navbar"></div>
 	<div class="container-fluid">
 		<div class="text-xs-center"></div>
 		<div class="row">
@@ -93,7 +85,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div th:include="fragments :: gene-form" class="d-none d-lg-block"></div>
+						<div th:include="input-fragments :: gene-form" class="d-none d-lg-block"></div>
 					</div>
 				</div>
 			</div>
@@ -287,7 +279,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 ">
-						<div th:include="fragments :: gene-form" class="d-lg-none"></div>
+						<div th:include="input-fragments :: gene-form" class="d-lg-none"></div>
 					</div>
 				</div>
 			</div>
