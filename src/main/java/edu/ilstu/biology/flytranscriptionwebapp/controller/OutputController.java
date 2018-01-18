@@ -94,7 +94,7 @@ public class OutputController {
 			customGene.setDbIdentifier("INPUT GENE");
 			customGene.setSecondaryIdentifier("INPUT GENE");
 			customGene.setRnaExpData(rnaExpData);
-			
+
 			// TODO: I dont like session solution, change to request solution
 			session.setAttribute("customGene", customGene);
 
@@ -128,10 +128,10 @@ public class OutputController {
 			mav.addObject("exception", ige);
 			ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator
 					.generateExpressionStageOptions(); // TODO: Duplicate
-														// expression
-														// generation. Remove
-														// and use only one for
-														// both results
+																																		// expression
+																																		// generation. Remove
+																																		// and use only one for
+																																		// both results
 			mav.addObject("expressionStageOptions", expressionStageOptions);
 			mav.setViewName("input");
 			return mav;
@@ -178,7 +178,8 @@ public class OutputController {
 		if (body.getInputGene().equals("INPUT GENE")) {
 			pData.setInputGeneData(
 					// TODO: Need to have better typecase and nullcheck handling on session.get
-					retrieveCorrelationData.retrieveCorrelationData((Gene) session.getAttribute("customGene"), selectedIndices));
+					retrieveCorrelationData.retrieveCorrelationData((Gene) session.getAttribute("customGene"),
+							selectedIndices));
 		} else {
 			pData.setInputGeneData(
 					retrieveCorrelationData.retrieveCorrelationData(body.getInputGene(), selectedIndices));

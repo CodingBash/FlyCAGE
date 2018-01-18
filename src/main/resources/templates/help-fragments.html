@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="what-is-flycage">
+		<h5>What is FlyCAGE?</h5>
+		<p class="indent">FlyCAGE is a web-accessible application that
+			conducts integrative analysis of Drosophila melanogaster mRNA
+			expression data to discover genes with correlated spatiotemporal
+			expression. We would predict that genes showing this correlation may
+			be co-regulated or share similar biological functions. FlyCAGE
+			therefore allows us to identify candidate genes involved in a given
+			process, to discover regulatory interactions in genetic networks, and
+			to verify the quality of gene clustering techniques. The general
+			analysis of FlyCAGE goes as the following: 1) submit an input target
+			gene, 2) conduct Pearsons correlation on every available gene in
+			Drosophila melanogaster, relative to the input target gene, 3) rank
+			each gene based on the correlation coefficient.</p>
+	</div>
+	<div th:fragment="submit-a-request">
+		<h5>How to Submit a Request</h5>
+		<p class="indent">We will begin to submit an analysis request.</p>
+		<h6 class="indent">Input: Select Species</h6>
+		<p class="indent">The first input field (required) is “Select
+			Species”. Currently, the only option available is “D. melanogaster”.
+			In the future, we hope to expand CAGE to other species.</p>
+		<img th:src="@{images/species-inp.jpg}"
+			src="../static/images/species-inp.jpg" class="img-format"></img>
+		<h6 class="indent">Input: Target Gene Name</h6>
+		<p class="indent">The second input field (required) is “Target
+			Gene Name”. In this field, input the gene that you want the strongly
+			correlated gene results to be based on. The format of the input can
+			be the full gene name (i.e. “ultrabithorax”), gene synonym (i.e.
+			“ubx”), FlyBase ID (i.e. “FBgn0003944”), or CG annotation symbol
+			(i.e. “CG10388”).</p>
+		<img th:src="@{images/target-inp.jpg}"
+			src="../static/images/target-inp.jpg" class="img-format"></img>
+		<h6 class="indent">Input: Genes of Interest</h6>
+		<p class="indent">The third input field (optional) is “Genes of
+			Interest”. In this field, input a list of genes with an interest in
+			seeing how they correlate with the target gene. The format of the
+			input is a comma-delimited list of genes with the same format as the
+			“Target Gene Name” field above (i.e. “grh, FBgn0000577, spalt major,
+			CG1374”). The gene identification type does not need to be synonymous
+			between each gene entry.</p>
+		<img th:src="@{images/goi-inp.jpg}" src="../static/images/goi-inp.jpg"
+			class="img-format"></img>
+		<h6 class="indent">Input: Choose gene result count</h6>
+		<p class="indent">The fourth input field (required) is “Choose
+			gene result count”. In this field, input the amount of correlated
+			genes to display on the results page. By default, the input is set to
+			100. Larger inputs may slow down page rendering.</p>
+		<img th:src="@{gifs/gene-count-gif.gif}"
+			src="../static/gifs/gene-count-gif.gif" class="img-format"></img>
+		<h6 class="indent">Input: Choose Expression Stages</h6>
+		<p class="indent">The fifth input field (required) is “Choose
+			Expression Stages”. In this field, select the stages that you want to
+			be compared between the target gene and the genes in the selected
+			genome. The expression stages are organized by category:
+			Embryogenesis, Development, Tissue, Treatment, and Cell Line.
+			Clicking the checkbox next to the category text will check/uncheck
+			all expression stages corresponding to that category. To view the
+			specific expression stages, click the desired category text. Clicking
+			the checkbox next to the expression stage will check/uncheck only
+			that expression stage.</p>
+		<img th:src="@{gifs/exp-stage-gif.gif}"
+			src="../static/gifs/exp-stage-gif.gif" class="img-format"></img>
+		<p class="indent">Note that the expression stages in each category
+			are not mutually exclusive; there exists some expression stages that
+			belong to multiple categories. For example, unchecking the
+			“Development” category will also uncheck the “Embryogenesis” category
+			since all expression stages from “Embryogenesis” exists in
+			“Development”.</p>
+		<p class="indent">Example: If you are only interested in
+			discovering genes with similar expression in development stages, then
+			only have the “Development” category selected.</p>
+		<p class="indent">Once all inputs are properly filled out, click
+			the "Submit" button to retrieve the results.</p>
+	</div>
+	<div th:fragment="view-results">
+		<h5>How to View the Results</h5>
+		<p class="indent">The results page will contain three panels:
+			request summary, input form, and results. The request summary panel
+			will contain a description of the results corresponding request. The
+			input form panel will contain the form to create another request. The
+			results panel will contain the results from the user's request.</p>
+		<h6 class="indent">Results Panel</h6>
+		<p class="indent">The results panel will contain two main tables:
+			“Results Table” and “Genes of Interest Table”. The “Results Table”
+			will contain all the result genes that are most correlated to the
+			target gene. The "Genes of Interest Table" will contain all the genes
+			of interest from the request. The genes will be ranked based on the
+			correlation coefficient.</p>
+		<p class="indent">Each row will correspond to a single result
+			gene:</p>
+		<p class="text-center">
+			<i>Row for gene "Pox neuro"</i>
+		</p>
+		<img th:src="@{images/results-table-row.jpg}"
+			src="../static/images/results-table-row.jpg" class="img-format"></img>
+		<p class="indent">There are seven columns to describe the result
+			gene: rank, FlyBase ID, CG ID, gene name, r-value, p-value, and
+			actions</p>
+		<div class="indent">
+			<ul>
+				<li><b>Rank:</b> the gene's position when ordered based on
+					r-value from greatest to least (descending).</li>
+				<li><b>FlyBase ID:</b> the gene's database identification key
+					from FlyBase.</li>
+				<li><b>CG ID:</b> The gene's annotation symbol from CG.</li>
+				<li><b>Gene Name:</b> the gene's formal name.</li>
+				<li><b>R-value:</b> The Pearsons correlation coefficient
+					between the target gene and the row's result gene; near 1 indicates
+					a positive correlation, near 0 indicates no correlation, near -1
+					indicates a negative correlation.</li>
+				<li><b>P-value:</b> typical value to determine significance of
+					Pearsons correlation coefficient.</li>
+				<li><b>Actions:</b> set of buttons to conduct some action on
+					the gene. Actions include: "FlyMine". "FlyMine" will open the
+					gene's FlyMine report.</li>
+			</ul>
+		</div>
+		<p class="indent">There is also an option to view the mRNA
+			expression data between the target gene and the row's result gene.
+			Click the green icon on the left-side of the row to open a plot with
+			the data</p>
+		<img th:src="@{gifs/plot-expand-gif.gif}"
+			src="../static/gifs/plot-expand-gif.gif" class="img-format"></img>
+		<p class="indent">The line graph will contain two trends to mark
+			the expression data for the target gene and the row's result gene.
+			Although the points are connected, it is important to not mistaken
+			the data as a time series. The connected points are meant to better
+			visualize the correlation. In the future, more work will be done to
+			improve the visualization.</p>
+		<p class="indent">The x-axis will contain the expression stage
+			based on their identification number. The y-axis will contain the
+			expression score/count.</p>
+		<p class="indent">Sometimes it may be difficult to compare the
+			trends together since the mRNA expression may be scaled differently.
+			To better visualize the trends' relationship, click "Normalize" to
+			normalize all the data between 0 and 1.</p>
+		<img th:src="@{gifs/plot-normalize-gif.gif}"
+			src="../static/gifs/plot-normalize-gif.gif" class="img-format"></img>
+		<p class="indent">To view the expression stages' identification
+			numbers, click the button "See Stage Mapping" to open a modal with
+			the information.</p>
+		<p class="indent">When hovering over the plot, you will be able to
+			view an overview of the data for the corresponding expression stage
+			such as the gene IDs, resolved expression stages, and expression
+			scores.</p>
+		<img th:src="@{images/plot-hover.jpg}"
+			src="../static/images/plot-hover.jpg" class="img-format"></img>
+		<p class="indent">There are also other actions you may perform on
+			the plot. On the top right of the plot, there will be a set of
+			buttons to perform specific actions on the plot such as navigation,
+			saving, and editing.</p>
+	</div>
+</body>
+</html>
