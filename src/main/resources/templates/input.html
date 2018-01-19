@@ -6,37 +6,37 @@
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
 <!--<![endif]-->
 <head>
-<th:block th:replace="base-fragments :: meta"></th:block>
+<th:block th:replace="../fragments/base-fragments :: meta"></th:block>
 
-<th:block th:replace="style-fragments :: import-google-fonts"></th:block>
-<th:block th:replace="style-fragments :: import-bootstrap"></th:block>
-<th:block th:replace="style-fragments :: import-jquery"></th:block>
-<th:block th:replace="style-fragments :: custom-style-base"></th:block>
-<th:block th:replace="style-fragments :: custom-style-input"></th:block>
+<th:block th:replace="../fragments/style-fragments :: import-google-fonts"></th:block>
+<th:block th:replace="../fragments/style-fragments :: import-bootstrap"></th:block>
+<th:block th:replace="../fragments/style-fragments :: import-jquery"></th:block>
+<th:block th:replace="../fragments/style-fragments :: custom-style-base"></th:block>
+<th:block th:replace="../fragments/style-fragments :: custom-style-input"></th:block>
 </head>
 <body>
-	<div th:include="base-fragments :: navbar"></div>
+	<div th:include="../fragments/base-fragments :: navbar"></div>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<div th:include="base-fragments :: exception"></div>
+				<div th:include="../fragments/base-fragments :: exception"></div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div th:include="input-fragments :: gene-form"></div>
+				<div th:include="../fragments/input-fragments :: gene-form"></div>
 			</div>
 		</div>
 	</div>
 
-	<th:block th:replace="script-fragments :: import-jquery"></th:block>
-	<th:block th:replace="script-fragments :: import-bootstrap"></th:block>
-	<th:block th:replace="script-fragments :: import-plotlyjs"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: import-jquery"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: import-bootstrap"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: import-plotlyjs"></th:block>
 	<th:block
-		th:replace="script-fragments :: custom-script-input-select-stages"></th:block>
+		th:replace="../fragments/script-fragments :: custom-script-input-select-stages"></th:block>
 	<th:block
-		th:replace="script-fragments :: custom-script-input-result-count"></th:block>
+		th:replace="../fragments/script-fragments :: custom-script-input-result-count"></th:block>
 	<th:block
-		th:replace="script-fragments :: custom-script-input-custom-data"></th:block>
+		th:replace="../fragments/script-fragments :: custom-script-input-custom-data"></th:block>
 </body>
 </html>

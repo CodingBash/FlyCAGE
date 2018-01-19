@@ -6,15 +6,15 @@
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
 <!--<![endif]-->
 <head>
-<th:block th:replace="base-fragments :: meta"></th:block>
+<th:block th:replace="../fragments/base-fragments :: meta"></th:block>
 
-<th:block th:replace="style-fragments :: import-google-fonts"></th:block>
-<th:block th:replace="style-fragments :: import-bootstrap"></th:block>
-<th:block th:replace="style-fragments :: custom-style-base"></th:block>
-<th:block th:replace="style-fragments :: custom-style-help"></th:block>
+<th:block th:replace="../fragments/style-fragments :: import-google-fonts"></th:block>
+<th:block th:replace="../fragments/style-fragments :: import-bootstrap"></th:block>
+<th:block th:replace="../fragments/style-fragments :: custom-style-base"></th:block>
+<th:block th:replace="../fragments/style-fragments :: custom-style-help"></th:block>
 </head>
 <body>
-	<div th:include="base-fragments :: navbar"></div>
+	<div th:include="../fragments/base-fragments :: navbar"></div>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
@@ -26,9 +26,9 @@
 					</div>
 					<div class="card-body panel-block">
 						<div class="container-fluid">
-							<div th:include="help-fragments :: what-is-flycage"></div>
-							<div th:include="help-fragments :: submit-a-request"></div>
-							<div th:include="help-fragments :: view-results"></div>
+							<div th:include="../fragments/help-fragments :: what-is-flycage"></div>
+							<div th:include="../fragments/help-fragments :: submit-a-request"></div>
+							<div th:include="../fragments/help-fragments :: view-results"></div>
 						</div>
 					</div>
 				</div>
