@@ -27,6 +27,7 @@ import edu.ilstu.biology.flytranscriptionwebapp.model.GeneForm;
 import edu.ilstu.biology.flytranscriptionwebapp.model.PairwiseCorrelationDataAjaxRequestBody;
 import edu.ilstu.biology.flytranscriptionwebapp.model.PairwiseGeneCorrelationData;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.ExpressionStageOptionsGenerator;
+import edu.ilstu.biology.flytranscriptionwebapp.processor.ExpressionStageProcessor;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.GenomicCorrelationAnalysis;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveCorrelationData;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveExpressionStages;
@@ -51,16 +52,7 @@ public class OutputController {
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		List<String> allExpressionStages = retrieveExpressionStages.getDmelanogasterExpressionStages();
-
-		List<Integer> selectedExpressionIndices = selectedExpressionStageIndices(geneForm.getExpressionStages(),
-				allExpressionStages);
-
-		// TODO: See if we can refactor how this logic is done. There may be a
-		// more optimized way to get all relevant expression stage information
-		List<String> selectedExpressionStageLabels = selectedExpressionStageLabels(selectedExpressionIndices,
-				allExpressionStages);
-		mav.addObject("selectedExpressionStageLabels", selectedExpressionStageLabels);
+		mav.addObject("selectedExpressionStageLabels", retrieveSelectedExpressionLabels(geneForm.getExpressionStages()));
 
 		Gene customGene = null;
 		// TODO: Custom gene expression
@@ -146,21 +138,6 @@ public class OutputController {
 		return mav;
 	}
 
-	/**
-	 * Retrieves the selected expression stage labels
-	 * 
-	 * @param selectedExpressionIndices
-	 * @param allExpressionStages
-	 * @return
-	 */
-	private List<String> selectedExpressionStageLabels(List<Integer> selectedExpressionIndices,
-			List<String> allExpressionStages) {
-		List<String> selectedExpressionStageLabels = new LinkedList<String>();
-		for (Integer index : selectedExpressionIndices) {
-			selectedExpressionStageLabels.add(allExpressionStages.get(index));
-		}
-		return selectedExpressionStageLabels;
-	}
 
 	/*
 	 * TODO: Only accept and send targetgene data. Front end should have access
@@ -172,7 +149,7 @@ public class OutputController {
 	public ResponseEntity<PairwiseGeneCorrelationData> getSearchResultViaAjax(
 			@RequestBody PairwiseCorrelationDataAjaxRequestBody body, HttpSession session) {
 		PairwiseGeneCorrelationData pData = new PairwiseGeneCorrelationData();
-		List<Integer> selectedIndices = selectedExpressionStageIndices(body.getSelectedExpressionStages(),
+		List<Integer> selectedIndices = ExpressionStageProcessor.selectedExpressionStageIndices(body.getSelectedExpressionStages(),
 				retrieveExpressionStages.getDmelanogasterExpressionStages());
 		// TODO: Make "INPUT GENE" a constant
 		if (body.getInputGene().equals("INPUT GENE")) {
@@ -187,17 +164,16 @@ public class OutputController {
 		pData.setTargetGeneData(retrieveCorrelationData.retrieveCorrelationData(body.getTargetGene(), selectedIndices));
 		return ResponseEntity.ok(pData);
 	}
-
-	// TODO: Move to its own processor
-	public List<Integer> selectedExpressionStageIndices(Map<String, Boolean> selectedExpressionStages,
-			List<String> allExpressionStages) {
-		List<Integer> selectedExpressionIndices = new LinkedList<Integer>();
-		for (Map.Entry<String, Boolean> entry : selectedExpressionStages.entrySet()) {
-			if (entry.getValue() != null && entry.getValue() == Boolean.TRUE) {
-				selectedExpressionIndices.add(allExpressionStages.indexOf(entry.getKey()));
-			}
-		}
-		return selectedExpressionIndices;
+	
+	private List<String> retrieveSelectedExpressionLabels(Map<String, Boolean> selectedExpressionStages){
+		List<String> allExpressionStages = retrieveExpressionStages.getDmelanogasterExpressionStages();
+		List<Integer> selectedExpressionIndices = ExpressionStageProcessor.selectedExpressionStageIndices(selectedExpressionStages,
+				allExpressionStages);
+		List<String> selectedExpressionStageLabels = ExpressionStageProcessor.selectedExpressionStageLabels(selectedExpressionIndices,
+				allExpressionStages);
+		return selectedExpressionStageLabels;
 	}
+
+
 
 }

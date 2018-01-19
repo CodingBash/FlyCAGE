@@ -7,16 +7,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import edu.ilstu.biology.flytranscriptionwebapp.model.ExpressionStageOptions;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneForm;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.ExpressionStageOptionsGenerator;
-import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveExpressionStages;
 
 @Controller
 public class InputController {
-
-	@Autowired
-	private RetrieveExpressionStages retrieveExpressionStages;
 
 	@Autowired
 	private ExpressionStageOptionsGenerator expressionStageOptionsGenerator;
@@ -25,8 +20,7 @@ public class InputController {
 	public ModelAndView showInputPage() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("geneForm", new GeneForm());
-		ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator.generateExpressionStageOptions();
-		mav.addObject("expressionStageOptions", expressionStageOptions);
+		mav.addObject("expressionStageOptions", expressionStageOptionsGenerator.generateExpressionStageOptions());
 		mav.setViewName("input");
 		return mav;
 

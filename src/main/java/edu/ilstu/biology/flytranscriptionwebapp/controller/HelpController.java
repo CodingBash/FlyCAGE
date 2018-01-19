@@ -10,11 +10,7 @@ public class HelpController {
 
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
-	public ModelAndView help(){
-		ModelAndView mav = new ModelAndView("help");
-		
-		// TODO: Add models
-		
-		return mav;
+	public String help(){
+		return "help";
 	}
 }
