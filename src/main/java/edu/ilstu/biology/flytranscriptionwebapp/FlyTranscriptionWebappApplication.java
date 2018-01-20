@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import edu.ilstu.biology.flytranscriptionwebapp.mapper.GenomeDataMapper;
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
@@ -28,4 +30,12 @@ public class FlyTranscriptionWebappApplication {
 	public PearsonsCorrelation getPearsonsCorrelation(){
 		return new PearsonsCorrelation();
 	}
+	
+	@Bean
+	public RestTemplate restTemplate(){
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+		return restTemplate;
+	}
+	
 }
