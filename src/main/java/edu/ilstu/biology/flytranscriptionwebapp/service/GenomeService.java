@@ -1,6 +1,8 @@
 package edu.ilstu.biology.flytranscriptionwebapp.service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +22,11 @@ public class GenomeService {
 	@Autowired
 	private GenomeDataMapper genomeDataMapper;
 
-	public List<Gene> retrieveGenomeData(){
-		List<GeneRNAInformationResultTO> geneRnaData = genomeRepository.retrieveGeneRnaData();
-		List<GeneIDInformationResultTO> geneIdentiferData = genomeRepository.retrieveGeneIdentifierData();
-		List<Gene> genomeList = genomeDataMapper.mapGenomicData(geneRnaData, geneIdentiferData);
+	public List<Gene> retrieveGenomeData() throws InterruptedException, ExecutionException{
+		CompletableFuture<List<GeneRNAInformationResultTO>> geneRnaData = genomeRepository.retrieveGeneRnaData();
+		CompletableFuture<List<GeneIDInformationResultTO>> geneIdentifierData = genomeRepository.retrieveGeneIdentifierData();
+		CompletableFuture.allOf(geneRnaData, geneIdentifierData).join();
+		List<Gene> genomeList = genomeDataMapper.mapGenomicData(geneRnaData.get(), geneIdentifierData.get());
 		return genomeList;
 	}
 }
