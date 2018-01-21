@@ -53,9 +53,8 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		return CompletableFuture.completedFuture(response.getBody().getResults());
 	}
 
-	@Async
 	@Override
-	public CompletableFuture<Integer> retrieveGeneRnaDataCount() {
+	public Integer retrieveGeneRnaDataCount() {
 
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("format", "jsoncount");
@@ -65,7 +64,7 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		ResponseEntity<GeneRNAInformationCountTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
 				GeneRNAInformationCountTO.class);
 
-		return CompletableFuture.completedFuture(response.getBody().getCount());
+		return response.getBody().getCount();
 	}
 	
 	@Async
@@ -83,9 +82,8 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		return CompletableFuture.completedFuture(response.getBody().getResults());
 	}
 	
-	@Async
 	@Override
-	public CompletableFuture<Integer> retrieveGeneIdentifierDataCount() {
+	public Integer retrieveGeneIdentifierDataCount() {
 
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("format", "jsoncount");
@@ -95,6 +93,6 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		ResponseEntity<GeneIDInformationCountTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
 				GeneIDInformationCountTO.class);
 
-		return CompletableFuture.completedFuture(response.getBody().getCount());
+		return response.getBody().getCount();
 	}
 }

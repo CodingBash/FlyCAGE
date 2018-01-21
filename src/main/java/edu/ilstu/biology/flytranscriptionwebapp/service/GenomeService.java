@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import edu.ilstu.biology.flytranscriptionwebapp.mapper.GenomeDataMapper;
@@ -24,37 +25,49 @@ public class GenomeService {
 	private GenomeDataMapper genomeDataMapper;
 
 	public List<Gene> retrieveGenomeData() throws InterruptedException, ExecutionException {
-		CompletableFuture<Integer> geneRnaDataCountFuture = genomeRepository.retrieveGeneRnaDataCount();
-		CompletableFuture<Integer> geneIdentifierDataCountFuture = genomeRepository.retrieveGeneIdentifierDataCount();
-		CompletableFuture.allOf(geneRnaDataCountFuture, geneIdentifierDataCountFuture).join();
+		CompletableFuture<List<GeneRNAInformationResultTO>> geneRnaCompletableFutureResult = retrieveGeneRnaInformationResults();
+		CompletableFuture<List<GeneIDInformationResultTO>> geneIdentifierCompletableFutureResult = retrieveGeneIdentifierInformationResults();
 
-		/*
-		 * TODO: Make this configuration variables?
-		 */
+		CompletableFuture.allOf(geneRnaCompletableFutureResult, geneIdentifierCompletableFutureResult).join();
+
+		List<Gene> genomeList = genomeDataMapper.mapGenomicData(geneRnaCompletableFutureResult.get(),
+				geneIdentifierCompletableFutureResult.get());
+
+		return genomeList;
+	}
+
+	@Async
+	private CompletableFuture<List<GeneRNAInformationResultTO>> retrieveGeneRnaInformationResults() {
+		int geneRnaDataCountFuture = genomeRepository.retrieveGeneRnaDataCount();
 		int geneRnaTargetRunCount = 100;
-		int geneIdentifierTargetRunCount = 1;
-		int geneRnaTargetResultCount = geneRnaDataCountFuture.get() / geneRnaTargetRunCount;
-		int geneIdentifierTargetResultCount = geneIdentifierDataCountFuture.get() / geneIdentifierTargetRunCount;
+		int geneRnaTargetResultCount = geneRnaDataCountFuture / geneRnaTargetRunCount;
 
-		List<CompletableFuture<List<GeneRNAInformationResultTO>>> geneRnaCompletableFutureResultList = new ArrayList<CompletableFuture<List<GeneRNAInformationResultTO>>>(geneRnaTargetRunCount);
-		for (int geneRnaQueryStart = 0; geneRnaQueryStart < geneRnaDataCountFuture
-				.get(); geneRnaQueryStart += geneRnaTargetResultCount) {
+		List<CompletableFuture<List<GeneRNAInformationResultTO>>> geneRnaCompletableFutureResultList = new ArrayList<CompletableFuture<List<GeneRNAInformationResultTO>>>(
+				geneRnaTargetRunCount);
+		for (int geneRnaQueryStart = 0; geneRnaQueryStart < geneRnaDataCountFuture; geneRnaQueryStart += geneRnaTargetResultCount) {
 			// TODO: WS call
 		}
-		CompletableFuture.allOf(geneRnaCompletableFutureResultList.toArray(new CompletableFuture[geneRnaCompletableFutureResultList.size()]));
+		CompletableFuture.allOf(geneRnaCompletableFutureResultList
+				.toArray(new CompletableFuture[geneRnaCompletableFutureResultList.size()]));
 		// TODO: Join all futures into one structure
-		
-		List<CompletableFuture<List<GeneIDInformationResultTO>>> geneIdentifierCompletableFutureResultList = new ArrayList<CompletableFuture<List<GeneIDInformationResultTO>>>(geneIdentifierTargetRunCount);
-		for (int geneIdentifierQueryStart = 0; geneIdentifierQueryStart < geneIdentifierDataCountFuture
-				.get(); geneIdentifierQueryStart += geneIdentifierTargetResultCount) {
-			//TODO: WS Call
+
+		return null;
+	}
+
+	@Async
+	private CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierInformationResults() {
+		int geneIdentifierDataCountFuture = genomeRepository.retrieveGeneIdentifierDataCount();
+		int geneIdentifierTargetRunCount = 1;
+		int geneIdentifierTargetResultCount = geneIdentifierDataCountFuture / geneIdentifierTargetRunCount;
+
+		List<CompletableFuture<List<GeneIDInformationResultTO>>> geneIdentifierCompletableFutureResultList = new ArrayList<CompletableFuture<List<GeneIDInformationResultTO>>>(
+				geneIdentifierTargetRunCount);
+		for (int geneIdentifierQueryStart = 0; geneIdentifierQueryStart < geneIdentifierDataCountFuture; geneIdentifierQueryStart += geneIdentifierTargetResultCount) {
+			// TODO: WS Call
 		}
-		CompletableFuture.allOf(geneIdentifierCompletableFutureResultList.toArray(new CompletableFuture[geneIdentifierCompletableFutureResultList.size()]));
-		// TODO: Join all futures into one structure		
-		
-		//List<Gene> genomeList = genomeDataMapper.mapGenomicData(geneRnaDataFuture.get(),
-		//		geneIdentifierDataFuture.get());
-		//return genomeList;
+		CompletableFuture.allOf(geneIdentifierCompletableFutureResultList
+				.toArray(new CompletableFuture[geneIdentifierCompletableFutureResultList.size()]));
+		// TODO: Join all futures into one structure
 		return null;
 	}
 }

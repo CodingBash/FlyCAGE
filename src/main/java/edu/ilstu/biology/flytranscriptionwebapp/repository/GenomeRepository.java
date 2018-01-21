@@ -12,8 +12,8 @@ public interface GenomeRepository {
 	
 	public CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierData();
 
-	CompletableFuture<Integer> retrieveGeneRnaDataCount();
+	public Integer retrieveGeneRnaDataCount();
 
-	CompletableFuture<Integer> retrieveGeneIdentifierDataCount();
+	public Integer retrieveGeneIdentifierDataCount();
 	
 }
