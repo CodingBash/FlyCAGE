@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.ilstu.biology.flytranscriptionwebapp.mapper.GenomeDataMapper;
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.repository.GenomeRepository;
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneIDInformationResultTO;
@@ -15,12 +16,14 @@ public class GenomeService {
 	
 	@Autowired
 	private GenomeRepository genomeRepository;
+	
+	@Autowired
+	private GenomeDataMapper genomeDataMapper;
 
 	public List<Gene> retrieveGenomeData(){
 		List<GeneRNAInformationResultTO> geneRnaData = genomeRepository.retrieveGeneRnaData();
-		System.out.println(geneRnaData);
 		List<GeneIDInformationResultTO> geneIdentiferData = genomeRepository.retrieveGeneIdentifierData();
-		System.out.println(geneIdentiferData);
-		return null;
+		List<Gene> genomeList = genomeDataMapper.mapGenomicData(geneRnaData, geneIdentiferData);
+		return genomeList;
 	}
 }

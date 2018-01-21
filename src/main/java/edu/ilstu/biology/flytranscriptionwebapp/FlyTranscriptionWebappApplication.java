@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import edu.ilstu.biology.flytranscriptionwebapp.mapper.GenomeDataMapper;
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
+import edu.ilstu.biology.flytranscriptionwebapp.service.GenomeService;
 
 @SpringBootApplication
 public class FlyTranscriptionWebappApplication {
@@ -21,8 +21,8 @@ public class FlyTranscriptionWebappApplication {
 	}
 
 	@Bean("genomeData")
-	public List<Gene> genomeData(@Autowired GenomeDataMapper genomeDataMapper) {
-		List<Gene> genomeList = genomeDataMapper.mapGenomicData();
+	public List<Gene> genomeData(@Autowired GenomeService genomeService) {
+		List<Gene> genomeList = genomeService.retrieveGenomeData();
 		return genomeList;
 	}
 	

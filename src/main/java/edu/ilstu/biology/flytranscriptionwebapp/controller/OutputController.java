@@ -48,8 +48,6 @@ public class OutputController {
 	@Autowired
 	private ExpressionStageOptionsGenerator expressionStageOptionsGenerator;
 
-	@Autowired
-	private GenomeService genomeService;
 	
 	private static final String INPUT_GENE_NAME = "INPUT GENE";
 	private static final String CUSTOM_GENE_SESSION_NAME = "CUSTOM_GENE";
@@ -61,8 +59,6 @@ public class OutputController {
 		mav.addObject("selectedExpressionStageLabels",
 				retrieveSelectedExpressionLabels(geneForm.getExpressionStages()));
 
-		genomeService.retrieveGenomeData();
-		
 		FinalResponseCorrelationResult result = null;
 		try {
 			Gene customGene = retrieveCustomGene(geneForm.getCustomExpression());

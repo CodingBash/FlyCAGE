@@ -17,6 +17,7 @@ import edu.ilstu.biology.flytranscriptionwebapp.model.GeneRnaDataXml;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GenomeIdentifiersXml;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GenomeRnaDataXml;
 
+@Deprecated
 @Component
 public class GenomeXmlUnmarshaller {
 
