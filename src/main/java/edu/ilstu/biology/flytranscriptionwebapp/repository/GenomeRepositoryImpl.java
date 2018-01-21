@@ -20,9 +20,8 @@ import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneRNAInformatio
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneRNAInformationTO;
 
 @Repository
-// @Profile({ "production" })
 @PropertySource("classpath:queries.properties")
-public class GenomeRepositoryProdImpl implements GenomeRepository {
+public class GenomeRepositoryImpl implements GenomeRepository {
 
 	@Autowired
 	private RestTemplate restTemplate;
@@ -41,7 +40,6 @@ public class GenomeRepositoryProdImpl implements GenomeRepository {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("format", "jsonobjects");
 		body.add("query", geneRnaQuery);
-		body.add("size", Integer.toString(500));
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
 		ResponseEntity<GeneRNAInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
@@ -56,7 +54,6 @@ public class GenomeRepositoryProdImpl implements GenomeRepository {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("format", "jsonobjects");
 		body.add("query", geneIdQuery);
-		body.add("size", Integer.toString(500));
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
 		ResponseEntity<GeneIDInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,

@@ -24,7 +24,6 @@ public class GenomeDataMapper {
 	@Autowired
 	private GenomeXmlUnmarshaller genomeXmlUnmarshaller;
 
-	@Deprecated
 	public List<Gene> mapGenomicData() {
 		List<Gene> geneList = new ArrayList<Gene>();
 		List<GeneRnaDataXml> geneRnaDataXmlList = genomeXmlUnmarshaller.unmarshallGenomeRnaDataFile();
