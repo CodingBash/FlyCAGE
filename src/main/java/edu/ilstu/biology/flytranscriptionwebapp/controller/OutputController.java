@@ -2,7 +2,6 @@ package edu.ilstu.biology.flytranscriptionwebapp.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -31,6 +30,7 @@ import edu.ilstu.biology.flytranscriptionwebapp.processor.ExpressionStageProcess
 import edu.ilstu.biology.flytranscriptionwebapp.processor.GenomicCorrelationAnalysis;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveCorrelationData;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveExpressionStages;
+import edu.ilstu.biology.flytranscriptionwebapp.service.GenomeService;
 import edu.ilstu.biology.flytranscriptionwebapp.validation.InvalidGeneException;
 
 @Controller
@@ -48,6 +48,9 @@ public class OutputController {
 	@Autowired
 	private ExpressionStageOptionsGenerator expressionStageOptionsGenerator;
 
+	@Autowired
+	private GenomeService genomeService;
+	
 	private static final String INPUT_GENE_NAME = "INPUT GENE";
 	private static final String CUSTOM_GENE_SESSION_NAME = "CUSTOM_GENE";
 
@@ -58,6 +61,8 @@ public class OutputController {
 		mav.addObject("selectedExpressionStageLabels",
 				retrieveSelectedExpressionLabels(geneForm.getExpressionStages()));
 
+		genomeService.retrieveGenomeData();
+		
 		FinalResponseCorrelationResult result = null;
 		try {
 			Gene customGene = retrieveCustomGene(geneForm.getCustomExpression());

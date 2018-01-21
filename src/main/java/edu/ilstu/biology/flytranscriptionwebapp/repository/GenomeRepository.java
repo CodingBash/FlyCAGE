@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface GenomeRepository {
 
-	
 	public List<Object> retrieveGeneRnaData();
 	
 	public List<Object> retrieveGeneIdentifierData();

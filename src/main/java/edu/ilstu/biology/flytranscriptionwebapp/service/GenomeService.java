@@ -12,11 +12,13 @@ import edu.ilstu.biology.flytranscriptionwebapp.repository.GenomeRepository;
 public class GenomeService {
 	
 	@Autowired
-	GenomeRepository genomeRepository;
+	private GenomeRepository genomeRepository;
 
 	public List<Gene> retrieveGenomeData(){
 		List<Object> geneRnaData = genomeRepository.retrieveGeneRnaData();
+		System.out.println(geneRnaData);
 		List<Object> geneIdentiferData = genomeRepository.retrieveGeneIdentifierData();
+		System.out.println(geneIdentiferData);
 		return null;
 	}
 }
