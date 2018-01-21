@@ -16,8 +16,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneIDInformationCountTO;
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneIDInformationResultTO;
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneIDInformationTO;
+import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneRNAInformationCountTO;
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneRNAInformationResultTO;
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneRNAInformationTO;
 
@@ -43,7 +45,6 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("format", "jsonobjects");
 		body.add("query", geneRnaQuery);
-		body.add("size", Integer.toString(500));
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
 		ResponseEntity<GeneRNAInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
@@ -54,17 +55,46 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 
 	@Async
 	@Override
+	public CompletableFuture<Integer> retrieveGeneRnaDataCount() {
+
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
+		body.add("format", "jsoncount");
+		body.add("query", geneRnaQuery);
+		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
+
+		ResponseEntity<GeneRNAInformationCountTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
+				GeneRNAInformationCountTO.class);
+
+		return CompletableFuture.completedFuture(response.getBody().getCount());
+	}
+	
+	@Async
+	@Override
 	public CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierData() {
 
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("format", "jsonobjects");
 		body.add("query", geneIdQuery);
-		body.add("size", Integer.toString(500));
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
 		ResponseEntity<GeneIDInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
 				GeneIDInformationTO.class);
 
 		return CompletableFuture.completedFuture(response.getBody().getResults());
+	}
+	
+	@Async
+	@Override
+	public CompletableFuture<Integer> retrieveGeneIdentifierDataCount() {
+
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
+		body.add("format", "jsoncount");
+		body.add("query", geneRnaQuery);
+		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
+
+		ResponseEntity<GeneIDInformationCountTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
+				GeneIDInformationCountTO.class);
+
+		return CompletableFuture.completedFuture(response.getBody().getCount());
 	}
 }
