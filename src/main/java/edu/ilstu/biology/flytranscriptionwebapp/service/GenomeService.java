@@ -39,13 +39,13 @@ public class GenomeService {
 	@Async
 	private CompletableFuture<List<GeneRNAInformationResultTO>> retrieveGeneRnaInformationResults() {
 		int geneRnaDataCountFuture = genomeRepository.retrieveGeneRnaDataCount();
-		int geneRnaTargetRunCount = 100;
+		int geneRnaTargetRunCount = 100; // TODO: Make this a configurable variable?
 		int geneRnaTargetResultCount = geneRnaDataCountFuture / geneRnaTargetRunCount;
 
 		List<CompletableFuture<List<GeneRNAInformationResultTO>>> geneRnaCompletableFutureResultList = new ArrayList<CompletableFuture<List<GeneRNAInformationResultTO>>>(
 				geneRnaTargetRunCount);
 		for (int geneRnaQueryStart = 0; geneRnaQueryStart < geneRnaDataCountFuture; geneRnaQueryStart += geneRnaTargetResultCount) {
-			// TODO: WS call
+			geneRnaCompletableFutureResultList.add(genomeRepository.retrieveGeneRnaData(geneRnaQueryStart, geneRnaTargetResultCount));
 		}
 		CompletableFuture.allOf(geneRnaCompletableFutureResultList
 				.toArray(new CompletableFuture[geneRnaCompletableFutureResultList.size()]));
@@ -57,13 +57,13 @@ public class GenomeService {
 	@Async
 	private CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierInformationResults() {
 		int geneIdentifierDataCountFuture = genomeRepository.retrieveGeneIdentifierDataCount();
-		int geneIdentifierTargetRunCount = 1;
+		int geneIdentifierTargetRunCount = 1; // TODO: Make this a configurable variable?
 		int geneIdentifierTargetResultCount = geneIdentifierDataCountFuture / geneIdentifierTargetRunCount;
 
 		List<CompletableFuture<List<GeneIDInformationResultTO>>> geneIdentifierCompletableFutureResultList = new ArrayList<CompletableFuture<List<GeneIDInformationResultTO>>>(
 				geneIdentifierTargetRunCount);
 		for (int geneIdentifierQueryStart = 0; geneIdentifierQueryStart < geneIdentifierDataCountFuture; geneIdentifierQueryStart += geneIdentifierTargetResultCount) {
-			// TODO: WS Call
+			geneIdentifierCompletableFutureResultList.add(genomeRepository.retrieveGeneIdentifierData(geneIdentifierQueryStart, geneIdentifierTargetResultCount));
 		}
 		CompletableFuture.allOf(geneIdentifierCompletableFutureResultList
 				.toArray(new CompletableFuture[geneIdentifierCompletableFutureResultList.size()]));

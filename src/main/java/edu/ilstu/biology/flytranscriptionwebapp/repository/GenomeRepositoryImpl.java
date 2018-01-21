@@ -40,15 +40,35 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 
 	@Async
 	@Override
-	public CompletableFuture<List<GeneRNAInformationResultTO>> retrieveGeneRnaData() {
+	public CompletableFuture<List<GeneRNAInformationResultTO>> retrieveGeneRnaData(int queryStart, int querySize) {
 
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("format", "jsonobjects");
 		body.add("query", geneRnaQuery);
+		body.add("start", Integer.toString(queryStart));
+		body.add("size", Integer.toString(querySize));
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
 		ResponseEntity<GeneRNAInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
 				GeneRNAInformationTO.class);
+
+		return CompletableFuture.completedFuture(response.getBody().getResults());
+	}
+
+	@Async
+	@Override
+	public CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierData(int queryStart,
+			int querySize) {
+
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
+		body.add("format", "jsonobjects");
+		body.add("query", geneIdQuery);
+		body.add("start", Integer.toString(queryStart));
+		body.add("size", Integer.toString(querySize));
+		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
+
+		ResponseEntity<GeneIDInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
+				GeneIDInformationTO.class);
 
 		return CompletableFuture.completedFuture(response.getBody().getResults());
 	}
@@ -61,27 +81,12 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		body.add("query", geneRnaQuery);
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
-		ResponseEntity<GeneRNAInformationCountTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
-				GeneRNAInformationCountTO.class);
+		ResponseEntity<GeneRNAInformationCountTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST,
+				httpEntity, GeneRNAInformationCountTO.class);
 
 		return response.getBody().getCount();
 	}
-	
-	@Async
-	@Override
-	public CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierData() {
 
-		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
-		body.add("format", "jsonobjects");
-		body.add("query", geneIdQuery);
-		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
-
-		ResponseEntity<GeneIDInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
-				GeneIDInformationTO.class);
-
-		return CompletableFuture.completedFuture(response.getBody().getResults());
-	}
-	
 	@Override
 	public Integer retrieveGeneIdentifierDataCount() {
 
@@ -90,8 +95,8 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		body.add("query", geneRnaQuery);
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
-		ResponseEntity<GeneIDInformationCountTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
-				GeneIDInformationCountTO.class);
+		ResponseEntity<GeneIDInformationCountTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST,
+				httpEntity, GeneIDInformationCountTO.class);
 
 		return response.getBody().getCount();
 	}

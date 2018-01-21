@@ -8,12 +8,14 @@ import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneRNAInformatio
 
 public interface GenomeRepository {
 
-	public CompletableFuture<List<GeneRNAInformationResultTO>> retrieveGeneRnaData();
+	public CompletableFuture<List<GeneRNAInformationResultTO>> retrieveGeneRnaData(int queryStart, int querySize);
 	
-	public CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierData();
+	public CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierData(int queryStart, int querySize);
 
 	public Integer retrieveGeneRnaDataCount();
 
 	public Integer retrieveGeneIdentifierDataCount();
+
+	
 	
 }
