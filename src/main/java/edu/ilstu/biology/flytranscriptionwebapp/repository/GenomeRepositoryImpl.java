@@ -1,5 +1,6 @@
 package edu.ilstu.biology.flytranscriptionwebapp.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -57,7 +58,7 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		} catch (HttpServerErrorException exception) {
 			// TODO: Use Logger
 			System.out.println(exception.getMessage());
-			return CompletableFuture.completedFuture(null);
+			return CompletableFuture.completedFuture(new ArrayList<GeneRNAInformationResultTO>(0));
 		} // TODO: Catch Jackson Errors
 
 	}
@@ -81,7 +82,7 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		} catch (HttpServerErrorException exception) {
 			// TODO: Use Logger
 			System.out.println(exception.getMessage());
-			return CompletableFuture.completedFuture(null);
+			return CompletableFuture.completedFuture(new ArrayList<GeneIDInformationResultTO>(0));
 		} // TODO: Catch Jackson Errors
 	}
 
