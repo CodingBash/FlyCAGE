@@ -31,9 +31,9 @@ public class FlyTranscriptionWebappApplication {
 	@Bean
 	public Executor asyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(2);
-		executor.setMaxPoolSize(200);
-		executor.setQueueCapacity(500);
+		executor.setCorePoolSize(10);
+		executor.setMaxPoolSize(100);
+		executor.setQueueCapacity(75);
 		executor.setThreadNamePrefix("FlyCAGE-");
 		executor.initialize();
 		return executor;
