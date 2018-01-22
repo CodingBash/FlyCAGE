@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneIDInformationCountTO;
@@ -49,10 +50,16 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		body.add("size", Integer.toString(querySize));
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
-		ResponseEntity<GeneRNAInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
-				GeneRNAInformationTO.class);
+		try {
+			ResponseEntity<GeneRNAInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST,
+					httpEntity, GeneRNAInformationTO.class);
+			return CompletableFuture.completedFuture(response.getBody().getResults());
+		} catch (HttpServerErrorException exception) {
+			// TODO: Use Logger
+			System.out.println(exception.getMessage());
+			return CompletableFuture.completedFuture(null);
+		} // TODO: Catch Jackson Errors
 
-		return CompletableFuture.completedFuture(response.getBody().getResults());
 	}
 
 	@Async
@@ -67,10 +74,15 @@ public class GenomeRepositoryImpl implements GenomeRepository {
 		body.add("size", Integer.toString(querySize));
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(body, new HttpHeaders());
 
-		ResponseEntity<GeneIDInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
-				GeneIDInformationTO.class);
-
-		return CompletableFuture.completedFuture(response.getBody().getResults());
+		try {
+			ResponseEntity<GeneIDInformationTO> response = restTemplate.exchange(QUERY_URL, HttpMethod.POST, httpEntity,
+					GeneIDInformationTO.class);
+			return CompletableFuture.completedFuture(response.getBody().getResults());
+		} catch (HttpServerErrorException exception) {
+			// TODO: Use Logger
+			System.out.println(exception.getMessage());
+			return CompletableFuture.completedFuture(null);
+		} // TODO: Catch Jackson Errors
 	}
 
 	@Override

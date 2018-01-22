@@ -35,6 +35,19 @@ public class GenomeService {
 		List<Gene> genomeList = genomeDataMapper.mapGenomicData(geneRnaCompletableFutureResult.get(),
 				geneIdentifierCompletableFutureResult.get());
 
+		// TODO: genomeList integrity checker
+		for (Gene gene1 : genomeList) {
+			int count = 0;
+			for (Gene gene2 : genomeList) {
+				if (gene1.getDbIdentifier().equals(gene2.getDbIdentifier())) {
+					count++;
+				}
+			}
+			if (count > 1) {
+				System.out.println(gene1.getDbIdentifier() + " has count of " + count);
+			}
+		}
+
 		return genomeList;
 	}
 
@@ -91,7 +104,8 @@ public class GenomeService {
 	}
 
 	@Async
-	private CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierInformationResults() throws InterruptedException, ExecutionException {
+	private CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierInformationResults()
+			throws InterruptedException, ExecutionException {
 		int geneIdentifierDataCountFuture = genomeRepository.retrieveGeneIdentifierDataCount();
 		int geneIdentifierTargetRunCount = 1; // TODO: Make this a configurable
 												// variable?
@@ -105,14 +119,17 @@ public class GenomeService {
 		}
 		CompletableFuture.allOf(geneIdentifierCompletableFutureResultList
 				.toArray(new CompletableFuture[geneIdentifierCompletableFutureResultList.size()])).join();
-		
-		List<GeneIDInformationResultTO> geneIdentifierFirstResult = geneIdentifierCompletableFutureResultList.get(0).get();
+
+		List<GeneIDInformationResultTO> geneIdentifierFirstResult = geneIdentifierCompletableFutureResultList.get(0)
+				.get();
 		List<GeneIDInformationResultTO> geneIdentifierResultList = new ArrayList<GeneIDInformationResultTO>();
 		if (!CollectionUtils.isEmpty(geneIdentifierFirstResult)) {
-			
+
 			// TODO: Check if prediction is close
-			int geneIdentifierResultPredictSize = geneIdentifierFirstResult.size() * geneIdentifierCompletableFutureResultList.size(); 
-			((ArrayList<GeneIDInformationResultTO>) geneIdentifierResultList).ensureCapacity(geneIdentifierResultPredictSize);
+			int geneIdentifierResultPredictSize = geneIdentifierFirstResult.size()
+					* geneIdentifierCompletableFutureResultList.size();
+			((ArrayList<GeneIDInformationResultTO>) geneIdentifierResultList)
+					.ensureCapacity(geneIdentifierResultPredictSize);
 			for (CompletableFuture<List<GeneIDInformationResultTO>> geneIdentifierCompletableFutureResult : geneIdentifierCompletableFutureResultList) {
 				boolean insertingFirst = true;
 				for (GeneIDInformationResultTO geneIdentifierResult : geneIdentifierCompletableFutureResult.get()) {
@@ -125,9 +142,8 @@ public class GenomeService {
 					 * thus avoiding overlap
 					 */
 					if (insertingFirst && !CollectionUtils.isEmpty(geneIdentifierResultList)) {
-						if (StringUtils.equals(
-								geneIdentifierResultList.get(geneIdentifierResultList.size() - 1).getPrimaryIdentifier(),
-								geneIdentifierResult.getPrimaryIdentifier())) {
+						if (StringUtils.equals(geneIdentifierResultList.get(geneIdentifierResultList.size() - 1)
+								.getPrimaryIdentifier(), geneIdentifierResult.getPrimaryIdentifier())) {
 							geneIdentifierResultList.get(geneIdentifierResultList.size() - 1).getSynonyms()
 									.addAll(geneIdentifierResult.getSynonyms());
 						}
