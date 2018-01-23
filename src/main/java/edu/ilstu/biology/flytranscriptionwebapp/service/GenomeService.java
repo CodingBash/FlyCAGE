@@ -54,6 +54,10 @@ public class GenomeService {
 	@Async
 	private CompletableFuture<List<GeneRNAInformationResultTO>> retrieveGeneRnaInformationResults()
 			throws InterruptedException, ExecutionException {
+
+		/*
+		 * Make async calls to Intermine
+		 */
 		int geneRnaDataCountFuture = genomeRepository.retrieveGeneRnaDataCount();
 		int geneRnaTargetRunCount = 100; // TODO: Make this a configurable
 											// variable?
@@ -68,13 +72,24 @@ public class GenomeService {
 		CompletableFuture.allOf(geneRnaCompletableFutureResultList
 				.toArray(new CompletableFuture[geneRnaCompletableFutureResultList.size()])).join();
 
-		List<GeneRNAInformationResultTO> geneRnaFirstResult = geneRnaCompletableFutureResultList.get(0).get();
+		/*
+		 * Combine calls into a single structure
+		 */
 		List<GeneRNAInformationResultTO> geneRnaResultList = new ArrayList<GeneRNAInformationResultTO>();
+		List<GeneRNAInformationResultTO> geneRnaFirstResult = geneRnaCompletableFutureResultList.get(0).get();
 		if (!CollectionUtils.isEmpty(geneRnaFirstResult)) {
 			// TODO: Check if prediction is close
 			int geneRnaResultPredictSize = geneRnaFirstResult.size() * geneRnaCompletableFutureResultList.size();
 			((ArrayList<GeneRNAInformationResultTO>) geneRnaResultList).ensureCapacity(geneRnaResultPredictSize);
+			
+			/*
+			 * Iterate through each async sub-call
+			 */
 			for (CompletableFuture<List<GeneRNAInformationResultTO>> geneRnaCompletableFutureResult : geneRnaCompletableFutureResultList) {
+				
+				/*
+				 * Iterate through each result in the list
+				 */
 				boolean insertingFirst = true;
 				for (GeneRNAInformationResultTO geneRnaResult : geneRnaCompletableFutureResult.get()) {
 					/*
@@ -97,7 +112,6 @@ public class GenomeService {
 					}
 					insertingFirst = false;
 				}
-				geneRnaResultList.addAll(geneRnaCompletableFutureResult.get());
 			}
 		}
 		return CompletableFuture.completedFuture(geneRnaResultList);
@@ -106,6 +120,10 @@ public class GenomeService {
 	@Async
 	private CompletableFuture<List<GeneIDInformationResultTO>> retrieveGeneIdentifierInformationResults()
 			throws InterruptedException, ExecutionException {
+		
+		/*
+		 * Make async calls to Intermine
+		 */
 		int geneIdentifierDataCountFuture = genomeRepository.retrieveGeneIdentifierDataCount();
 		int geneIdentifierTargetRunCount = 1; // TODO: Make this a configurable
 												// variable?
@@ -120,9 +138,12 @@ public class GenomeService {
 		CompletableFuture.allOf(geneIdentifierCompletableFutureResultList
 				.toArray(new CompletableFuture[geneIdentifierCompletableFutureResultList.size()])).join();
 
+		/*
+		 * Combine calls into a single structure
+		 */
+		List<GeneIDInformationResultTO> geneIdentifierResultList = new ArrayList<GeneIDInformationResultTO>();
 		List<GeneIDInformationResultTO> geneIdentifierFirstResult = geneIdentifierCompletableFutureResultList.get(0)
 				.get();
-		List<GeneIDInformationResultTO> geneIdentifierResultList = new ArrayList<GeneIDInformationResultTO>();
 		if (!CollectionUtils.isEmpty(geneIdentifierFirstResult)) {
 
 			// TODO: Check if prediction is close
@@ -130,7 +151,15 @@ public class GenomeService {
 					* geneIdentifierCompletableFutureResultList.size();
 			((ArrayList<GeneIDInformationResultTO>) geneIdentifierResultList)
 					.ensureCapacity(geneIdentifierResultPredictSize);
+			
+			/*
+			 * Iterate through each async sub-call
+			 */
 			for (CompletableFuture<List<GeneIDInformationResultTO>> geneIdentifierCompletableFutureResult : geneIdentifierCompletableFutureResultList) {
+				
+				/*
+				 * Iterate through each result in the list
+				 */
 				boolean insertingFirst = true;
 				for (GeneIDInformationResultTO geneIdentifierResult : geneIdentifierCompletableFutureResult.get()) {
 					/*
@@ -152,7 +181,6 @@ public class GenomeService {
 					}
 					insertingFirst = false;
 				}
-				geneIdentifierResultList.addAll(geneIdentifierCompletableFutureResult.get());
 			}
 		}
 		return CompletableFuture.completedFuture(geneIdentifierResultList);
