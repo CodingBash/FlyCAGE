@@ -7,11 +7,13 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneIdentifierXml;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneRnaDataXml;
+import edu.ilstu.biology.flytranscriptionwebapp.processor.ExpressionStageProcessor;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.GenomeXmlUnmarshaller;
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneIDInformationResultTO;
 import edu.ilstu.biology.flytranscriptionwebapp.transferobject.GeneIDInformationSynonymTO;
@@ -24,6 +26,10 @@ public class GenomeDataMapper {
 	@Autowired
 	private GenomeXmlUnmarshaller genomeXmlUnmarshaller;
 
+	@Autowired
+	@Qualifier("allExpressionStages")
+	private  List<String> allExpressionStages;
+	
 	public List<Gene> mapGenomicData() {
 		List<Gene> geneList = new ArrayList<Gene>();
 		List<GeneRnaDataXml> geneRnaDataXmlList = genomeXmlUnmarshaller.unmarshallGenomeRnaDataFile();
@@ -89,14 +95,16 @@ public class GenomeDataMapper {
 		}
 		return geneList;
 	}
-	
-	
+
 	/*
 	 * This method is modeled off of the deprecated overloaded method
+	 * 
+	 * TODO: Improve documentation
 	 */
-	public List<Gene> mapGenomicData(List<GeneRNAInformationResultTO> geneRnaData, List<GeneIDInformationResultTO> geneIdentiferData) {
+	public List<Gene> mapGenomicData(List<GeneRNAInformationResultTO> geneRnaData,
+			List<GeneIDInformationResultTO> geneIdentiferData) {
 		List<Gene> geneList = new ArrayList<Gene>();
-		
+
 		/*
 		 * Add all genes thru the identifier list
 		 */
@@ -108,13 +116,13 @@ public class GenomeDataMapper {
 
 			List<GeneIDInformationSynonymTO> synonymListTO = geneIDInformationResultTO.getSynonyms();
 			List<String> synonymList = new ArrayList<String>(synonymListTO.size());
-			for(GeneIDInformationSynonymTO synonymTO : synonymListTO){
+			for (GeneIDInformationSynonymTO synonymTO : synonymListTO) {
 				synonymList.add(synonymTO.getValue());
 			}
 			gene.setSynonyms(synonymList);
 			geneList.add(gene);
 		}
-		
+
 		/*
 		 * TODO: This is an O(sigma[1 to N]) operation, in the future, improve
 		 * this performance -Perhaps only iterate over the unchecked list (no
@@ -139,12 +147,25 @@ public class GenomeDataMapper {
 					break;
 				}
 			}
-			if (geneRnaDataXml != null) {
+			// TODO: Better handling of dimension difference.
+			if (geneRnaDataXml != null && geneRnaDataXml.getRnaSeqResults().size() == 104) {
 				List<GeneRNAInformationRnaSeqResultTO> rnaDataListTO = geneRnaDataXml.getRnaSeqResults();
 				int[] rnaExp = new int[rnaDataListTO.size()];
-				for(int i = 0; i < rnaDataListTO.size(); i++){
-					rnaExp[i] = rnaDataListTO.get(i).getExpressionScore();
+				for (GeneRNAInformationRnaSeqResultTO rnaDataTO : rnaDataListTO) {
+					String id = ExpressionStageProcessor.convertLabelToId(rnaDataTO.getStage());
+					int index = allExpressionStages.indexOf(id);
+					if (index != -1) {
+						rnaExp[index] = rnaDataTO.getExpressionScore();
+					} else {
+						System.out.println(id);
+					}
+					
+					
+					// TODO: Exception scenario when element not found (-1)
 				}
+//				for (int i = 0; i < rnaDataListTO.size(); i++) {
+//					rnaExp[i] = rnaDataListTO.get(i).getExpressionScore();
+//				}
 				targetGene.setRnaExpData(rnaExp);
 				geneIterator.set(targetGene);
 

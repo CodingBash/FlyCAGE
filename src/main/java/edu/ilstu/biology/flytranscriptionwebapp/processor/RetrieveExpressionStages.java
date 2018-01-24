@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class RetrieveExpressionStages {
 
-	public List<String> getDmelanogasterExpressionStages() {
+	// TODO: Make this List<String> into a bean itself
+	// TODO: Somehow make the list constant
+	public final List<String> getDmelanogasterExpressionStages() {
 		List<String> expressionStages = new ArrayList<String>();
 
 		/**

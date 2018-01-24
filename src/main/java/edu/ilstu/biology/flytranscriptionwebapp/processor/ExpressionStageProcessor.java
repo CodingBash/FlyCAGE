@@ -43,7 +43,7 @@ public class ExpressionStageProcessor {
 		return resultLabelList;
 	}
 
-	private static String convertLabelToId(String inputLabel) {
+	public static String convertLabelToId(String inputLabel) {
 		String result = "";
 
 		result = inputLabel.replaceAll(" ", "-");
