@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -55,14 +56,27 @@ public class FlyTranscriptionWebappApplication {
 		return genomeList;
 	}
 
-	@DependsOn({"asyncExecutor", "restTemplate", "allExpressionStages"})
+	@DependsOn({ "asyncExecutor", "restTemplate", "allExpressionStages" })
 	@Profile({ "production", "default" })
 	@Bean("genomeData")
-	public List<Gene> genomeDataProduction(@Autowired GenomeService genomeService)
-			throws InterruptedException, ExecutionException {
+	public List<Gene> genomeDataProduction(@Autowired GenomeService genomeService,
+			@Autowired GenomeDataMapper genomeDataMapper) throws InterruptedException, ExecutionException {
 		System.out.println("NOW CALLING INTERMINE API");
 		List<Gene> genomeList = genomeService.retrieveGenomeData();
 		System.out.println("CALL COMPLETE");
+		List<Gene> genomeList2 = genomeDataMapper.mapGenomicData();
+		int count = 0; 
+		for(Gene gene : genomeList){
+			for(Gene gene2 : genomeList2){
+				if (gene.getDbIdentifier().equals(gene2.getDbIdentifier())){
+					if(!ArrayUtils.isEquals(gene.getRnaExpData(), gene2.getRnaExpData())){
+						count++;
+					}
+					break;
+				}
+			}
+		}
+		System.out.println(count + "genes are not equal");
 		return genomeList;
 	}
 
@@ -70,12 +84,11 @@ public class FlyTranscriptionWebappApplication {
 	public PearsonsCorrelation getPearsonsCorrelation() {
 		return new PearsonsCorrelation();
 	}
-	
+
 	@Bean
 	@Qualifier("allExpressionStages")
-	public List<String> allExpressionStages(@Autowired RetrieveExpressionStages retrieveExpressionStages){
+	public List<String> allExpressionStages(@Autowired RetrieveExpressionStages retrieveExpressionStages) {
 		return retrieveExpressionStages.getDmelanogasterExpressionStages();
 	}
-
 
 }
