@@ -2,6 +2,21 @@
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
 <head>
 <!-- ENSURE FRAGMENTS ARE INCLUDED BASED ON ORDER BELOW -->
+<th:block th:fragment="analytics-gtag">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async="async"
+		src="https://www.googletagmanager.com/gtag/js?id=UA-84736265-2"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+	    dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-84736265-2');
+    </script>
+
+</th:block>
 </head>
 <body>
 	<th:block th:fragment="import-jquery">
