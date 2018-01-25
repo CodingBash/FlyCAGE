@@ -158,6 +158,7 @@ public class GenomeDataMapper {
 						rnaExp[index] = rnaDataTO.getExpressionScore();
 					} else {
 						System.out.println(id);
+						System.out.println(id.replaceAll("[^\\p{ASCII}]", "?"));
 					}
 					
 					

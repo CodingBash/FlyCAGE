@@ -45,9 +45,8 @@ public class ExpressionStageProcessor {
 
 	public static String convertLabelToId(String inputLabel) {
 		String result = "";
-
-		result = inputLabel.replaceAll(" ", "-");
-
+		// Remove space with -, and nonASCII with ?
+		result = inputLabel.replaceAll(" ", "-").replaceAll("[^\\p{ASCII}]", "?"); // TODO: Weird statement, redo
 		return result;
 	}
 }
