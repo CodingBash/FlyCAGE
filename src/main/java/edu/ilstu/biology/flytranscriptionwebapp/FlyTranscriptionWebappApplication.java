@@ -59,24 +59,11 @@ public class FlyTranscriptionWebappApplication {
 	@DependsOn({ "asyncExecutor", "restTemplate", "allExpressionStages" })
 	@Profile({ "production", "default" })
 	@Bean("genomeData")
-	public List<Gene> genomeDataProduction(@Autowired GenomeService genomeService,
-			@Autowired GenomeDataMapper genomeDataMapper) throws InterruptedException, ExecutionException {
+	public List<Gene> genomeDataProduction(@Autowired GenomeService genomeService)
+			throws InterruptedException, ExecutionException {
 		System.out.println("NOW CALLING INTERMINE API");
 		List<Gene> genomeList = genomeService.retrieveGenomeData();
 		System.out.println("CALL COMPLETE");
-		List<Gene> genomeList2 = genomeDataMapper.mapGenomicData();
-		int count = 0; 
-		for(Gene gene : genomeList){
-			for(Gene gene2 : genomeList2){
-				if (gene.getDbIdentifier().equals(gene2.getDbIdentifier())){
-					if(!ArrayUtils.isEquals(gene.getRnaExpData(), gene2.getRnaExpData())){
-						count++;
-					}
-					break;
-				}
-			}
-		}
-		System.out.println(count + "genes are not equal");
 		return genomeList;
 	}
 
