@@ -48,6 +48,7 @@ public class GenomicCorrelationAnalysis {
 	 * 
 	 * 95% confidence level used by default
 	 * 
+	 * TODO: May have to change to t-values due to small sample - double check on the statistics
 	 */
 	private static final double CI_ZVAL_90 = 1.645;
 	private static final double CI_ZVAL_95 = 1.96;
