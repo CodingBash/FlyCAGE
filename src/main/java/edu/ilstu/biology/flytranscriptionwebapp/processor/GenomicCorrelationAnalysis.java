@@ -26,6 +26,13 @@ import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneCorrelatedResult;
 import edu.ilstu.biology.flytranscriptionwebapp.validation.GeneValidator;
 
+/**
+ * This class is responsible for retrieving a list of highly correlated genes
+ * based on the input data using Pearson's Correlation
+ * 
+ * @author codingbash
+ *
+ */
 @Component
 public class GenomicCorrelationAnalysis {
 
@@ -36,10 +43,21 @@ public class GenomicCorrelationAnalysis {
 	@Autowired
 	private GeneValidator geneValidator;
 
+	/**
+	 * Gaussian CDF z-values for different confidence levels 100(1-a)%
+	 * 
+	 * 95% confidence level used by default
+	 * 
+	 */
 	private static final double CI_ZVAL_90 = 1.645;
 	private static final double CI_ZVAL_95 = 1.96;
 	private static final double CI_ZVAL_99 = 2.58;
 
+	/**
+	 * Amount of significant figures used.
+	 * 
+	 * 3 SF used by default
+	 */
 	private static final int SIGNIFICANT_FIGURES = 3;
 
 	/**
@@ -49,8 +67,9 @@ public class GenomicCorrelationAnalysis {
 	// TODO: Bad method design with custom gene, overload instead
 	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(Gene customGene, String inputIdentifier,
 			List<Integer> selectedExpressionIndices, List<String> inputGeneOfInterestList, Integer geneResultCount) {
-		
-		// TODO: I like this ternary, maybe not overloading is fine, take more thought on this
+
+		// TODO: I like this ternary, maybe not overloading is fine, take more
+		// thought on this
 		Gene inputGene = (customGene == null) ? findGeneInGenome(inputIdentifier) : customGene;
 
 		geneValidator.validateFoundGene(inputGene); // throws unchecked
@@ -63,7 +82,7 @@ public class GenomicCorrelationAnalysis {
 	}
 
 	/**
-	 * Main logic to compute the correlation results for all genes in genome
+	 * Main logic to compute the correlation results for all genes in genome.
 	 * 
 	 * @param foundGene
 	 * @param selectedExpressionIndices
@@ -175,7 +194,7 @@ public class GenomicCorrelationAnalysis {
 	}
 
 	/**
-	 * Given a matrix, calculate the pearsons correlation coefficient
+	 * Given a matrix, calculate the Pearson's correlation coefficient
 	 * 
 	 * @param matrix
 	 * @return
@@ -247,6 +266,13 @@ public class GenomicCorrelationAnalysis {
 		return null;
 	}
 
+	/**
+	 * Determine if a gene matches the given input identifier from the user
+	 * 
+	 * @param gene
+	 * @param inputIdentifier
+	 * @return
+	 */
 	private Gene determineGeneIdentifierMatch(Gene gene, String inputIdentifier) {
 		/*
 		 * TODO: This is a really ugly way of checking if the gene is found -
