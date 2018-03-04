@@ -47,7 +47,7 @@ if (!expressionStageOptions) {
 	 * gene-accordion show.bs.collapse calls event before #plot-container is
 	 * resized. Figure out a way to do after
 	 */
-	var newPlotWidth = $('#heading-custom-gene-form').innerWidth() * .45;
+	var newPlotWidth = $('#expression-stages').innerWidth();
 
 	$(".js-plotly-plot").css({
 	    "width" : newPlotWidth + "px",
