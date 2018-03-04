@@ -24,16 +24,32 @@
 			Species". Currently, the only option available is "D. melanogaster".
 			In the future, we hope to expand CAGE to other species.</p>
 		<img th:src="@{images/species-inp.jpg}"
-			src="../static/images/species-inp.jpg" class="img-format"></img>
-		<h6 class="indent">Input: Target Gene Name</h6>
+			src="../static/images/species-inp.jpg" class="img-format"></img> <br />
+
+		<h6 class="indent">Input: Target Gene Information</h6>
 		<p class="indent">The second input field (required) is "Target
-			Gene Name". In this field, input the gene that you want the strongly
-			correlated gene results to be based on. The format of the input can
-			be the full gene name (i.e. "ultrabithorax"), gene synonym (i.e.
-			"ubx"), FlyBase ID (i.e. "FBgn0003944"), or CG annotation symbol
-			(i.e. "CG10388").</p>
+			Gene Information". There are two different forms you may fill out:
+			"Existing Gene Form" and "Custom Gene Form". As the name suggests,
+			the "Existing Gene Form" will require an existing gene identifier.
+			The format of the input can be the full gene name (i.e.
+			"ultrabithorax"), gene synonym (i.e. "ubx"), FlyBase ID (i.e.
+			"FBgn0003944"), or CG annotation symbol (i.e. "CG10388").</p>
 		<img th:src="@{images/target-inp.jpg}"
-			src="../static/images/target-inp.jpg" class="img-format"></img>
+			src="../static/images/target-inp.jpg" class="img-format"></img> <br />
+		<p class="indent">The "Custom Gene Form" may be used to input
+			experimental data, or the form may be used to find genes that match
+			an expression pattern of interest. The form is organized by
+			expression stage categories: Embryogenesis, Development, Tissue,
+			Treatment, and Cell Line. Only expression stages that are checked
+			will be included in the custom data object. Each expression stage may
+			have a corresponding value from 0 to inf, which can be changed using
+			the textbox or the slider. However, the slider will only change from
+			0 to 100 since the correlation analysis is only concerned with
+			relative expression values. In the future, we hope to add a feature
+			to submit custom expression stage data via an uploaded file.</p>
+		<img th:src="@{gifs/custom-exp-gif.gif}"
+			src="../static/gifs/custom-exp-gif.gif" class="img-format"></img> <br />
+
 		<h6 class="indent">Input: Genes of Interest</h6>
 		<p class="indent">The third input field (optional) is "Genes of
 			Interest". In this field, input a list of genes with an interest in
@@ -43,25 +59,29 @@
 			CG1374"). The gene identification type does not need to be synonymous
 			between each gene entry.</p>
 		<img th:src="@{images/goi-inp.jpg}" src="../static/images/goi-inp.jpg"
-			class="img-format"></img>
+			class="img-format"></img> <br />
+
 		<h6 class="indent">Input: Choose gene result count</h6>
 		<p class="indent">The fourth input field (required) is "Choose
 			gene result count". In this field, input the amount of correlated
 			genes to display on the results page. By default, the input is set to
 			100. Larger inputs may slow down page rendering.</p>
 		<img th:src="@{gifs/gene-count-gif.gif}"
-			src="../static/gifs/gene-count-gif.gif" class="img-format"></img>
+			src="../static/gifs/gene-count-gif.gif" class="img-format"></img> <br />
+
 		<h6 class="indent">Input: Choose Expression Stages</h6>
-		<p class="indent">The fifth input field (required) is "Choose
-			Expression Stages". In this field, select the stages that you want to
-			be compared between the target gene and the genes in the selected
-			genome. The expression stages are organized by category:
-			Embryogenesis, Development, Tissue, Treatment, and Cell Line.
-			Clicking the checkbox next to the category text will check/uncheck
-			all expression stages corresponding to that category. To view the
-			specific expression stages, click the desired category text. Clicking
-			the checkbox next to the expression stage will check/uncheck only
-			that expression stage.</p>
+		<p class="indent">The fifth input field (possibly required) is
+			"Choose Expression Stages". This field will be disabled if the
+			"Custom Gene Form" was used for the "Target Gene Information" since
+			the form already captures the expression stage information. In this
+			field, select the stages that you want to be compared between the
+			target gene and the genes in the selected genome. The expression
+			stages are organized by category: Embryogenesis, Development, Tissue,
+			Treatment, and Cell Line. Clicking the checkbox next to the category
+			text will check/uncheck all expression stages corresponding to that
+			category. To view the specific expression stages, click the desired
+			category text. Clicking the checkbox next to the expression stage
+			will check/uncheck only that expression stage.</p>
 		<img th:src="@{gifs/exp-stage-gif.gif}"
 			src="../static/gifs/exp-stage-gif.gif" class="img-format"></img>
 		<p class="indent">Note that the expression stages in each category
