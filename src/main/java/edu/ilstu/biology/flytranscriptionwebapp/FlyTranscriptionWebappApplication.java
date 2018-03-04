@@ -62,9 +62,9 @@ public class FlyTranscriptionWebappApplication {
 	public List<Gene> genomeDataProduction(@Autowired GenomeService genomeService)
 			throws InterruptedException, ExecutionException {
 		System.out.println("NOW CALLING INTERMINE API");
-		List<Gene> genomeList = genomeService.retrieveGenomeData();
+		List<Gene> genomeData = genomeService.retrieveGenomeData();
 		System.out.println("CALL COMPLETE");
-		return genomeList;
+		return genomeData;
 	}
 
 	@Bean
