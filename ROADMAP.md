@@ -27,7 +27,23 @@ For more information on contributing, please see [CONTRIBUTORS.md](#) (TODO: Cre
 ## Timeline
 
 __April 2018: Complete the development for FlyCAGE V1.0.0__
+  * Notes
+    * Included features 
+       1. Input existing gene name or custom gene expression data.
+       2. Input genes of interest to compare with the target gene.
+       3. Input the amount of genes to see in the results.
+       4. For inputting an existing genes, select which expression stages to compare against.
+       5. Output the list of genes with relevant metadata.
+       6. View simple plot comparing each output gene with the target gene
+       7. Be able to normalize the result plots.
 
 __May 2018: Deploy FlyCAGE V1.0.0 and submit first publication for review__
+  * Notes
+    * Deployment provides sufficient amount of resources for initial use.
+    * Relevant infrastructure tools should be installed on server, such as CDCI tools (Jenkins, TravisCI, etc).
 
 __August 2018: Complete the development for FlyCAGE V2.0.0 (+ deployment)__
+  * Notes
+    * Included features still in planning phase
+      1. Able to enter genes from several organisms with the available data.
+      2. Provide more biological insights into the results of the correlation analysis.
