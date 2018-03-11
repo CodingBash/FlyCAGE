@@ -66,8 +66,8 @@
 												id="heading-custom-gene-form">
 												<h5 class="mb-0">
 													<span class="custom-control-description"><a
-														id="custom-gene-form"
-														data-toggle="collapse" data-parent="#gene-accordion"
+														id="custom-gene-form" data-toggle="collapse"
+														data-parent="#gene-accordion"
 														href="#collapse-custom-gene-form"
 														aria-controls="collapse-custom-gene-form">Custom Gene
 															Form</a></span>
@@ -81,7 +81,11 @@
 														<label class="control-label">Custom Gene
 															Expression Data</label>
 
-
+														<div class="row d-block d-sm-none">
+															<p>Recommended to fill custom data form on larger
+																screen width. Please switch to landscape mode or use a
+																desktop computer instead.</p>
+														</div>
 														<div class="row">
 															<div class="col-lg-6">
 																<div id="expression-stages" role="tablist"
@@ -153,14 +157,16 @@
 																</div>
 															</div>
 															<div class="col-lg-6" id="plot-container">
-																<div id="custom-data-plot" class="custom-plotly-plot d-none d-sm-block"></div>
+																<div id="custom-data-plot"
+																	class="custom-plotly-plot d-none d-sm-block"></div>
 																<div class="d-block d-sm-none">
-																	<br/>
-																	<p>Unable to view custom data plot on mobile device.</p>
+																	<br />
+																	<p>Unable to view custom data plot due to small
+																		screen width. Switch to landscape mode or use desktop
+																		computer instead.</p>
 																</div>
 															</div>
-															<div>
-															</div>
+															<div></div>
 														</div>
 														<small id="custom-gene-help" class="form-text text-muted">Manually
 															enter custom gene expression data.</small><br /> <small
