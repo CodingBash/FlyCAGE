@@ -17,7 +17,7 @@ if (!expressionStageOptions) {
 		mode: 'lines+markers',
 		text: [],
 		marker: {
-			color: 'blue',
+			color: 'black',
 			size: 8
 		},
 		line: {
@@ -28,7 +28,10 @@ if (!expressionStageOptions) {
 	{
 		name: 'INPUT GENE',
 		type: 'bar',
-		width: 0.1
+		width: 0.1,
+		marker: {
+			color: 'red'
+		}
 	}];
 	Plotly.plot(plotDivId, correlationData, {
 		showLegend: false,
