@@ -24,11 +24,11 @@ div[id*="custom-handle"] {
 }
 
 div[id*="slider"] .ui-slider-range {
-	background: #5C0075 !important;
+	background: #c00 !important;
 }
 
 div[id*="slider"] .ui-slider-handle {
-	border-color: #5C0075 !important;
+	border-color: #c00 !important;
 }
 
 /* For required astrick, add to external css */
