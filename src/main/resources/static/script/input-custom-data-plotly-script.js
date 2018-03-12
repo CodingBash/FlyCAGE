@@ -31,7 +31,8 @@ if (!expressionStageOptions) {
 	},
 	yaxis : {
 	    title : "Expression Score",
-	    range : [ 0, 100 ]
+		range : [ 0, 100 ],
+		autorange: true
 	},
 	width : $('#plot-container').innerWidth() * .80
     });
