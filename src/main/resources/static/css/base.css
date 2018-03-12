@@ -9,6 +9,14 @@ body {
 	margin-bottom: 5px;
 }
 
+.padded-column {
+	padding-top:10px; 
+	padding-bottom:10px; 
+}
+
+.padded-row {
+	padding-bottom:20px; 
+}
 /*For navbar */
 nav {
 	background-color: #E4E4E4 !important;

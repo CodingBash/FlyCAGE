@@ -61,7 +61,7 @@ if (!expressionStageOptions) {
 					// method calls
 					if (value != 0) {
 						// Change identical subcheckboxes
-						programmaticallyChangeSubCheckbox(sliderObject.parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
+						programmaticallyChangeSubCheckbox(sliderObject.parent().parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
 
 						// TODO: Modularize this logic (although they are
 						// slightly
@@ -124,7 +124,7 @@ if (!expressionStageOptions) {
 					// TODO: THIS NEEDS TO BE MODULARIZED, it is identical to the code in the slider change event above
 					if (val != 0) {
 						// Change identical subcheckboxes
-						programmaticallyChangeSubCheckbox(inputObject.parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
+						programmaticallyChangeSubCheckbox(inputObject.parent().parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
 
 						// TODO: Modularize this logic (although they are
 						// slightly
