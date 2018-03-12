@@ -69,7 +69,7 @@ if (!expressionStageOptions) {
     }
 
     $(window).resize(function() {
-	plotsResize();
+		plotsResize();
     });
 
     plotsResize();
@@ -149,37 +149,37 @@ if (!expressionStageOptions) {
 	    var index = findIndex(expressionTitle);
 
 	    if (index != -1) {
-		var plotDivId = "custom-data-plot";
-		var plotDiv = document.getElementById(plotDivId);
-		var plotData = plotDiv.data;
-		var expressionData = plotData[0].y;
-		var expressionTexts = plotData[0].text;
-		var newExpressionData = expressionData.slice(0); // clone
-		var newExpressionTexts = expressionTexts.slice(0); // clone
+			var plotDivId = "custom-data-plot";
+			var plotDiv = document.getElementById(plotDivId);
+			var plotData = plotDiv.data;
+			var expressionData = plotData[0].y;
+			var expressionTexts = plotData[0].text;
+			var newExpressionData = expressionData.slice(0); // clone
+			var newExpressionTexts = expressionTexts.slice(0); // clone
 
-		/*
-		 * Improve expression removal algorithm
-		 */
-		for (var i = 0; i < expressionTexts.length; i++) {
-		    if (findIndex(expressionTexts[i]) == index) {
-			newExpressionData.splice(i, 1);
-			newExpressionTexts.splice(i, 1);
-			break;
-		    }
+			/*
+			* Improve expression removal algorithm
+			*/
+			for (var i = 0; i < expressionTexts.length; i++) {
+				if (findIndex(expressionTexts[i]) == index) {
+				newExpressionData.splice(i, 1);
+				newExpressionTexts.splice(i, 1);
+				break;
+				}
+			}
+			var update = {
+				y : [ newExpressionData ],
+				text : [ newExpressionTexts ]
+			};
+			Plotly.restyle(plotDiv, update);
 		}
-		var update = {
-		    y : [ newExpressionData ],
-		    text : [ newExpressionTexts ]
-		};
-		Plotly.restyle(plotDiv, update);
-	    }
 	}
     }
     // Update plotly when checkbox updates
     $("input[id$='-custom-data-sub-checkbox']").on("change", function() {
-	var combinedId = this.id.substring(0, this.id.indexOf("-custom-data-sub-checkbox"));
-	var groupId = combinedId.substring(0, combinedId.indexOf("-"));
-	var expressionStageId = combinedId.substring(combinedId.indexOf("-") + 1);
-	updatePlotly(groupId, expressionStageId);
+		var combinedId = this.id.substring(0, this.id.indexOf("-custom-data-sub-checkbox"));
+		var groupId = combinedId.substring(0, combinedId.indexOf("-"));
+		var expressionStageId = combinedId.substring(combinedId.indexOf("-") + 1);
+		updatePlotly(groupId, expressionStageId);
     });
 }

@@ -60,22 +60,22 @@ if (!expressionStageOptions) {
 		    // all
 		    // method calls
 		    if (value != 0) {
-			// Change identical subcheckboxes
-			programmaticallyChangeSubCheckbox(sliderObject.parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
+				// Change identical subcheckboxes
+				programmaticallyChangeSubCheckbox(sliderObject.parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
 
-			// TODO: Modularize this logic (although they are
-			// slightly
-			// different
-			var oneChecked = false;
-			var allTrue = true;
-			$("input[id$='-custom-data-sub-checkbox']").each(function(index, currentElement) {
-			    if (currentElement.checked == true) {
-				oneChecked = true;
-			    } else if (currentElement.checked == false) {
-				allTrue = false;
-			    }
-			});
-			$("#insert-gene").prop("required", !oneChecked);
+				// TODO: Modularize this logic (although they are
+				// slightly
+				// different
+				var oneChecked = false;
+				var allTrue = true;
+				$("input[id$='-custom-data-sub-checkbox']").each(function(index, currentElement) {
+					if (currentElement.checked == true) {
+					oneChecked = true;
+					} else if (currentElement.checked == false) {
+					allTrue = false;
+					}
+				});
+				$("#insert-gene").prop("required", !oneChecked);
 		    }
 
 		}
@@ -104,7 +104,29 @@ if (!expressionStageOptions) {
 		inputObject.on('change', function() {
 		    var val = inputObject.val();
 		    sliderObject.slider("option", "value", val);
-		    slideEvent(val);
+			slideEvent(val);
+			
+			// Programmatically change subcheckbox if value is greater than 0.
+			// TODO: THIS NEEDS TO BE MODULARIZED, it is identical to the code in the slider change event above
+			if (val != 0) {
+				// Change identical subcheckboxes
+				programmaticallyChangeSubCheckbox(inputObject.parent().parent().find("input[type='checkbox']:checkbox"), "-custom-data-", true);
+
+				// TODO: Modularize this logic (although they are
+				// slightly
+				// different
+				var oneChecked = false;
+				var allTrue = true;
+				$("input[id$='-custom-data-sub-checkbox']").each(function(index, currentElement) {
+					if (currentElement.checked == true) {
+					oneChecked = true;
+					} else if (currentElement.checked == false) {
+					allTrue = false;
+					}
+				});
+				$("#insert-gene").prop("required", !oneChecked);
+		    }
+
 		});
 	    });
 	});
