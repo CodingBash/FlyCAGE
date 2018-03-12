@@ -1,54 +1,63 @@
 <!DOCTYPE HTML>
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<th:block th:fragment="meta">
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description"
-		content="CAGE: Correlation Analysis on Gene Expression - a webapp that allows the user to input a gene ID and retrieve a list of correlated genes based on gene properties (i.e. mRNA exprression by stage, expression by tissue, gene ontology, corresponding TFs, etc). Currently for D. melanogaster." />
-	<meta name="keywords"
-		content="FlyCAGE, CAGE, gene expression, mRNA expression, similar genes, transcription factor identification, correlation analysis" />
-	<meta name="author" content="Mortimer Lab @ Illinois State University" />
-	<title>FlyCAGE</title>
-</th:block>
+	<th:block th:fragment="meta">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="CAGE: Correlation Analysis on Gene Expression - a webapp that allows the user to input a gene ID and retrieve a list of correlated genes based on gene properties (i.e. mRNA exprression by stage, expression by tissue, gene ontology, corresponding TFs, etc). Currently for D. melanogaster."
+		/>
+		<meta name="keywords" content="FlyCAGE, CAGE, gene expression, mRNA expression, similar genes, transcription factor identification, correlation analysis"
+		/>
+		<meta name="author" content="Mortimer Lab @ Illinois State University" />
+		<title>FlyCAGE</title>
+	</th:block>
 </head>
+
 <body>
 
 	<div th:fragment="navbar">
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<a class="navbar-brand" href="/" th:href="@{/}">FlyCAGE</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+			 aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item" th:classappend="${#httpServletRequest.requestURI} == '/' ? active"><a class="nav-link"
-						href="input.html" th:href="@{/}">Analyze <span class="sr-only">(current)</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link disabled" href="#">What's
-							New?</a></li>
-					<li class="nav-item"><a class="nav-link disabled" href="#">APIs</a></li>
-					<li class="nav-item"><a class="nav-link disabled" href="#">About</a></li>
-					<li class="nav-item" th:classappend="${#httpServletRequest.requestURI} == '/help' ? active"><a class="nav-link" href="help.html"
-						th:href="@{/help}">Help</a></li>
+					<li class="nav-item" th:classappend="${#httpServletRequest.requestURI} == '/' ? active">
+						<a class="nav-link" href="input.html" th:href="@{/}">Analyze
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">What's New?
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">APIs</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">About</a>
+					</li>
+					<li class="nav-item" th:classappend="${#httpServletRequest.requestURI} == '/help' ? active">
+						<a class="nav-link" href="help.html" th:href="@{/help}">Help</a>
+					</li>
 				</ul>
 				<!-- TODO: Get version from back-end through Heroku environment variable -->
-				<span class="navbar-text"> in-alpha V0.0.24 </span>
+				<span class="navbar-text"> in-alpha V0.0.25 </span>
 			</div>
 		</nav>
 	</div>
 	<div th:fragment="exception">
 		<div th:if="${exception}">
 			<div class="alert alert-warning">
-				<strong>Invalid Input! </strong> <span
-					th:text="'ERROR CODE ' +  ${exception.error.code} + ' - ' + ${exception.error.message}"></span>
+				<strong>Invalid Input! </strong>
+				<span th:text="'ERROR CODE ' +  ${exception.error.code} + ' - ' + ${exception.error.message}"></span>
 			</div>
 		</div>
 	</div>
 </body>
+
 </html>
