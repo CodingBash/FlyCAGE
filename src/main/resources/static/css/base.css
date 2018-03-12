@@ -9,13 +9,15 @@ body {
 	margin-bottom: 5px;
 }
 
-.padded-column {
-	padding-top:10px; 
-	padding-bottom:10px; 
-}
+@media(max-width: 575px) {
+	.padded-row {
+		padding-bottom:15px; 
+	}
 
-.padded-row {
-	padding-bottom:20px; 
+	.padded-column {
+		padding-top:10px; 
+		padding-bottom:10px; 
+	}
 }
 
 .btn-primary {
