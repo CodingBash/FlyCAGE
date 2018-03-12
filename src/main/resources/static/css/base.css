@@ -17,6 +17,31 @@ body {
 .padded-row {
 	padding-bottom:20px; 
 }
+
+.btn-primary {
+	color: #fff;
+	background-color: #c00 !important;
+	border: 0px solid transparent; 
+
+	-webkit-transition: all 475ms cubic-bezier(.000, .000, .580, 1.000);
+    -webkit-transition-delay: 0ms;
+    -moz-transition: all 475ms cubic-bezier(.000, .000, .580, 1.000) 0ms;
+    -o-transition: all 475ms cubic-bezier(.000, .000, .580, 1.000) 0ms;
+    transition: all 475ms cubic-bezier(.000, .000, .580, 1.000) 0ms;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+	background-color: maroon !important;
+	border: 0px solid transparent; 
+
+	-webkit-transition: all 500ms cubic-bezier(.445, .050, .550, .950);
+    -webkit-transition-delay: 0ms;
+    -moz-transition: all 500ms cubic-bezier(.445, .050, .550, .950) 0ms;
+    -o-transition: all 500ms cubic-bezier(.445, .050, .550, .950) 0ms;
+    transition: all 500ms cubic-bezier(.445, .050, .550, .950) 0ms
+}
+
 /*For navbar */
 nav {
 	background-color: #E4E4E4 !important;

@@ -28,7 +28,9 @@
 								</div>
 
 								<div class="form-group required">
-									<label class="control-label" for="gene-accordion">Target Gene Information</label>
+									<label class="control-label" for="gene-accordion">Target Gene Information
+										<i>(required)</i>
+									</label>
 									<div id="gene-accordion" role="tablist" aria-multiselectable="true" class="text-left">
 										<div class="card form-card">
 											<div class="card-header form-card-header" role="tab" id="heading-target-gene-form">
@@ -162,6 +164,7 @@
 
 								<div class="form-group">
 									<label class="control-label" for="insert-gene">Genes of Interest
+										<i>(optional)</i>
 									</label>
 									<input type="text" th:field="*{genesOfInterest}" class="form-control" id="genes-of-interest" aria-describedby="genes-of-interest-help"
 									 placeholder="e.g. grh, en, salm, tsh, antp" />
@@ -173,7 +176,9 @@
 									<br />
 								</div>
 								<div class="form-group required">
-									<label class="control-label" for="result-count">Choose gene result count</label>
+									<label class="control-label" for="result-count">Choose gene result count
+										<i>(required)</i>
+									</label>
 									<div class="row">
 										<div class="col-sm-3">
 											<input type="number" min="2" max="25000" th:field="*{geneResultCount} " class="form-control" id="result-count" aria-describedby="result-count-help"
@@ -193,7 +198,9 @@
 
 								<div>
 									<div class="form-group required">
-										<label class="control-label" for="expression-stages">Choose Expression Stages</label>
+										<label class="control-label" for="expression-stages">Choose Expression Stages
+											<i>(possibly required)</i>
+										</label>
 										<div id="expression-stages" role="tablist" aria-multiselectable="true" class="text-left">
 											<div class="card form-card" th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
 												<div class="card-header form-card-header" role="tab" th:id="'heading-stage-selection-'+${expressionStageGroup.groupId}">
@@ -235,7 +242,9 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="text-query-comment">Query Comments</label>
+									<label for="text-query-comment">Query Comments
+										<i>(optional)</i>
+									</label>
 									<textarea class="form-control" th:field="*{queryComment}" id="text-query-comment" rows="3"></textarea>
 									<small id="comment-help" class="form-text text-muted">These comments will be attached to your saved query</small>
 								</div>
