@@ -2,17 +2,20 @@ package edu.ilstu.biology.flytranscriptionwebapp.validation;
 
 import edu.ilstu.biology.flytranscriptionwebapp.model.Error;
 
-public class InvalidGeneException extends Exception {
-
-	private static final long serialVersionUID = -6015676688697185592L;
+public class InvalidGeneFormException extends Exception {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2283478639063112187L;
 	
 	private Error error;
 	
-	public InvalidGeneException(Error error){
+	public InvalidGeneFormException(Error error){
 		this.error = error;
 	}
 	
-	public InvalidGeneException(Error error, String message){
+	public InvalidGeneFormException(Error error, String message){
 		super(message);
 		this.error = error;
 	}

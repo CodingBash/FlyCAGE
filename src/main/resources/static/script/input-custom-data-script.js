@@ -76,6 +76,10 @@ if (!expressionStageOptions) {
 							}
 						});
 						$("#insert-gene").prop("required", !oneChecked);
+						
+						// TODO: The below is called three times next to adjusting the requirement on #insert-gene. Risk of bug - needs to be modular
+						$("#customExpressionUsed").val(oneChecked);
+						
 					}
 
 				}
@@ -139,6 +143,7 @@ if (!expressionStageOptions) {
 							}
 						});
 						$("#insert-gene").prop("required", !oneChecked);
+						$("#customExpressionUsed").val(oneChecked);
 					}
 
 				});
@@ -161,6 +166,7 @@ if (!expressionStageOptions) {
 			}
 		});
 		$("#insert-gene").prop("required", !oneChecked);
+		$("#customExpressionUsed").val(oneChecked);
 	});
 
 	/*
