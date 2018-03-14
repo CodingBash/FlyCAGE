@@ -10,7 +10,7 @@ import edu.ilstu.biology.flytranscriptionwebapp.model.Error;
 @Component
 public class GeneValidator {
 
-	public void validateFoundGene(Gene foundGene) {
+	public void validateFoundGene(Gene foundGene) throws InvalidGeneException {
 		if (foundGene == null) {
 			Error error = new Error(ErrorConstants.UNFOUND_GENE_CODE, ErrorConstants.UNFOUND_GENE_MESSAGE);
 			throw new InvalidGeneException(error, error.getMessage());

@@ -25,6 +25,7 @@ import edu.ilstu.biology.flytranscriptionwebapp.model.FinalResponseCorrelationRe
 import edu.ilstu.biology.flytranscriptionwebapp.model.Gene;
 import edu.ilstu.biology.flytranscriptionwebapp.model.GeneCorrelatedResult;
 import edu.ilstu.biology.flytranscriptionwebapp.validation.GeneValidator;
+import edu.ilstu.biology.flytranscriptionwebapp.validation.InvalidGeneException;
 
 /**
  * This class is responsible for retrieving a list of highly correlated genes
@@ -64,10 +65,11 @@ public class GenomicCorrelationAnalysis {
 	/**
 	 * Handler method: retrieves and validates gene, and retrieves the
 	 * correlation result
+	 * @throws InvalidGeneException 
 	 */
 	// TODO: Bad method design with custom gene, overload instead
 	public FinalResponseCorrelationResult retrieveMrnaCorrelationResults(Gene customGene, String inputIdentifier,
-			List<Integer> selectedExpressionIndices, List<String> inputGeneOfInterestList, Integer geneResultCount) {
+			List<Integer> selectedExpressionIndices, List<String> inputGeneOfInterestList, Integer geneResultCount) throws InvalidGeneException {
 
 		// TODO: I like this ternary, maybe not overloading is fine, take more
 		// thought on this

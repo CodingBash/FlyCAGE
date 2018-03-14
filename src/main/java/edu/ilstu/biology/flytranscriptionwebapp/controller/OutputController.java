@@ -2,7 +2,6 @@ package edu.ilstu.biology.flytranscriptionwebapp.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -31,11 +30,16 @@ import edu.ilstu.biology.flytranscriptionwebapp.processor.ExpressionStageProcess
 import edu.ilstu.biology.flytranscriptionwebapp.processor.GenomicCorrelationAnalysis;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveCorrelationData;
 import edu.ilstu.biology.flytranscriptionwebapp.processor.RetrieveExpressionStages;
+import edu.ilstu.biology.flytranscriptionwebapp.validation.GeneFormValidator;
 import edu.ilstu.biology.flytranscriptionwebapp.validation.InvalidGeneException;
+import edu.ilstu.biology.flytranscriptionwebapp.validation.InvalidGeneFormException;
 
 @Controller
 public class OutputController {
 
+	@Autowired
+	private GeneFormValidator geneFormValidator;
+	
 	@Autowired
 	private GenomicCorrelationAnalysis correlationAnalysis;
 
@@ -55,11 +59,13 @@ public class OutputController {
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("selectedExpressionStageLabels",
-				retrieveSelectedExpressionLabels(geneForm.getExpressionStages()));
-
 		FinalResponseCorrelationResult result = null;
 		try {
+			geneFormValidator.validateGeneForm(geneForm);
+			
+			mav.addObject("selectedExpressionStageLabels",
+					retrieveSelectedExpressionLabels(geneForm.getExpressionStages()));
+
 			Gene customGene = retrieveCustomGene(geneForm.getCustomExpression());
 			List<Integer> selectedExpressionIndices = ExpressionStageProcessor.selectedExpressionStageIndices(
 					geneForm.getExpressionStages(), retrieveExpressionStages.getDmelanogasterExpressionStages());
@@ -68,10 +74,10 @@ public class OutputController {
 					selectedExpressionIndices, geneOfInterestList, geneForm.getGeneResultCount());
 			// TODO: I dont like session solution, change to request solution
 			session.setAttribute(CUSTOM_GENE_SESSION_NAME, customGene);
-		} catch (InvalidGeneException ige) {
+		} catch (InvalidGeneException | InvalidGeneFormException e) {
 			// TODO: Consider a redirect to "GET /" w/ RedirectAttribute to
 			// switch URL
-			mav.addObject("exception", ige);
+			mav.addObject("exception", e);
 			ExpressionStageOptions expressionStageOptions = expressionStageOptionsGenerator
 					.generateExpressionStageOptions();
 			mav.addObject("expressionStageOptions", expressionStageOptions);

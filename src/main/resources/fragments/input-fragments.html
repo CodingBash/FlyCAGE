@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
+
 <body>
 	<div th:fragment="gene-form">
 		<div class="card panel">
@@ -21,25 +22,27 @@
 										<option value="D. melanogaster" required="required">D.
 											melanogaster</option>
 									</select> <small id="species-help" class="form-text text-muted">Select
-										the species.</small><br /> <small id="species-help-description"
+										the species.</small> <br /> <small id="species-help-description"
 										class="form-text text-muted">Genes compared will only
-										be from the selected species.</small><br />
+										be from the selected species.</small> <br />
 								</div>
 
 								<div class="form-group required">
 									<label class="control-label" for="gene-accordion">Target
-										Gene Information</label>
+										Gene Information <i>(required)</i>
+									</label>
 									<div id="gene-accordion" role="tablist"
 										aria-multiselectable="true" class="text-left">
 										<div class="card form-card">
 											<div class="card-header form-card-header" role="tab"
 												id="heading-target-gene-form">
 												<h5 class="mb-0">
-													<span class="custom-control-description"><a
+													<span class="custom-control-description"> <a
 														data-toggle="collapse" data-parent="#gene-accordion"
 														href="#collapse-target-gene-form" aria-expanded="true"
 														aria-controls="collapse-target-gene-form">Existing
-															Gene Form</a></span>
+															Gene Form</a>
+													</span>
 												</h5>
 											</div>
 											<div id="collapse-target-gene-form" class="collapse show"
@@ -53,10 +56,10 @@
 															placeholder="e.g. ubx" required="required" /> <small
 															id="gene-help" class="form-text text-muted">Enter
 															a gene. Format: FlyBase ID, CG ID, formal gene name, gene
-															synonyms.</small><br /> <small id="gene-help-description"
+															synonyms. </small> <br /> <small id="gene-help-description"
 															class="form-text text-muted">The target gene will
 															be compared to the genome-wide dataset and the genes of
-															interest.</small><br />
+															interest. </small> <br />
 													</div>
 												</div>
 											</div>
@@ -65,11 +68,13 @@
 											<div class="card-header form-card-header" role="tab"
 												id="heading-custom-gene-form">
 												<h5 class="mb-0">
-													<span class="custom-control-description"><a
-														data-toggle="collapse" data-parent="#gene-accordion"
+													<span class="custom-control-description"> <a
+														id="custom-gene-form" data-toggle="collapse"
+														data-parent="#gene-accordion"
 														href="#collapse-custom-gene-form"
 														aria-controls="collapse-custom-gene-form">Custom Gene
-															Form</a></span>
+															Form </a>
+													</span>
 												</h5>
 											</div>
 											<div id="collapse-custom-gene-form" class="collapse"
@@ -80,7 +85,15 @@
 														<label class="control-label">Custom Gene
 															Expression Data</label>
 
-
+														<div class="row d-block d-sm-none">
+															<p>Recommended to fill custom data form on larger
+																screen width. Please switch to landscape mode or use a
+																desktop computer instead.</p>
+														</div>
+														<div>
+															<input type="hidden" id="customExpressionUsed" name="customExpressionUsed"
+																value="false" />
+														</div>
 														<div class="row">
 															<div class="col-lg-6">
 																<div id="expression-stages" role="tablist"
@@ -96,13 +109,14 @@
 																					th:attr="data-stage=${expressionStageGroup.groupId}"
 																					th:id="${expressionStageGroup.groupId} + '-custom-data-main-checkbox'" />
 																					<span class="custom-control-indicator"></span> <span
-																					class="custom-control-description"><a
+																					class="custom-control-description"> <a
 																						data-toggle="collapse"
 																						data-parent="#expression-stages"
 																						th:href="'#collapse-custom-data-' + ${expressionStageGroup.groupId}"
 																						aria-expanded="true"
 																						th:aria-controls="'collapse-custom-data-' + ${expressionStageGroup.groupId}"
-																						th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">${#strings.capitalize(expressionStageGroup.groupTitle)}</a></span>
+																						th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">${#strings.capitalize(expressionStageGroup.groupTitle)}</a>
+																				</span>
 																				</label>
 																			</h5>
 																		</div>
@@ -111,38 +125,44 @@
 																			class="collapse" role="tabpanel"
 																			th:attr="aria-labelledby='heading-custom-data-' + ${expressionStageGroup.groupId}">
 																			<div class="card-body">
-																				<div class="row custom-data-entry"
+																				<div class="row custom-data-entry padded-row"
 																					th:each="expressionStage : ${expressionStageGroup.expressionStageList}">
 																					<div class="col-sm-4">
-																						<div class="sub-checkbox-div">
-																							<label class="custom-control custom-checkbox">
-																								<input type="checkbox"
-																								th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
-																								value="true"
-																								th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-custom-data-sub-checkbox'"
-																								th:attr="data-stage=${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
-																								th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-data-sub-checkbox'" />
-																								<span class="custom-control-indicator"></span> <span
-																								class="custom-control-description"
-																								th:text="${expressionStage.expressionStageTitle}">${expressionStage.expressionStageTitle}</span>
-																							</label>
+																						<div class="padded-column">
+																							<div class="sub-checkbox-div">
+																								<label class="custom-control custom-checkbox">
+																									<input type="checkbox"
+																									th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
+																									value="true"
+																									th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-custom-data-sub-checkbox'"
+																									th:attr="data-stage=${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
+																									th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-data-sub-checkbox'" />
+																									<span class="custom-control-indicator"></span>
+																									<span class="custom-control-description"
+																									th:text="${expressionStage.expressionStageTitle}">${expressionStage.expressionStageTitle}</span>
+																								</label>
+																							</div>
 																						</div>
 																					</div>
 																					<div class="col-sm-2">
-																						<!-- MAKE SURE STEP IS SAME AS SLIDER STEP -->
-																						<input type="number" min="0" max="100" step="1"
-																							th:field="*{customExpression[__${expressionStage.expressionStageTitle}__]}"
-																							class="form-control" id="custom-input"
-																							th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-input'"
-																							aria-describedby="" placeholder="0"
-																							onkeydown="if (event.keyCode == 13) return false" />
+																						<div class="padded-column">
+																							<!-- MAKE SURE STEP IS SAME AS SLIDER STEP -->
+																							<input type="number" min="0" step="1"
+																								th:field="*{customExpression[__${expressionStage.expressionStageTitle}__]}"
+																								class="form-control" id="custom-input"
+																								th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-input'"
+																								aria-describedby="" placeholder="0"
+																								onkeydown="if (event.keyCode == 13) return false" />
+																						</div>
 																					</div>
 																					<div class="col-sm-6">
-																						<div
-																							th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-slider'">
-																							<div id="custom-handle"
-																								th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-handle'"
-																								class="ui-slider-handle"></div>
+																						<div class="padded-column">
+																							<div
+																								th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-slider'">
+																								<div id="custom-handle"
+																									th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-custom-handle'"
+																									class="ui-slider-handle"></div>
+																							</div>
 																						</div>
 																					</div>
 																				</div>
@@ -152,17 +172,19 @@
 																</div>
 															</div>
 															<div class="col-lg-6" id="plot-container">
-																<div id="custom-data-plot" class="custom-plotly-plot d-none d-sm-block"></div>
+																<div id="custom-data-plot"
+																	class="custom-plotly-plot d-none d-sm-block"></div>
 																<div class="d-block d-sm-none">
-																	<br/>
-																	<p>Unable to view custom data plot on mobile device.</p>
+																	<br />
+																	<p>Unable to view custom data plot due to small
+																		screen width. Switch to landscape mode or use desktop
+																		computer instead.</p>
 																</div>
 															</div>
-															<div>
-															</div>
+															<div></div>
 														</div>
 														<small id="custom-gene-help" class="form-text text-muted">Manually
-															enter custom gene expression data.</small><br /> <small
+															enter custom gene expression data.</small> <br /> <small
 															id="custom-gene-help-description"
 															class="form-text text-muted">The custom
 															expression pattern entered will be used to find other
@@ -172,37 +194,39 @@
 															Click the category checkbox to include/exclude all
 															corresponding expression stages. Use the slider or
 															textbox to determine the value for the corresponding
-															stage.</small><br />
+															stage. </small> <br />
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 									<small id="custom-gene-help" class="form-text text-muted">This
-										is the form to specify the target gene information.</small><br /> <small
+										is the form to specify the target gene information.</small> <br /> <small
 										id="gene-accordion-help-description"
 										class="form-text text-muted">You can either enter an
 										existing gene name (by clicking "Existing Gene Form"), or you
 										may enter custom gene expression data (by clicking "Custom
-										Gene Form").</small><br />
+										Gene Form").</small> <br />
 								</div>
 
 								<div class="form-group">
 									<label class="control-label" for="insert-gene">Genes of
-										Interest</label> <input type="text" th:field="*{genesOfInterest}"
+										Interest <i>(optional)</i>
+									</label> <input type="text" th:field="*{genesOfInterest}"
 										class="form-control" id="genes-of-interest"
 										aria-describedby="genes-of-interest-help"
 										placeholder="e.g. grh, en, salm, tsh, antp" /> <small
 										id="genes-of-interest-help" class="form-text text-muted">Enter
 										genes of interest <u>(optional)</u>. Format: Comma delimited
 										list of genes.
-									</small><br /> <small id="genes-of-interest-help-description"
+									</small> <br /> <small id="genes-of-interest-help-description"
 										class="form-text text-muted">Each gene in the genes of
-										interest list will be directly compared to the target gene.</small><br />
+										interest list will be directly compared to the target gene.</small> <br />
 								</div>
 								<div class="form-group required">
 									<label class="control-label" for="result-count">Choose
-										gene result count</label>
+										gene result count <i>(required)</i>
+									</label>
 									<div class="row">
 										<div class="col-sm-3">
 											<input type="number" min="2" max="25000"
@@ -220,13 +244,14 @@
 									<small id="result-count-help" class="form-text text-muted">Choose
 										the amount of genes that will display on the results page.
 										Large amounts will take significantly longer to process and
-										load results.</small><br />
+										load results.</small> <br />
 								</div>
 
 								<div>
 									<div class="form-group required">
 										<label class="control-label" for="expression-stages">Choose
-											Expression Stages</label>
+											Expression Stages <i>(possibly required)</i>
+										</label>
 										<div id="expression-stages" role="tablist"
 											aria-multiselectable="true" class="text-left">
 											<div class="card form-card"
@@ -240,12 +265,13 @@
 															th:attr="data-stage=${expressionStageGroup.groupTitle}"
 															th:id="${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'" />
 															<span class="custom-control-indicator"></span> <span
-															class="custom-control-description"><a
+															class="custom-control-description"> <a
 																data-toggle="collapse" data-parent="#expression-stages"
 																th:href="'#collapse-stage-selection-' + ${expressionStageGroup.groupId}"
 																aria-expanded="true"
 																th:aria-controls="'collapse-stage-selection-' + ${expressionStageGroup.groupId}"
-																th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">${#strings.capitalize(expressionStageGroup.groupTitle)}</a></span>
+																th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">${#strings.capitalize(expressionStageGroup.groupTitle)}</a>
+														</span>
 														</label>
 													</h5>
 												</div>
@@ -275,18 +301,19 @@
 										</div>
 										<small id="expression-stages-help"
 											class="form-text text-muted text-center">Choose
-											expression stages.</small><br /> <small
+											expression stages.</small> <br /> <small
 											id="expression-stages-help-description"
 											class="form-text text-muted text-center">Comparison
 											between genes will be performed only on selected expression
 											stages. Click the category text to show corresponding
 											expression stages. Click the expression stage checkbox to
 											select/deselect stage. Click the category checkbox to
-											select/deselect all corresponding expression stages.</small><br />
+											select/deselect all corresponding expression stages.</small> <br />
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="text-query-comment">Query Comments</label>
+									<label for="text-query-comment">Query Comments <i>(optional)</i>
+									</label>
 									<textarea class="form-control" th:field="*{queryComment}"
 										id="text-query-comment" rows="3"></textarea>
 									<small id="comment-help" class="form-text text-muted">These
@@ -301,4 +328,5 @@
 		</div>
 	</div>
 </body>
+
 </html>
