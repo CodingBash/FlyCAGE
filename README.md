@@ -13,11 +13,17 @@ Common transcriptomic analysis methods such as differential gene expression anal
 FlyCAGE is a web-accessible application that conducts integrative analysis of *Drosophila melanogaster* mRNA expression data to discover genes with correlated spatiotemporal expression. We would predict that genes showing this correlation may be co-regulated or share similar biological functions. FlyCAGE therefore allows us to identify candidate genes involved in a given process, to discover regulatory interactions in genetic networks, and to verify the quality of gene clustering techniques.
 
 ### Value
-Due to its cost-effectiveness, many genetics labs will retrieve the gene expression profiles to understand more about the underlying expirement. This retrieval is done through RNA-seq or microarrays. There are several simple ways to analyze gene expression data (DESeq, GSEA, etc.). We hope that FlyCAGE will be another tool that scientists will use to easily retrive insights about their experimental data.
+Due to its cost-effectiveness, many genetics labs will retrieve the gene expression profiles to understand more about the underlying experiment. This retrieval is done through RNA-seq or microarrays. There are several simple ways to analyze gene expression data (DESeq, GSEA, etc.). We hope that FlyCAGE will be another tool that scientists will use to easily retrive insights about their experimental data.
 
 ## Contribution
 ### What do we need?
-Specifically, we are looking for front-end and back-end developers (no biology knowledge required), bioinformaticians with a strong knowledge of transcriptomics to help with data analysis and ideation, and biologists in any discipline of life sciences that may help with ideation. Although, any sort of help on the project would be much appreciated!
+Specifically, we are looking for the following:
+ * Front-end developers (HTML, CSS, JS, Bootstrap, and jQuery) (biology knowledge not required)
+ * Back-end developers (Java, Spring MVC, Thymeleaf) (biology knowledge not required)
+ * Bioinformaticians with a strong knowledge of transcriptomics to help with data analysis and ideation
+ * Biologists in any discipline of life sciences that may help with ideation
+ 
+Although, any sort of help on the project would be much appreciated!
 
 If you are interested in contributing, please see the [CONTRIBUTING.MD](https://github.com/CodingBash/FlyCAGE) for more information!
 
