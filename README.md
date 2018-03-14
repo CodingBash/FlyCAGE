@@ -1,7 +1,10 @@
-# FlyCAGE (Correlated Analysis of Gene Expression)
+# FlyCAGE
 > __Retrieving biological insights by comparing gene mRNA expression profiles.__
 
-__View our tool here! [flycage.herokuapp.com](flycage.herokuapp.com)__
+FlyCAGE is a tool that measures the correlation between gene expression profiles to retrieve insights. 
+
+Visit [flycage.herokuapp.com](flycage.herokuapp.com) to try out our tool.
+
 
 ## Tool Description
 ### Problem
@@ -19,7 +22,7 @@ Any sort of help on the project would be much appreciated!
 
 Specifically, we are looking for front-end and back-end developers (no biology knowledge required), bioinformaticians with a strong knowledge of transcriptomics to help with data analysis and ideation, and biologists in any discipline of life sciences that may help with ideation.
 
-If you are interested in contributing, please see the [CONTRIBUTING.MD](#) for more information!
+If you are interested in contributing, please see the [CONTRIBUTING.MD](https://github.com/CodingBash/FlyCAGE) for more information!
 
 ## Development Setup
 More information on the workstation setup will be added at a later time.
