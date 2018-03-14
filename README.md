@@ -16,6 +16,9 @@ FlyCAGE is a web-accessible application that conducts integrative analysis of *D
 ### Value
 Due to its cost-effectiveness, many genetics labs will retrieve the gene expression profiles to understand more about the underlying experiment. This retrieval is done through RNA-seq or microarrays. There are several simple ways to analyze gene expression data (DESeq, GSEA, etc.). We hope that FlyCAGE will be another tool that scientists will use to easily retrive insights about their experimental data.
 
+### Roadmap
+Interested in the next steps of FlyCAGE? View the [ROADMAP.md](ROADMAP.md)
+
 ## Contribution
 ### What do we need?
 Specifically, we are looking for the following:
