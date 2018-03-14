@@ -21,9 +21,12 @@ Specifically, we are looking for front-end and back-end developers (no biology k
 
 If you are interested in contributing, please see the [CONTRIBUTING.MD](https://github.com/CodingBash/FlyCAGE) for more information!
 
+### Code of conduct
+This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
+
 ### Development Setup
 More information on the workstation setup will be added at a later time.
 
 ### Contact Us
-For any questions about the project, please contact the main developer at [bbecerr@outlook.com](mailto:bbecerr@outlook.com)
+For any questions about the project, please contact the main developer at [bbecer2@ilstu.edu](mailto:bbecer2@ilstu.edu)
 
