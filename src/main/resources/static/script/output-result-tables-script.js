@@ -34,7 +34,7 @@ var t = $('#correlation-results').DataTable({
 		}
 	}],
 	aaSorting: [[1, 'asc']],
-	"pageLength": 25,
+	"pageLength": 40,
 	dom: 'Bfrtip',
 	buttons: ['copy', 'csv', 'excel', 'pdf'],
 	"responsive": {
@@ -74,7 +74,7 @@ var t2 = $('#goi-results').DataTable({
 		}
 	}],
 	aaSorting: [[1, 'asc']],
-	"pageLength": 25,
+	"pageLength": 40,
 	dom: 'Bfrtip',
 	buttons: ['copy', 'csv', 'excel', 'pdf'],
 	"responsive": {
