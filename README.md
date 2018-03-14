@@ -1,4 +1,5 @@
-# FlyCAGE
+# FlyCAGE <img src="./fly_cropped.png" alt="logo" width="50px" height="50px">
+
 > __Retrieving biological insights by comparing gene mRNA expression profiles.__
 
 FlyCAGE is a tool that uses the correlation coefficient between gene expression profiles to retrieve insights about gene similarity. 
