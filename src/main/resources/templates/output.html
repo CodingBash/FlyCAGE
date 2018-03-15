@@ -5,49 +5,41 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
 <!--<![endif]-->
-<head>
-<th:block th:replace="../fragments/base-fragments :: meta"></th:block>
 
-<th:block th:replace="../fragments/style-fragments :: import-google-fonts"></th:block>
-<th:block th:replace="../fragments/style-fragments :: import-bootstrap"></th:block>
-<th:block th:replace="../fragments/style-fragments :: import-datatables"></th:block>
-<th:block th:replace="../fragments/style-fragments :: import-jquery"></th:block>
-<th:block th:replace="../fragments/style-fragments :: custom-style-base"></th:block>
-<th:block th:replace="../fragments/style-fragments :: custom-style-input"></th:block>
-<th:block th:replace="../fragments/style-fragments :: custom-style-output"></th:block>
-<th:block th:replace="../fragments/style-fragments :: custom-style-datatables-expand"></th:block>
-<th:block th:replace="../fragments/script-fragments :: analytics-gtag"></th:block>
+<head>
+	<th:block th:replace="../fragments/base-fragments :: meta"></th:block>
+
+	<th:block th:replace="../fragments/style-fragments :: import-google-fonts"></th:block>
+	<th:block th:replace="../fragments/style-fragments :: import-bootstrap"></th:block>
+	<th:block th:replace="../fragments/style-fragments :: import-datatables"></th:block>
+	<th:block th:replace="../fragments/style-fragments :: import-jquery"></th:block>
+	<th:block th:replace="../fragments/style-fragments :: custom-style-base"></th:block>
+	<th:block th:replace="../fragments/style-fragments :: custom-style-input"></th:block>
+	<th:block th:replace="../fragments/style-fragments :: custom-style-output"></th:block>
+	<th:block th:replace="../fragments/style-fragments :: custom-style-datatables-expand"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: analytics-gtag"></th:block>
 </head>
-<!-- TODO: Make form and query on top during lg, and side-by-side during lower -->
+
 <body>
 	<div th:include="../fragments/base-fragments :: navbar"></div>
 	<div class="container-fluid">
-		<div class="text-xs-center"></div>
 		<div class="row">
-			<div class="col-lg-6">
-				<div class="row">
-					<div class="col-md-12">
-						<div th:include="../fragments/output-fragments :: query-summary"></div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div th:include="../fragments/input-fragments :: gene-form"
-							class="d-none d-lg-block"></div>
-					</div>
-				</div>
+			<div class="col-md-12">
+				<div th:include="../fragments/output-fragments :: query-summary"></div>
 			</div>
-			<div class="col-lg-6">
-				<div class="row">
-					<div class="col-12">
-						<div th:include="../fragments/output-fragments :: result-tables"></div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12 ">
-						<div th:include="../fragments/input-fragments :: gene-form" class="d-lg-none"></div>
-					</div>
-				</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div th:include="../fragments/output-fragments :: result-tables"></div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div th:include="../fragments/input-fragments :: gene-form"></div>
 			</div>
 		</div>
 	</div>
@@ -56,14 +48,11 @@
 	<th:block th:replace="../fragments/script-fragments :: import-bootstrap"></th:block>
 	<th:block th:replace="../fragments/script-fragments :: import-plotlyjs"></th:block>
 	<th:block th:replace="../fragments/script-fragments :: import-datatables"></th:block>
-	<th:block
-		th:replace="../fragments/script-fragments :: custom-script-input-select-stages"></th:block>
-	<th:block
-		th:replace="../fragments/script-fragments :: custom-script-input-result-count"></th:block>
-	<th:block
-		th:replace="../fragments/script-fragments :: custom-script-input-custom-data"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: custom-script-input-select-stages"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: custom-script-input-result-count"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: custom-script-input-custom-data"></th:block>
 	<th:block th:replace="../fragments/script-fragments :: custom-script-output-modal"></th:block>
-	<th:block
-		th:replace="../fragments/script-fragments :: custom-script-output-result-tables"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: custom-script-output-result-tables"></th:block>
 </body>
+
 </html>

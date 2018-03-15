@@ -74,15 +74,24 @@ nav {
 
 .card-header {
 	color: #fff !important;
-	background-color: #c00 !important;
+	background-color: #fff !important;
 	padding: 25px;
-	border-bottom: 1px solid transparent;
+	border-bottom: 1px transparent rgb(114, 114, 114) !important;
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 }
 
+h5, h4, h3, h2 {
+	color: rgb(73, 73, 73);
+	font-weight: 350;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+	color: #c00;
+}
+
 /*
- * END: Card styling
+ * END: Card stylingddd
  */
