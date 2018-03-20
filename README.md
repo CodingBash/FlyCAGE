@@ -1,20 +1,20 @@
 # FlyCAGE <img src="./fly_cropped.png" alt="logo" width="50px" height="50px">
 
-> __Retrieving biological insights by comparing gene mRNA expression profiles.__
+> __Correlation Analysis on Gene Expression - Retrieving biological insights by comparing gene mRNA expression profiles.__
 
-FlyCAGE is a tool that uses the correlation coefficient between gene expression profiles to retrieve insights about gene similarity. 
+FlyCAGE is a bioinformatics web application that uses the correlation coefficient between gene expression profiles to retrieve insights about gene similarity. 
 
 Visit [flycage.herokuapp.com](flycage.herokuapp.com) to try out our tool.
 
 ## Tool Description
 ### Problem
-Common transcriptomic analysis methods such as differential gene expression analysis and agglomertive gene clustering are excellent ways to analyze transcriptomic data. However, the analysis from these methods are limited to the data retrieved from the experiment. FlyCAGE aims to utilize the "big-data" available in public repositories to provide better analysis of experimental data.
+Common transcriptomic analysis methods such as differential gene expression analysis and agglomertive gene clustering are excellent ways to analyze transcriptomic data. However, the analysis from these methods are limited to the data retrieved from the experiment and does not utilize the "big-data" available.
 
 ### Solution
-FlyCAGE is a web-accessible application that conducts integrative analysis of *Drosophila melanogaster* mRNA expression data to discover genes with correlated spatiotemporal expression. We would predict that genes showing this correlation may be co-regulated or share similar biological functions. FlyCAGE therefore allows us to identify candidate genes involved in a given process, to discover regulatory interactions in genetic networks, and to verify the quality of gene clustering techniques.
+FlyCAGE is a web-accessible application that uses several public data sources to analyze fly mRNA expression data to discover genes with similar expression patterns. 
 
 ### Value
-Due to its cost-effectiveness, many genetics labs will retrieve the gene expression profiles to understand more about the underlying experiment. This retrieval is done through RNA-seq or microarrays. There are several simple ways to analyze gene expression data (DESeq, GSEA, etc.). We hope that FlyCAGE will be another tool that scientists will use to easily retrive insights about their experimental data.
+Due to its cost-effectiveness, many genetics labs will retrieve the gene expression profiles to understand more about the underlying experiment. This retrieval is done through RNA-seq or microarrays. There are several simple ways to analyze gene expression data (DESeq, GSEA, etc.). We hope that FlyCAGE will be another tool that scientists will use to easily retrieve insights about their experimental data (i.e. identify candidate genes involved in a given process, to discover regulatory interactions in genetic networks, and to verify the quality of gene clustering techniques).
 
 ### Roadmap
 Interested in the next steps of FlyCAGE? View the [ROADMAP.md](ROADMAP.md)
@@ -22,10 +22,21 @@ Interested in the next steps of FlyCAGE? View the [ROADMAP.md](ROADMAP.md)
 ## Contribution
 ### What do we need?
 Specifically, we are looking for the following:
- * Front-end developers (HTML, CSS, JS, Bootstrap, and jQuery) (biology knowledge not required)
- * Back-end developers (Java, Spring MVC, Thymeleaf) (biology knowledge not required)
- * Bioinformaticians with a strong knowledge of transcriptomics to help with data analysis and ideation
- * Biologists in any discipline of life sciences that may help with ideation
+ * Front-end developers
+    * Technologies consists of HTML, CSS, JS, Bootstrap 4, jQuery, Plotly.js, Datatables.
+    * We are interested in aesthetic revamping, migration towards a framework (i.e. Angular), improve result visualization, etc.
+    * __No biology knowledge required.__
+ * Back-end developers
+    * Technologies consist of Java, Spring MVC (Boot), Thymeleaf, asynchronous Spring programming, WS and DB communication, etc.
+    * We are interested in defining web endpoints, rendering dynamic information, biologic data source communication, implementation of biological analysis, deployment and maintanence, etc.
+    * __Biology knowledge preferred for context, but not required.__
+ * Bioinformaticians
+    * Any scripting language preferred.
+    * We are interested in designing or implementing bioinformatics algorithms to conduct analysis.
+    * __Biology knowledge necessary (in as many -omics topics as possible).__
+ * Biologists
+    * We are interested in providing ideas for desired features of the application
+    * __Any discipline of life sciences desired.__
  
 Although, any sort of help on the project would be much appreciated!
 
