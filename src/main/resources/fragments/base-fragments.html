@@ -28,7 +28,7 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item" th:classappend="${#httpServletRequest.requestURI} == '/' ? active">
-						<a class="nav-link" href="input.html" th:href="@{/}">Analyze
+						<a class="nav-link" href="../templates/input.html" th:href="@{/}">Analyze
 						</a>
 					</li>
 					<li class="nav-item">
@@ -39,10 +39,13 @@
 						<a class="nav-link disabled" href="#">APIs</a>
 					</li>
 					<li class="nav-item">
+							<a class="nav-link" href="../templates/feedback.html" th:href="@{/feedback}">Feedback?</a>
+						</li>
+					<li class="nav-item">
 						<a class="nav-link disabled" href="#">About</a>
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.requestURI} == '/help' ? active">
-						<a class="nav-link" href="help.html" th:href="@{/help}">Help</a>
+						<a class="nav-link" href="../templates/help.html" th:href="@{/help}">Help</a>
 					</li>
 				</ul>
 				<!-- TODO: Get version from back-end through Heroku environment variable -->

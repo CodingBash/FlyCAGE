@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+<head>
+<th:block th:replace="../fragments/base-fragments :: meta"></th:block>
+
+<th:block th:replace="../fragments/style-fragments :: import-google-fonts"></th:block>
+<th:block th:replace="../fragments/style-fragments :: import-bootstrap"></th:block>
+<th:block th:replace="../fragments/style-fragments :: custom-style-base"></th:block>
+<th:block th:replace="../fragments/style-fragments :: custom-style-help"></th:block>
+<th:block th:replace="../fragments/script-fragments :: analytics-gtag"></th:block>
+</head>
+<body>
+	<div th:include="../fragments/base-fragments :: navbar"></div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card panel">
+					<div class="card-header panel-header text-center">
+						<h2>Feedback and Suggestions</h2>
+						<h4>Do you have any feedback and suggestions for FlyCAGE?</h4>
+					</div>
+					<div class="card-body panel-block">
+						<div class="container-fluid">
+							<div th:include="../fragments/feedback-fragments :: quick-form"></div>
+							<div th:include="../fragments/feedback-fragments :: usability-test"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:replace="../fragments/script-fragments :: import-jquery"></th:block>
+	<th:block th:replace="../fragments/script-fragments :: import-bootstrap"></th:block>
+</body>
+</html>
