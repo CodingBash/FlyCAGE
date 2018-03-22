@@ -1,4 +1,53 @@
-# CAGE (Correlated Analysis of Gene Expression)
-## Abstract
-### CAGE: a tool for identifying genes with correlated spatiotemporal expression
-Unraveling complex genetic networks is important for understanding the mechanisms underlying organismal biology and disease. The emergence of high-throughput genomics provides the opportunity to utilize “big-data” in biology to gain insight into the structure of these networks. However, relative to the amount of biological data available, there is a lack of bioinformatics tools that leverage these data sets to formulate testable hypotheses. CAGE is a web-accessible application that conducts integrative analysis of *Drosophila melanogaster* mRNA expression data to discover genes with correlated spatiotemporal expression. We would predict that genes showing this correlation may be co-regulated or share similar biological functions. CAGE therefore allows us to identify candidate genes involved in a given process, to discover regulatory interactions in genetic networks, and to verify the quality of gene clustering techniques.
+# FlyCAGE <img src="./fly_cropped.png" alt="logo" width="50px" height="50px">
+
+> __Correlation Analysis on Gene Expression - Retrieving biological insights by comparing gene mRNA expression profiles.__
+
+FlyCAGE is a bioinformatics web application that uses the correlation coefficient between gene expression profiles to retrieve insights about gene similarity. 
+
+Visit [flycage.herokuapp.com](flycage.herokuapp.com) to try out our tool.
+
+## Tool Description
+### Problem
+Common transcriptomic analysis methods such as differential gene expression analysis and agglomertive gene clustering are excellent ways to analyze transcriptomic data. However, the analysis from these methods are limited to the data retrieved from the experiment and does not utilize the "big-data" available.
+
+### Solution
+FlyCAGE is a web-accessible application that uses several public data sources to analyze fly mRNA expression data to discover genes with similar expression patterns. 
+
+### Value
+Due to its cost-effectiveness, many genetics labs will retrieve the gene expression profiles to understand more about the underlying experiment. This retrieval is done through RNA-seq or microarrays. There are several simple ways to analyze gene expression data (DESeq, GSEA, etc.). We hope that FlyCAGE will be another tool that scientists will use to easily retrieve insights about their experimental data (i.e. identify candidate genes involved in a given process, to discover regulatory interactions in genetic networks, and to verify the quality of gene clustering techniques).
+
+## Roadmap
+Interested in the next steps of FlyCAGE? View the [ROADMAP.md](ROADMAP.md)
+
+## Contribution
+### What do we need?
+Specifically, we are looking for the following:
+#### Front-end developers
+* Technologies consists of HTML, CSS, JS, Bootstrap 4, jQuery, Plotly.js, Datatables.
+* We are interested in aesthetic revamping, migration towards a framework (i.e. Angular), improve result visualization, etc.
+* __No biology knowledge required.__
+#### Back-end developers
+* Technologies consist of Java, Spring MVC (Boot), Thymeleaf, asynchronous Spring programming, WS and DB communication, etc.
+* We are interested in defining web endpoints, rendering dynamic information, biologic data source communication, implementation of biological analysis, deployment and maintanence, etc.
+* __Biology knowledge preferred for context, but not required.__
+#### Bioinformaticians
+* Any scripting language preferred.
+* We are interested in designing or implementing bioinformatics algorithms to conduct analysis.
+* __Biology knowledge necessary (in as many -omics topics as possible).__
+#### Biologists
+* We are interested in providing ideas for desired features of the application
+* __Any discipline of life sciences desired.__
+ 
+Although, any sort of help on the project would be much appreciated!
+
+If you are interested in contributing, please see the [CONTRIBUTING.MD](https://github.com/CodingBash/FlyCAGE) for more information!
+
+### Code of conduct
+This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
+
+### Development Setup
+More information on the workstation setup will be added at a later time.
+
+### Contact Us
+For any questions about the project, please contact the main developer at [bbecer2@ilstu.edu](mailto:bbecer2@ilstu.edu)
+
