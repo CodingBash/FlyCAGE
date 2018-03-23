@@ -13,7 +13,7 @@ import edu.ilstu.biology.flytranscriptionwebapp.model.GeneForm;
 public class GeneFormValidator {
 
 	public void validateGeneForm(GeneForm geneForm) throws InvalidGeneFormException {
-		validateGeneSpecies(geneForm.getGeneSpecies());
+		validateGeneOrganism(geneForm.getGeneOrganism());
 		validateInputIdentifier(geneForm.getInputIdentifier());
 		validateGenesOfInterest(geneForm.getGenesOfInterest());
 		validateGeneResultCount(geneForm.getGeneResultCount());
@@ -24,12 +24,12 @@ public class GeneFormValidator {
 				geneForm.getCustomExpressionUsed());
 	}
 
-	private void validateGeneSpecies(String geneSpecies) throws InvalidGeneFormException {
+	private void validateGeneOrganism(String geneOrganism) throws InvalidGeneFormException {
 		// TODO: Also check if species is not supported once the dynamic logic
 		// is complete
-		if (StringUtils.isBlank(geneSpecies)) {
-			Error error = new Error(ErrorConstants.INVALID_SPECIES_CODE,
-					StringUtils.replace(ErrorConstants.INVALID_SPECIES_MESSAGE, "{}", geneSpecies));
+		if (StringUtils.isBlank(geneOrganism)) {
+			Error error = new Error(ErrorConstants.INVALID_ORGANISM_CODE,
+					StringUtils.replace(ErrorConstants.INVALID_ORGANISM_MESSAGE, "{}", geneOrganism));
 			throw new InvalidGeneFormException(error, error.getMessage());
 		}
 

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class GeneForm {
 
-	private String geneSpecies;
+	private String geneOrganism;
 
 	private String inputIdentifier;
 
@@ -20,12 +20,12 @@ public class GeneForm {
 	
 	private Map<String, Integer> customExpression;
 
-	public String getGeneSpecies() {
-		return geneSpecies;
+	public String getGeneOrganism() {
+		return geneOrganism;
 	}
 
-	public void setGeneSpecies(String geneSpecies) {
-		this.geneSpecies = geneSpecies;
+	public void setGeneOrganism(String geneOrganism) {
+		this.geneOrganism = geneOrganism;
 	}
 
 	public String getInputIdentifier() {

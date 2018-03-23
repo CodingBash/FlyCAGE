@@ -15,10 +15,10 @@
 							<form action="#" th:action="@{/}" th:object="${geneForm}"
 								method="POST">
 								<div class="form-group required">
-									<label class="control-label" for="select-species">Select
-										Species <i>(required)</i>
-									</label> <select class="form-control" id="select-species"
-										th:field="*{geneSpecies}">
+									<label class="control-label" for="select-organism">Select
+										Organism <i>(required)</i>
+									</label> <select class="form-control" id="select-organism"
+										th:field="*{geneOrganism}">
 										<option value="D. melanogaster" required="required">D.
 											melanogaster</option>
 									</select> <small id="species-help" class="form-text text-muted">Select

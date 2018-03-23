@@ -8,8 +8,8 @@ public class ErrorConstants {
 	public final static String GENE_WITH_NO_RNA_CODE = "002";
 	public final static String GENE_WITH_NO_RNA_MESSAGE = "Gene has no RNA data available (geneIdentifer={})";
 
-	public final static String INVALID_SPECIES_CODE = "010";
-	public final static String INVALID_SPECIES_MESSAGE = "Species is not valid (species={})";
+	public final static String INVALID_ORGANISM_CODE = "010";
+	public final static String INVALID_ORGANISM_MESSAGE = "Organism is not valid (organism={})";
 
 	public final static String INVALID_IDENTIFIER_CODE = "011";
 	public final static String INVALID_IDENTIFIER_MESSAGE = "Gene identifier is not valid (identifier={})";
