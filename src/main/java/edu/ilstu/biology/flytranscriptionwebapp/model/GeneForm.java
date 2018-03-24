@@ -16,6 +16,7 @@ public class GeneForm {
 
 	private Map<String, Boolean> expressionStages;
 
+	// "true" or "false"
 	private String customExpressionUsed;
 	
 	private Map<String, Integer> customExpression;

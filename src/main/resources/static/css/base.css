@@ -9,6 +9,9 @@ body {
 	margin-bottom: 5px;
 }
 
+.row-bottom-margin {
+	margin-bottom: 0px !important;
+}
 /*
  * Padding for custom data form on small screen sizes
  */
