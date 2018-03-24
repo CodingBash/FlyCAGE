@@ -25,6 +25,44 @@
 										/>
 									</div>
 								</div>
+
+								<div class="row extra-space"></div>
+								<div class="row">
+									<div class="col-md-6 text-xs-center">
+										<h5>
+											<label>Selected Expression Stages:</label>
+										</h5>
+									</div>
+									<div class="col-md-6 text-xs-left"></div>
+								</div>
+
+								<div id="selected-stages-accordion" role="tablist" aria-multiselectable="true" class="text-left">
+									<div class="card form-card">
+										<div class="card-header form-card-header" role="tab" id="heading-selected-stages-summary">
+											<h5 class="mb-0">
+												<span class="custom-control-description">
+													<a data-toggle="collapse" data-parent="#selected-stages-accordion" href="#collapse-selected-stages-summary" aria-expanded="true"
+													 aria-controls="collapse-selected-stages-summary">View</a>
+												</span>
+											</h5>
+										</div>
+										<div id="collapse-selected-stages-summary" class="collapse hide" role="tabpanel" aria-labelledby="heading-selected-stages-summary">
+											<div class="card-body">
+												<th:block th:each="stage : ${geneForm.expressionStages.entrySet()}">
+													<div class="row row-bottom-margin">
+														<div class="col-md-6 text-xs-center">
+															<label th:for="'exp-stage-value-' + ${#strings.escapeXml(stage.key)}" th:text="${stage.key}"></label>
+														</div>
+														<div class="col-md-6 text-xs-left">
+															<input type="text" th:id="'exp-stage-value-' + ${#strings.escapeXml(stage.key)}" class="query-inputs" th:value="${stage.value} == true ? 'selected' : 'off'"
+															 readonly="readonly" />
+														</div>
+													</div>
+												</th:block>
+											</div>
+										</div>
+									</div>
+								</div>
 							</th:block>
 
 							<th:block th:if="${geneForm.customExpressionUsed} == 'true'">
@@ -32,24 +70,41 @@
 								<div class="row">
 									<div class="col-md-6 text-xs-center">
 										<h5>
-											<label for="custom-gene">Custom Gene Expression Data:</label>
+											<label>Custom Gene Expression Data:</label>
 										</h5>
 									</div>
 									<div class="col-md-6 text-xs-left"></div>
 								</div>
-								<th:block th:each="instance : ${geneForm.customExpression.entrySet()}">
-									<th:block th:if="${geneForm.expressionStages.get(#strings.escapeJava(instance.key))}">
-										<div class="row row-bottom-margin">
-											<div class="col-md-6 text-xs-center">
-												<label th:for="'custom-gene-value-' + ${#strings.escapeXml(instance.key)}" th:text="${instance.key}"></label>
-											</div>
-											<div class="col-md-6 text-xs-left">
-												<input type="text" th:id="'custom-gene-value-' + ${#strings.escapeXml(instance.key)}" class="query-inputs" th:value="${instance.value}"
-												 readonly="readonly" />
+
+								<div id="custom-data-accordion" role="tablist" aria-multiselectable="true" class="text-left">
+									<div class="card form-card">
+										<div class="card-header form-card-header" role="tab" id="heading-custom-data-summary">
+											<h5 class="mb-0">
+												<span class="custom-control-description">
+													<a data-toggle="collapse" data-parent="#custom-data-accordion" href="#collapse-custom-data-summary" aria-expanded="true"
+													 aria-controls="collapse-custom-data-summary">View</a>
+												</span>
+											</h5>
+										</div>
+										<div id="collapse-custom-data-summary" class="collapse hide" role="tabpanel" aria-labelledby="heading-custom-data-summary">
+											<div class="card-body">
+												<th:block th:each="instance : ${geneForm.customExpression.entrySet()}">
+													<th:block th:if="${geneForm.expressionStages.get(#strings.escapeJava(instance.key))}">
+														<div class="row row-bottom-margin">
+															<div class="col-md-6 text-xs-center">
+																<label th:for="'custom-gene-value-' + ${#strings.escapeXml(instance.key)}" th:text="${instance.key}"></label>
+															</div>
+															<div class="col-md-6 text-xs-left">
+																<input type="text" th:id="'custom-gene-value-' + ${#strings.escapeXml(instance.key)}" class="query-inputs" th:value="${instance.value}"
+																 readonly="readonly" />
+															</div>
+														</div>
+													</th:block>
+												</th:block>
 											</div>
 										</div>
-									</th:block>
-								</th:block>
+									</div>
+								</div>
 							</th:block>
 
 							<div class="row extra-space"></div>
