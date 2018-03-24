@@ -16,7 +16,9 @@
 								<div class="row extra-space"></div>
 								<div class="row">
 									<div class="col-md-6 text-xs-center">
-										<label for="input-identifier">Existing Gene Name:</label>
+										<h5>
+											<label for="input-identifier">Existing Gene Name:</label>
+										</h5>
 									</div>
 									<div class="col-md-6 text-xs-left">
 										<input type="text" id="input-identifier" class="query-inputs" th:value="${geneForm.inputIdentifier}" readonly="readonly"
@@ -27,8 +29,13 @@
 
 							<th:block th:if="${geneForm.customExpressionUsed} == 'true'">
 								<div class="row extra-space"></div>
-								<div class="row text-xs-center">
-									<h5 for="custom-gene">Custom Gene Expression Data:</h5>
+								<div class="row">
+									<div class="col-md-6 text-xs-center">
+										<h5>
+											<label for="custom-gene">Custom Gene Expression Data:</label>
+										</h5>
+									</div>
+									<div class="col-md-6 text-xs-left"></div>
 								</div>
 								<th:block th:each="instance : ${geneForm.customExpression.entrySet()}">
 									<th:block th:if="${geneForm.expressionStages.get(#strings.escapeJava(instance.key))}">
@@ -48,7 +55,9 @@
 							<div class="row extra-space"></div>
 							<div class="row">
 								<div class="col-md-6 text-xs-center">
-									<label for="gene-organism">Organism:</label>
+									<h5>
+										<label for="gene-organism">Organism:</label>
+									</h5>
 								</div>
 								<div class="col-md-6 text-xs-left">
 									<input type="text" id="gene-organism" class="query-inputs" th:value="${geneForm.geneOrganism}" readonly="readonly" />
@@ -58,7 +67,9 @@
 							<div class="row extra-space"></div>
 							<div class="row">
 								<div class="col-md-6 text-xs-center">
-									<label for="genes-of-interest">Genes Of Interest:</label>
+									<h5>
+										<label for="genes-of-interest">Genes Of Interest:</label>
+									</h5>
 								</div>
 								<div class="col-md-6 text-xs-left">
 									<input type="text" id="genes-of-interest" class="query-inputs" th:value="${geneForm.genesOfInterest}" readonly="readonly"
@@ -69,7 +80,9 @@
 							<div class="row extra-space"></div>
 							<div class="row">
 								<div class="col-md-6 text-xs-center">
-									<label for="query-comment">Query Comment:</label>
+									<h5>
+										<label for="query-comment">Query Comment:</label>
+									</h5>
 								</div>
 								<div class="col-md-6 text-xs-left">
 									<textarea id="query-comment" th:text="${geneForm.queryComment}" readonly="readonly"></textarea>
