@@ -1,6 +1,6 @@
 # FlyCAGE <img src="./fly_cropped.png" alt="logo" width="50px" height="50px">
 
-> __Correlation Analysis on Gene Expression - Retrieving biological insights by comparing gene mRNA expression profiles.__
+> __Correlation Analysis on Gene Expression - Finding genes with similar expression activity.__
 
 FlyCAGE is a bioinformatics web application that uses the correlation coefficient between gene expression profiles to retrieve insights about gene similarity. 
 
@@ -10,11 +10,17 @@ Visit [flycage.herokuapp.com](flycage.herokuapp.com) to try out our tool.
 ### Problem
 Common transcriptomic analysis methods such as differential gene expression analysis and agglomertive gene clustering are excellent ways to analyze transcriptomic data. However, the analysis from these methods are limited to the data retrieved from the experiment and does not utilize the "big-data" available.
 
+Non-technical: most methods that analyze the activity of genes do not take advantage of public datasets.
+
 ### Solution
 FlyCAGE is a web-accessible application that uses several public data sources to analyze fly mRNA expression data to discover genes with similar expression patterns. 
 
+Non-technical: FlyCAGE tries to find genes with similar gene activity.
+
 ### Value
 Due to its cost-effectiveness, many genetics labs will retrieve the gene expression profiles to understand more about the underlying experiment. This retrieval is done through RNA-seq or microarrays. There are several simple ways to analyze gene expression data (DESeq, GSEA, etc.). We hope that FlyCAGE will be another tool that scientists will use to easily retrieve insights about their experimental data (i.e. identify candidate genes involved in a given process, to discover regulatory interactions in genetic networks, and to verify the quality of gene clustering techniques).
+
+Non-technical: Many biology labs can easily obtain data on gene activity. There are several simple ways to analyze this data - we believe that FlyCAGE can be another method scientists can add to their toolbox.
 
 ## Roadmap
 Interested in the next steps of FlyCAGE? View the [ROADMAP.md](ROADMAP.md)
@@ -46,7 +52,7 @@ If you are interested in contributing, please see the [CONTRIBUTING.MD](https://
 This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
 
 ### Development Setup
-More information on the workstation setup will be added at a later time.
+Ready to start developing? Take a look at [our workstation setup](WORKSTATION_SETUP.md).
 
 ### Contact Us
 For any questions about the project, please contact the main developer at [bbecer2@ilstu.edu](mailto:bbecer2@ilstu.edu)
