@@ -1,10 +1,12 @@
 # FlyCAGE <img src="./fly_cropped.png" alt="logo" width="50px" height="50px">
 
-> __Correlation Analysis on Gene Expression - Finding genes with similar expression activity.__
+> __Correlation Analysis on Gene Expression - Finding genes with similar expression.__
 
 FlyCAGE is a bioinformatics web application that uses the correlation coefficient between gene expression profiles to retrieve insights about gene similarity. 
 
 Visit [flycage.herokuapp.com](flycage.herokuapp.com) to try out our tool.
+
+__Are you a developer interested in contributing to science, research, or medicine!? Scroll below to see more information on how to contribute to FlyCAGE!__
 
 ## Tool Description
 ### Problem
