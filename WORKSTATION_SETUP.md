@@ -5,12 +5,21 @@ The following document will guide you towards seting up your workstation to cont
 
 ## Installation
 ### Back-end Developers
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- [JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [Maven](https://maven.apache.org/install.html)
+- [STS](https://spring.io/tools/sts)
 
 #### Install Git
 
 The version control system that FlyCAGE uses is Git (hosted on GitHub). Git is useful for keep track of code history and coordinating the work between several developers. 
 
 1. Follow the installation guide on the Git website: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+
+#### Install JDK8
+The Java Development Kit provides an environment to build advanced Java applications.
+
+1. Install the correct kit corresponding to your operating system: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
 #### Install Maven
 
@@ -22,7 +31,7 @@ FlyCAGE uses Apache Maven to build the deployable artificat. Maven is used for d
 
 The back-end of FlyCAGE uses the [Spring Framework](https://spring.io/), therefore it is advised to use an IDE with built-in Spring Framework support.
 
-There are two recommended IDE's to use for FlyCAGE back-end development: Spring Tool Suite and Visual Studio Code.
+There are two recommended IDE's to use for FlyCAGE back-end development: Spring Tool Suite and Visual Studio Code. There may be other IDE's that have Spring support - feel free to use them.
 
 ##### Spring Tool Suite (STS)
 
@@ -41,6 +50,7 @@ VS Code is a flexible text-editor for several kinds of development.
 At the current state of FlyCAGE, front-end developers are not required to install any specialized front-end tools since the front-end of FlyCAGE consists of HTML, CSS, JS, jQuery, and Bootstrap retrieved over CDN. Since the front-end uses back-end template resolution, we do advise you to follow the "Back-end Developers" guide to test the front-end when served.
 
 ### All developers
+- [Zenhub](https://www.zenhub.com/extension)
 
 #### Install Zenhub Browser Extension
 
@@ -67,7 +77,26 @@ Next, you will pull the forked project onto your local workstation.
 
 `git pull origin master`
 
+## Deploy to local workstation
 
+### On Spring Tool Suite (STS)
+If you are using STS, you can run the project within the Eclipse environment. NOTE: This will use STS's integrated Maven plugin which may be a different version than your workstation's Maven version.
 
+1. Right click on the project root folder
+2. Expand "Run As" to run normally, or "Debug As" to debug the application
+3. Click "Spring Boot App"
+4. Navigate to `localhost:8082` in preferred browser.
+
+### On Git Bash or another shell.
+This is the preferred way of running the application. This is also IDE-agnostic - running through the shell is not impacted by what IDE you use.
+
+1. Open Git Bash (or other shell) in the project root directory.
+2. Type in the following command: `mvn spring-boot:run`
+3. Navigate to `localhost:8082` in preferred browser.
+  
+  
+## Deploy to Heroku
+
+Currently, only the owner of FlyCAGE has permission to deploy to the Heroku servers on flycage.herokuapp.com. Very soon, deployment to Heroku will be continious through GitHub merges to the master branch.
 
 
