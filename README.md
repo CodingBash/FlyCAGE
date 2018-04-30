@@ -6,6 +6,8 @@ FlyCAGE is a bioinformatics web application that uses the correlation coefficien
 
 Visit [flycage.herokuapp.com](flycage.herokuapp.com) to try out our tool.
 
+Visit [http://flycage.herokuapp.com/help](http://flycage.herokuapp.com/help) to learn how to use our tool.
+
 __Are you a developer interested in contributing to science, research, or medicine!? Scroll below to see more information on how to contribute to FlyCAGE!__
 
 ## Tool Description
@@ -37,6 +39,9 @@ Specifically, we are looking for the following:
 #### Back-end developers
 * Technologies consist of Java, Spring MVC (Boot), Thymeleaf, asynchronous Spring programming, WS and DB communication, etc.
 * We are interested in defining web endpoints, rendering dynamic information, biologic data source communication, implementation of biological analysis, deployment and maintanence, etc.
+* __Biology knowledge preferred for context, but not required.__
+#### (Bio)statisticians
+* We are interested in designing statistical methods to conduct analysis.
 * __Biology knowledge preferred for context, but not required.__
 #### Bioinformaticians
 * Any scripting language preferred.
