@@ -1,4 +1,9 @@
-# Contribute to FlyCAGE
+# Contribute to FlyCAGE <img src="./fly_cropped.png" alt="logo" width="50px" height="50px">
+
+> __Correlation Analysis on Gene Expression - Finding genes with similar expression.__
+
+FlyCAGE is a bioinformatics web application that uses the correlation coefficient between gene expression profiles to retrieve insights about gene similarity. 
+
 Thank you for considering to contribute to FlyCAGE! Your help will be much appreciated!
 
 ## Introduction 
@@ -12,6 +17,9 @@ In this page, you will find all information on how to start contributing to FlyC
 If you don't fit the previous contributor profiles, no worries! There are many ways to contribute to FlyCAGE. Contact the project lead, Basheer Becerra, via email (bbecer2 (at) ilstu.edu) to get started.
 
 __IMPORTANT__: FlyCAGE contributors must adhere by the [Contributor Covenant](CODE_OF_CONDUCT.md) code of conduct
+
+## Roadmap
+Take a look at what we are currently working on by viewing our [roadmap](ROADMAP.md).
 
 ## Workstation Setup
 The first step is to setup your workstation depending on your contributor profile. See the [Workstation Setup Guide](WORKSTATION_SETUP.md) for instructions. 
