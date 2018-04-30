@@ -53,7 +53,7 @@ Specifically, we are looking for the following:
  
 Although, any sort of help on the project would be much appreciated!
 
-If you are interested in contributing, please see the [CONTRIBUTING.MD](CONTRIBUTING.MD) for more information!
+If you are interested in contributing, please see the [CONTRIBUTING.md](CONTRIBUTING.md) for more information!
 
 ### Code of conduct
 This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
