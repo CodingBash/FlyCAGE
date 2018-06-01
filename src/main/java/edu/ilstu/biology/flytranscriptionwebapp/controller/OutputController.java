@@ -56,6 +56,17 @@ public class OutputController {
 	private static final String CUSTOM_GENE_SESSION_NAME = "CUSTOM_GENE";
 
 	// TODO: Remove business logic from controller method
+	/**
+	 * @MavObject {@link List}<{@link String}> selectedExpressionStageLabels
+	 * @MavObject {@link FinalResponseCorrelationResult} result
+	 * @MavObject {@link ExpressionStageOptions} expressionStageOptions
+	 * @MavObject {@link GeneForm} geneForm
+	 * @MavView output
+	 * 
+	 * @param geneForm
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "/output", method = RequestMethod.GET)
 	public ModelAndView processOutput(@ModelAttribute("geneForm") GeneForm geneForm, HttpSession session) {
 		ModelAndView mav = new ModelAndView();

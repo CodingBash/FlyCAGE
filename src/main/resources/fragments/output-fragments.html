@@ -21,8 +21,8 @@
 										</h5>
 									</div>
 									<div class="col-md-6 text-xs-left">
-										<input type="text" id="input-identifier" class="query-inputs" th:value="${geneForm.inputIdentifier}" readonly="readonly"
-										/>
+										<input type="text" id="input-identifier" class="query-inputs"
+											th:value="${geneForm.inputIdentifier}" readonly="readonly" />
 									</div>
 								</div>
 
@@ -36,26 +36,39 @@
 									<div class="col-md-6 text-xs-left"></div>
 								</div>
 
-								<div id="selected-stages-accordion" role="tablist" aria-multiselectable="true" class="text-left">
+								<div id="selected-stages-accordion" role="tablist"
+									aria-multiselectable="true" class="text-left">
 									<div class="card form-card">
-										<div class="card-header form-card-header" role="tab" id="heading-selected-stages-summary">
+										<div class="card-header form-card-header" role="tab"
+											id="heading-selected-stages-summary">
 											<h5 class="mb-0">
-												<span class="custom-control-description">
-													<a data-toggle="collapse" data-parent="#selected-stages-accordion" href="#collapse-selected-stages-summary" aria-expanded="true"
-													 aria-controls="collapse-selected-stages-summary">View</a>
+												<span class="custom-control-description"> <a
+													data-toggle="collapse"
+													data-parent="#selected-stages-accordion"
+													href="#collapse-selected-stages-summary"
+													aria-expanded="true"
+													aria-controls="collapse-selected-stages-summary">View</a>
 												</span>
 											</h5>
 										</div>
-										<div id="collapse-selected-stages-summary" class="collapse hide" role="tabpanel" aria-labelledby="heading-selected-stages-summary">
+										<div id="collapse-selected-stages-summary"
+											class="collapse hide" role="tabpanel"
+											aria-labelledby="heading-selected-stages-summary">
 											<div class="card-body">
-												<th:block th:each="stage : ${geneForm.expressionStages.entrySet()}">
+												<th:block
+													th:each="stage : ${geneForm.expressionStages.entrySet()}">
 													<div class="row row-bottom-margin">
 														<div class="col-md-6 text-xs-center">
-															<label th:for="'exp-stage-value-' + ${#strings.escapeXml(stage.key)}" th:text="${stage.key}"></label>
+															<label
+																th:for="'exp-stage-value-' + ${#strings.escapeXml(stage.key)}"
+																th:text="${stage.key}"></label>
 														</div>
 														<div class="col-md-6 text-xs-left">
-															<input type="text" th:id="'exp-stage-value-' + ${#strings.escapeXml(stage.key)}" class="query-inputs" th:value="${stage.value} == true ? 'selected' : 'off'"
-															 readonly="readonly" />
+															<input type="text"
+																th:id="'exp-stage-value-' + ${#strings.escapeXml(stage.key)}"
+																class="query-inputs"
+																th:value="${stage.value} == true ? 'selected' : 'off'"
+																readonly="readonly" />
 														</div>
 													</div>
 												</th:block>
@@ -76,27 +89,37 @@
 									<div class="col-md-6 text-xs-left"></div>
 								</div>
 
-								<div id="custom-data-accordion" role="tablist" aria-multiselectable="true" class="text-left">
+								<div id="custom-data-accordion" role="tablist"
+									aria-multiselectable="true" class="text-left">
 									<div class="card form-card">
-										<div class="card-header form-card-header" role="tab" id="heading-custom-data-summary">
+										<div class="card-header form-card-header" role="tab"
+											id="heading-custom-data-summary">
 											<h5 class="mb-0">
-												<span class="custom-control-description">
-													<a data-toggle="collapse" data-parent="#custom-data-accordion" href="#collapse-custom-data-summary" aria-expanded="true"
-													 aria-controls="collapse-custom-data-summary">View</a>
+												<span class="custom-control-description"> <a
+													data-toggle="collapse" data-parent="#custom-data-accordion"
+													href="#collapse-custom-data-summary" aria-expanded="true"
+													aria-controls="collapse-custom-data-summary">View</a>
 												</span>
 											</h5>
 										</div>
-										<div id="collapse-custom-data-summary" class="collapse hide" role="tabpanel" aria-labelledby="heading-custom-data-summary">
+										<div id="collapse-custom-data-summary" class="collapse hide"
+											role="tabpanel" aria-labelledby="heading-custom-data-summary">
 											<div class="card-body">
-												<th:block th:each="instance : ${geneForm.customExpression.entrySet()}">
-													<th:block th:if="${geneForm.expressionStages.get(#strings.escapeJava(instance.key))}">
+												<th:block
+													th:each="instance : ${geneForm.customExpression.entrySet()}">
+													<th:block
+														th:if="${geneForm.expressionStages.get(#strings.escapeJava(instance.key))}">
 														<div class="row row-bottom-margin">
 															<div class="col-md-6 text-xs-center">
-																<label th:for="'custom-gene-value-' + ${#strings.escapeXml(instance.key)}" th:text="${instance.key}"></label>
+																<label
+																	th:for="'custom-gene-value-' + ${#strings.escapeXml(instance.key)}"
+																	th:text="${instance.key}"></label>
 															</div>
 															<div class="col-md-6 text-xs-left">
-																<input type="text" th:id="'custom-gene-value-' + ${#strings.escapeXml(instance.key)}" class="query-inputs" th:value="${instance.value}"
-																 readonly="readonly" />
+																<input type="text"
+																	th:id="'custom-gene-value-' + ${#strings.escapeXml(instance.key)}"
+																	class="query-inputs" th:value="${instance.value}"
+																	readonly="readonly" />
 															</div>
 														</div>
 													</th:block>
@@ -115,7 +138,8 @@
 									</h5>
 								</div>
 								<div class="col-md-6 text-xs-left">
-									<input type="text" id="gene-organism" class="query-inputs" th:value="${geneForm.geneOrganism}" readonly="readonly" />
+									<input type="text" id="gene-organism" class="query-inputs"
+										th:value="${geneForm.geneOrganism}" readonly="readonly" />
 								</div>
 							</div>
 
@@ -127,8 +151,8 @@
 									</h5>
 								</div>
 								<div class="col-md-6 text-xs-left">
-									<input type="text" id="genes-of-interest" class="query-inputs" th:value="${geneForm.genesOfInterest}" readonly="readonly"
-									/>
+									<input type="text" id="genes-of-interest" class="query-inputs"
+										th:value="${geneForm.genesOfInterest}" readonly="readonly" />
 								</div>
 							</div>
 
@@ -140,7 +164,8 @@
 									</h5>
 								</div>
 								<div class="col-md-6 text-xs-left">
-									<textarea id="query-comment" th:text="${geneForm.queryComment}" readonly="readonly"></textarea>
+									<textarea id="query-comment" th:text="${geneForm.queryComment}"
+										readonly="readonly"></textarea>
 								</div>
 							</div>
 						</div>
@@ -153,30 +178,37 @@
 		<div id="result-panel" class="card panel">
 			<div class="card-header panel-header text-center">
 				<h2>Results</h2>
-				<h4>Shown below are all of the highly correlated genes based on mRNA expression by stage data</h4>
+				<h4>Shown below are all of the highly correlated genes based on
+					mRNA expression by stage data</h4>
 			</div>
 			<div class="card-body panel-block">
 
 
 				<!-- Modal -->
 				<!-- TODO: rename IDs to be more case-specific  -->
-				<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+				<div class="modal fade" id="exampleModalLong" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLongTitle"
+					aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLongTitle">Expression Stage List</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<h5 class="modal-title" id="exampleModalLongTitle">Expression
+									Stage List</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
 								<!-- TODO: Refactor width implementation -->
-								<table id="expressionStageMappingTable" width="100%" border="1" cellpadding="5">
+								<table id="expressionStageMappingTable" width="100%" border="1"
+									cellpadding="5">
 									<tr>
 										<th>Numerical ID</th>
 										<th>Expression Stage Label</th>
 									</tr>
-									<th:block th:each="selectedExpressionStageLabel, iter : ${selectedExpressionStageLabels}">
+									<th:block
+										th:each="selectedExpressionStageLabel, iter : ${selectedExpressionStageLabels}">
 										<tr>
 											<td th:text="${iter.count - 1}"></td>
 											<td th:text="${selectedExpressionStageLabel}"></td>
@@ -187,143 +219,130 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="row extra-space"></div>
-				<h5 class="text-center">Correlated Genes Table</h5>
-				<div class="row table-row">
-					<div class="table-wrapper">
-						<table id="correlation-results" class="stripe row-border compact nowrap" style="width: 100% !important; margin: auto !important;"
-						 cellspacing="0">
-							<thead>
-								<tr>
-									<!--  TODO: Make fragment for these -->
-									<th></th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Rank by R-VAL" data-placement="top">RANK</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="FlyBase database ID" data-placement="top">FlyBase ID
-										</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="FlyBase secondary ID" data-placement="top">CG ID </a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Name of gene" data-placement="top">GENE NAME</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Pearson's R coefficient" data-placement="top">R-VAL</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Correlation p-value" data-placement="top">P-VAL</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Button actions on row entry" data-placement="top">ACTION</a>
-									</th>
-								</tr>
-							</thead>
-							<tbody></tbody>
-							<tfoot>
-								<tr>
-									<!--  TODO: Make fragment for these -->
-									<th></th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Rank by R-VAL" data-placement="top">RANK</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="FlyBase database ID" data-placement="top">DB ID</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="FlyBase secondary ID" data-placement="top">2
-											<sup>nd</sup>
-											ID
-										</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Name of gene" data-placement="top">GENE NAME</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Pearson's R coefficient" data-placement="top">R VAL</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Correlation p-value" data-placement="top">P VAL</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Button actions on row entry" data-placement="top">ACTION</a>
-									</th>
-								</tr>
-							</tfoot>
-						</table>
+				
+				<div
+					th:if="${!result.correlationResultsForGenesOfInterest.isEmpty()}">
+					<div class="row extra-space"></div>
+					<h5 class="text-center">Genes Of Interest Table</h5>
+					<div class="row table-row">
+						<div class="table-wrapper">
+							<table id="goi-results" class="stripe row-border compact nowrap"
+								style="width: 100% !important; margin: auto !important;"
+								cellspacing="0">
+								<thead>
+									<tr>
+										<!--  TODO: Make fragment for these -->
+										<th></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Rank by R-VAL" data-placement="top">RANK</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="FlyBase database ID" data-placement="top">DB ID</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="FlyBase secondary ID" data-placement="top">2 <sup>nd</sup>
+												ID
+										</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Name of gene" data-placement="top">GENE NAME</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Pearson's R coefficient" data-placement="top">R
+												VAL</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Correlation p-value" data-placement="top">P VAL</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Button actions on row entry" data-placement="top">ACTION</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+								<tfoot>
+									<tr>
+										<!--  TODO: Make fragment for these -->
+										<th></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Rank by R-VAL" data-placement="top">RANK</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="FlyBase database ID" data-placement="top">DB ID</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="FlyBase secondary ID" data-placement="top">2 <sup>nd</sup>
+												ID
+										</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Name of gene" data-placement="top">GENE NAME</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Pearson's R coefficient" data-placement="top">R
+												VAL</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Correlation p-value" data-placement="top">P VAL</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Button actions on row entry" data-placement="top">ACTION</a>
+										</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
 					</div>
 				</div>
-				<div class="row extra-space"></div>
-				<h5 class="text-center">Genes Of Interest Table</h5>
-				<div class="row table-row">
-					<div class="table-wrapper">
-						<table id="goi-results" class="stripe row-border compact nowrap" style="width: 100% !important; margin: auto !important;"
-						 cellspacing="0">
-							<thead>
-								<tr>
-									<!--  TODO: Make fragment for these -->
-									<th></th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Rank by R-VAL" data-placement="top">RANK</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="FlyBase database ID" data-placement="top">DB ID</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="FlyBase secondary ID" data-placement="top">2
-											<sup>nd</sup>
-											ID
-										</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Name of gene" data-placement="top">GENE NAME</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Pearson's R coefficient" data-placement="top">R VAL</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Correlation p-value" data-placement="top">P VAL</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Button actions on row entry" data-placement="top">ACTION</a>
-									</th>
-								</tr>
-							</thead>
-							<tbody></tbody>
-							<tfoot>
-								<tr>
-									<!--  TODO: Make fragment for these -->
-									<th></th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Rank by R-VAL" data-placement="top">RANK</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="FlyBase database ID" data-placement="top">DB ID</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="FlyBase secondary ID" data-placement="top">2
-											<sup>nd</sup>
-											ID
-										</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Name of gene" data-placement="top">GENE NAME</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Pearson's R coefficient" data-placement="top">R VAL</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Correlation p-value" data-placement="top">P VAL</a>
-									</th>
-									<th>
-										<a href="#correlation-results" data-toggle="tooltip" title="Button actions on row entry" data-placement="top">ACTION</a>
-									</th>
-								</tr>
-							</tfoot>
-						</table>
+				
+				<div th:if="${!result.correlationResults.isEmpty()}">
+					<div class="row extra-space"></div>
+					<h5 class="text-center">Correlated Genes Table</h5>
+					<div class="row table-row">
+						<div class="table-wrapper">
+							<table id="correlation-results"
+								class="stripe row-border compact nowrap"
+								style="width: 100% !important; margin: auto !important;"
+								cellspacing="0">
+								<thead>
+									<tr>
+										<!--  TODO: Make fragment for these -->
+										<th></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Rank by R-VAL" data-placement="top">RANK</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="FlyBase database ID" data-placement="top">FlyBase
+												ID </a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="FlyBase secondary ID" data-placement="top">CG ID </a>
+										</th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Name of gene" data-placement="top">GENE NAME</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Pearson's R coefficient" data-placement="top">R-VAL</a>
+										</th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Correlation p-value" data-placement="top">P-VAL</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Button actions on row entry" data-placement="top">ACTION</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+								<tfoot>
+									<tr>
+										<!--  TODO: Make fragment for these -->
+										<th></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Rank by R-VAL" data-placement="top">RANK</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="FlyBase database ID" data-placement="top">DB ID</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="FlyBase secondary ID" data-placement="top">2 <sup>nd</sup>
+												ID
+										</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Name of gene" data-placement="top">GENE NAME</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Pearson's R coefficient" data-placement="top">R
+												VAL</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Correlation p-value" data-placement="top">P VAL</a></th>
+										<th><a href="#correlation-results" data-toggle="tooltip"
+											title="Button actions on row entry" data-placement="top">ACTION</a>
+										</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
