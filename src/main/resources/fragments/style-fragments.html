@@ -52,9 +52,9 @@
 	<!-- END: Custom Input Styles -->
 </th:block>
 <th:block th:fragment="custom-style-output">
-	<!-- Custom Input Styles -->
+	<!-- Custom Output Styles -->
 	<link rel="stylesheet" th:href="@{/css/output.css}" />
-	<!-- END: Custom Input Styles -->
+	<!-- END: Custom Output Styles -->
 </th:block>
 <th:block th:fragment="custom-style-datatables-expand">
 	<!-- Custom Datatables Expand Styles -->
@@ -73,6 +73,8 @@ tr.shown td.details-control {
 </th:block>
 <th:block th:fragment="custom-style-help">
 	<!-- Custom Help Page Styles -->
+	<link rel="stylesheet" th:href="@{/css/help.css}" />
+
 	<style th:inline="text">
 /* format and center image*/
 .img-format {
