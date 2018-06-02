@@ -1,3 +1,7 @@
 server:
   context-path: /
   port: 8082
+spring:
+  mvc:
+    favicon:
+      enabled: true
