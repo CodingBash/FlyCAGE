@@ -21,7 +21,7 @@ For development, we are looking for front-end and back-end web developers to sup
 
 We are also open to accepting other contributions such as 1) biologists to validate the value of features and provide other feature ideas, and 2) graphic arists to improve website design.
 
-For more information on contributing, please see [CONTRIBUTORS.md](#) (TODO: Create contributors.md)
+For more information on contributing, please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 
 ## Timeline

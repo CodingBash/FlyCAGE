@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+img {
+	border-style: solid;
+	border-width: 1px; 
+}
+.underlined {
+	border-bottom: 1px solid black !important;
+}
+
+h5 {
+	margin-top: 5px;
+}

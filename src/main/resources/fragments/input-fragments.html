@@ -61,6 +61,73 @@
 															be compared to the genome-wide dataset and the genes of
 															interest. </small> <br />
 													</div>
+
+													<div>
+														<div class="form-group required text-center">
+															<label class="control-label" for="expression-stages">Choose
+																Expression Stages
+															</label>
+															<div id="expression-stages" role="tablist"
+																aria-multiselectable="true" class="text-left">
+																<div class="card form-card"
+																	th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
+																	<div class="card-header form-card-header" role="tab"
+																		th:id="'heading-stage-selection-'+${expressionStageGroup.groupId}">
+																		<h5 class="mb-0">
+																			<label class="custom-control custom-checkbox">
+																				<input type="checkbox"
+																				th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'"
+																				th:attr="data-stage=${expressionStageGroup.groupTitle}"
+																				th:id="${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'" />
+																				<span class="custom-control-indicator"></span> <span
+																				class="custom-control-description"> <a
+																					data-toggle="collapse"
+																					data-parent="#expression-stages"
+																					th:href="'#collapse-stage-selection-' + ${expressionStageGroup.groupId}"
+																					aria-expanded="true"
+																					th:aria-controls="'collapse-stage-selection-' + ${expressionStageGroup.groupId}"
+																					th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">${#strings.capitalize(expressionStageGroup.groupTitle)}</a>
+																			</span>
+																			</label>
+																		</h5>
+																	</div>
+																	<div
+																		th:id="'collapse-stage-selection-' + ${expressionStageGroup.groupId}"
+																		class="collapse" role="tabpanel"
+																		th:attr="aria-labelledby='heading-stage-selection-' + ${expressionStageGroup.groupId}">
+																		<div class="card-body">
+																			<div
+																				th:each="expressionStage : ${expressionStageGroup.expressionStageList}"
+																				class="sub-checkbox-div">
+																				<label class="custom-control custom-checkbox">
+																					<input type="checkbox"
+																					th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
+																					value="true"
+																					th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-stage-selection-sub-checkbox'"
+																					th:attr="data-stage=${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
+																					th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-stage-selection-sub-checkbox'" />
+																					<span class="custom-control-indicator"></span> <span
+																					class="custom-control-description"
+																					th:text="${expressionStage.expressionStageTitle}">${expressionStage.expressionStageTitle}</span>
+																				</label> <br />
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<small id="expression-stages-help"
+																class="form-text text-muted text-center">Choose
+																expression stages.</small> <br /> <small
+																id="expression-stages-help-description"
+																class="form-text text-muted text-center">Comparison
+																between genes will be performed only on selected
+																expression stages. Click the category text to show
+																corresponding expression stages. Click the expression
+																stage checkbox to select/deselect stage. Click the
+																category checkbox to select/deselect all corresponding
+																expression stages.</small> <br />
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -91,8 +158,8 @@
 																desktop computer instead.</p>
 														</div>
 														<div>
-															<input type="hidden" id="customExpressionUsed" name="customExpressionUsed"
-																value="false" />
+															<input type="hidden" id="customExpressionUsed"
+																name="customExpressionUsed" value="false" />
 														</div>
 														<div class="row">
 															<div class="col-lg-6">
@@ -247,70 +314,6 @@
 										load results.</small> <br />
 								</div>
 
-								<div>
-									<div class="form-group required">
-										<label class="control-label" for="expression-stages">Choose
-											Expression Stages <i>(possibly required)</i>
-										</label>
-										<div id="expression-stages" role="tablist"
-											aria-multiselectable="true" class="text-left">
-											<div class="card form-card"
-												th:each="expressionStageGroup : ${expressionStageOptions.expressionStageGroupList}">
-												<div class="card-header form-card-header" role="tab"
-													th:id="'heading-stage-selection-'+${expressionStageGroup.groupId}">
-													<h5 class="mb-0">
-														<label class="custom-control custom-checkbox"> <input
-															type="checkbox"
-															th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'"
-															th:attr="data-stage=${expressionStageGroup.groupTitle}"
-															th:id="${expressionStageGroup.groupId} + '-stage-selection-main-checkbox'" />
-															<span class="custom-control-indicator"></span> <span
-															class="custom-control-description"> <a
-																data-toggle="collapse" data-parent="#expression-stages"
-																th:href="'#collapse-stage-selection-' + ${expressionStageGroup.groupId}"
-																aria-expanded="true"
-																th:aria-controls="'collapse-stage-selection-' + ${expressionStageGroup.groupId}"
-																th:text="${#strings.capitalize(expressionStageGroup.groupTitle)}">${#strings.capitalize(expressionStageGroup.groupTitle)}</a>
-														</span>
-														</label>
-													</h5>
-												</div>
-												<div
-													th:id="'collapse-stage-selection-' + ${expressionStageGroup.groupId}"
-													class="collapse" role="tabpanel"
-													th:attr="aria-labelledby='heading-stage-selection-' + ${expressionStageGroup.groupId}">
-													<div class="card-body">
-														<div
-															th:each="expressionStage : ${expressionStageGroup.expressionStageList}"
-															class="sub-checkbox-div">
-															<label class="custom-control custom-checkbox"> <input
-																type="checkbox"
-																th:field="*{expressionStages[__${expressionStage.expressionStageTitle}__]}"
-																value="true"
-																th:class="'custom-control-input expression-stage-checkbox ' + ${expressionStageGroup.groupId} + '-stage-selection-sub-checkbox'"
-																th:attr="data-stage=${expressionStageGroup.groupTitle} + '-' + ${expressionStage.expressionStageTitle}"
-																th:id="${expressionStageGroup.groupId} + '-' + ${expressionStage.expressionStageId} + '-stage-selection-sub-checkbox'" />
-																<span class="custom-control-indicator"></span> <span
-																class="custom-control-description"
-																th:text="${expressionStage.expressionStageTitle}">${expressionStage.expressionStageTitle}</span>
-															</label> <br />
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<small id="expression-stages-help"
-											class="form-text text-muted text-center">Choose
-											expression stages.</small> <br /> <small
-											id="expression-stages-help-description"
-											class="form-text text-muted text-center">Comparison
-											between genes will be performed only on selected expression
-											stages. Click the category text to show corresponding
-											expression stages. Click the expression stage checkbox to
-											select/deselect stage. Click the category checkbox to
-											select/deselect all corresponding expression stages.</small> <br />
-									</div>
-								</div>
 								<div class="form-group">
 									<label for="text-query-comment">Query Comments <i>(optional)</i>
 									</label>
