@@ -280,7 +280,7 @@ function retrieveCorrelationData(pairwiseCorrelationDataAjaxRequestBody) {
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
-		url : "/pairwise-correlation-data",
+		url : "/fly-transcription-webapp-0.0.1-SNAPSHOT/pairwise-correlation-data",
 		data : JSON.stringify(pairwiseCorrelationDataAjaxRequestBody),
 		dataType : 'json',
 		cache : false,
